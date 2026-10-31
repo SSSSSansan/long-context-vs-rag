@@ -14,3 +14,4 @@ runs/budget.json
 # собранные корпуса пересобираются из seed — не коммитим
 corpus/built/*/*
 !corpus/built/*/.gitkeep
+*.patch

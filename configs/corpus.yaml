@@ -1,12 +1,16 @@
 sizes_tokens: {"8k": 8000, "30k": 30000, "100k": 100000}   # вложенные: 8k ⊂ 30k ⊂ 100k
 size_tolerance: 0.03
 facts:
-  t1_single: 20
-  t2_pairs: 20
-  t3_contradiction_pairs: 20
+  # Вложенные вопросы: сколько вопросов каждого типа ВПЕРВЫЕ появляется на этом размере.
+  # Факт, добавленный на 8k, остаётся в корпусах 30k и 100k, поэтому на 100k доступны все 60 вопросов.
+  levels:
+    "8k":   {T1: 4, T2: 3, T3: 3}
+    "30k":  {T1: 8, T2: 9, T3: 9}
+    "100k": {T1: 8, T2: 8, T3: 8}
   position_facts: 5
   position_levels_pct: [0, 25, 50, 75, 100]
 raw_dir: corpus/raw
+planted_dir: corpus/built/planted   # документы с внедрёнными фактами (git не коммитится)
 built_dir: corpus/built
 
 # синтетический фоновый корпус (src/gen_raw_corpus.py)

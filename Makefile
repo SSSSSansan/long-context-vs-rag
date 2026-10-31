@@ -1,7 +1,7 @@
 PY ?= python
 EXP ?= level1
 
-.PHONY: setup raw corpus run report estimate smoke test all clean
+.PHONY: setup raw facts corpus run report estimate smoke test all clean
 
 setup:
 	$(PY) -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt && pip freeze > requirements.lock.txt
@@ -15,6 +15,9 @@ smoke:               ## проверка клиента (локальный back
 raw:                 ## синтетический фоновый корпус -> corpus/raw
 	$(PY) -m src.gen_raw_corpus
 
+facts:               ## внедрить факты -> gold.json, questions.json
+	$(PY) -m src.plant_facts
+
 corpus:              ## день 1-2: сборка 8k/30k/100k + факты + gold
 	$(PY) -m src.build_corpus
 
@@ -27,7 +30,7 @@ report:
 test:
 	pytest -q
 
-all: corpus run report
+all: raw facts corpus run report
 
 clean:
 	rm -rf runs/cache runs/budget.json results/*.csv results/charts/*
