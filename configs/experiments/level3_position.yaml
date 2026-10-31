@@ -1,0 +1,19 @@
+name: level3
+p1:
+  sizes: ["30k"]
+  methods: [lc]
+  positions_pct: [0, 25, 50, 75, 100]
+  n_facts: 5
+  repeats: 3
+p1_100k:
+  sizes: ["100k"]
+  methods: [lc]
+  positions_pct: [0, 50, 100]
+  n_facts: 5
+  repeats: 1
+p2:
+  methods: [emb]
+  k: 10
+  gold_ranks: [1, 5, 10]
+  n_facts: 5
+  repeats: 3

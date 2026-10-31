@@ -1,0 +1,6 @@
+name: level2
+sizes: ["100k"]
+methods: [lc]            # RAG на 100k считается дёшево отдельно (контекст ~3K)
+question_types: [T1, T2, T3]
+n_questions_per_type: 8
+repeats: 2

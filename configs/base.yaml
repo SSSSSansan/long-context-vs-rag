@@ -1,0 +1,36 @@
+# Все параметры здесь. В коде — ничего захардкоженного.
+seed: 42
+
+backends:
+  openai:
+    # ВЕРНИ ПЕРЕД СТАРТОМ: полный идентификатор модели с датой + актуальные цены
+    # https://platform.openai.com/docs/pricing
+    chat_model: gpt-4.1-mini-2025-04-14
+    judge_model: gpt-4.1-mini-2025-04-14
+    embed_model: text-embedding-3-small
+    tokenizer: o200k_base
+    price_per_1m_usd:          # ПРОВЕРИТЬ — тарифы меняются
+      input: 0.40
+      cached_input: 0.10
+      output: 1.60
+      embed: 0.02
+  local:
+    chat_model: Qwen/Qwen2.5-14B-Instruct   # подставь то, что реально запущено в vLLM
+    judge_model: Qwen/Qwen2.5-14B-Instruct
+    embed_model: BAAI/bge-m3
+    tokenizer: o200k_base      # единый счётчик токенов для сборки корпусов (см. README)
+    price_per_1m_usd: {input: 0.0, cached_input: 0.0, output: 0.0, embed: 0.0}
+
+generation:
+  temperature: 0.0
+  max_tokens: 512
+
+retrieval:
+  chunk_tokens: 300
+  chunk_overlap: 40
+  top_k: 8
+  qdrant: {mode: memory}       # memory | http://localhost:6333
+
+budget:
+  cache_dir: runs/cache
+  budget_file: runs/budget.json
