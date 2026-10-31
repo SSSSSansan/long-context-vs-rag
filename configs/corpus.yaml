@@ -8,3 +8,8 @@ facts:
   position_levels_pct: [0, 25, 50, 75, 100]
 raw_dir: corpus/raw
 built_dir: corpus/built
+
+# синтетический фоновый корпус (src/gen_raw_corpus.py)
+raw_generation:
+  n_docs: 48
+  university: "Северо-Степной технический университет"
