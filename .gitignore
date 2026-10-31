@@ -1,0 +1,16 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+
+# тяжёлые артефакты прогонов (кэш и сырые логи не коммитим)
+runs/cache/
+runs/*/
+runs/budget.json
+!runs/.gitkeep
+
+# собранные корпуса пересобираются из seed — не коммитим
+corpus/built/*/*
+!corpus/built/*/.gitkeep
