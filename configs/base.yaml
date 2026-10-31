@@ -3,11 +3,12 @@ seed: 42
 
 backends:
   openai:
-    # ВЕРНИ ПЕРЕД СТАРТОМ: полный идентификатор модели с датой + актуальные цены
+    # ПРОВЕРИТЬ ПЕРЕД СТАРТОМ: полный идентификатор модели с датой + актуальные цены
     # https://platform.openai.com/docs/pricing
     chat_model: gpt-4.1-mini-2025-04-14
     judge_model: gpt-4.1-mini-2025-04-14
     embed_model: text-embedding-3-small
+    context_window: 128000     # консервативно; сверь с документацией выбранной модели
     tokenizer: o200k_base
     price_per_1m_usd:          # ПРОВЕРИТЬ — тарифы меняются
       input: 0.40
@@ -15,9 +16,10 @@ backends:
       output: 1.60
       embed: 0.02
   local:
-    chat_model: Qwen/Qwen2.5-14B-Instruct   # подставь то, что реально запущено в vLLM
-    judge_model: Qwen/Qwen2.5-14B-Instruct
+    chat_model: qwen2.5-7b-32k  # Ollama-модель с num_ctx 32768 (см. Modelfile.qwen2.5-7b-32k)
+    judge_model: qwen2.5-7b-32k
     embed_model: BAAI/bge-m3
+    context_window: 32768      # должно совпадать с num_ctx в Modelfile
     tokenizer: o200k_base      # единый счётчик токенов для сборки корпусов (см. README)
     price_per_1m_usd: {input: 0.0, cached_input: 0.0, output: 0.0, embed: 0.0}
 
