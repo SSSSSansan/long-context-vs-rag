@@ -1,0 +1,4 @@
+name: level2_gpt4o
+runs:
+  - {sizes: ["100k"], methods: [lc], question_types: [T1, T2, T3], n_per_type: 3, repeats: 1}
+  - {sizes: ["100k"], methods: [bm25, emb], question_types: [T1, T2, T3], n_per_type: 6, repeats: 1}

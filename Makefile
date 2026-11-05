@@ -1,7 +1,7 @@
 PY ?= python
 EXP ?= level1
 
-.PHONY: setup raw facts corpus run report estimate smoke test all clean
+.PHONY: position leakage setup raw facts corpus run report estimate smoke test all clean
 
 setup:
 	$(PY) -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt && pip freeze > requirements.lock.txt
@@ -14,6 +14,12 @@ smoke:               ## проверка клиента (локальный back
 
 raw:                 ## синтетический фоновый корпус -> corpus/raw
 	$(PY) -m src.gen_raw_corpus
+
+position:            ## варианты корпуса для позиционного эксперимента
+	$(PY) -m src.build_position
+
+leakage:             ## проверка на утечку (пустой контекст)
+	$(PY) -m scripts.check_leakage
 
 facts:               ## внедрить факты -> gold.json, questions.json
 	$(PY) -m src.plant_facts

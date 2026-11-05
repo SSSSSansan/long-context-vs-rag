@@ -1,0 +1,5 @@
+name: position_gpt4o
+mode: position
+runs:
+  - {sizes: ["30k"], positions_pct: [0, 25, 50, 75, 100], n_facts: 3, repeats: 1}
+  - {sizes: ["100k"], positions_pct: [0, 50, 100], n_facts: 1, repeats: 1}

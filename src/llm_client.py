@@ -54,7 +54,7 @@ def _get_client():
     if _client is None:
         from openai import OpenAI
         if backend_name() == "openai":
-            _client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+            _client = OpenAI(api_key=os.environ["OPENAI_API_KEY"], max_retries=8)
         else:
             _client = OpenAI(
                 base_url=os.getenv("LOCAL_BASE_URL", "http://localhost:11434/v1"),
@@ -93,8 +93,8 @@ def check_not_truncated(actual: int, estimate: int | None) -> None:
             f"Проверь num_ctx в Modelfile / --max-model-len в vLLM.")
 
 
-def compute_cost(prompt_tokens: int, cached_tokens: int, completion_tokens: int) -> float:
-    p = backend_cfg()["price_per_1m_usd"]
+def compute_cost(prompt_tokens: int, cached_tokens: int, completion_tokens: int, p: dict | None = None) -> float:
+    p = p or backend_cfg()["price_per_1m_usd"]
     fresh = prompt_tokens - cached_tokens
     return (fresh * p["input"] + cached_tokens * p["cached_input"]
             + completion_tokens * p["output"]) / 1_000_000
@@ -111,7 +111,11 @@ def complete(
     cfg, gen = backend_cfg(), base_cfg()["generation"]
     temperature = gen["temperature"] if temperature is None else temperature
     max_tokens = gen["max_tokens"] if max_tokens is None else max_tokens
-    model = cfg["judge_model"] if role == "judge" else cfg["chat_model"]
+    if role == "judge":
+        model = cfg["judge_model"]
+        cfg = {**cfg, "price_per_1m_usd": base_cfg()["model_prices"].get(model, cfg["price_per_1m_usd"])} if backend_name() == "openai" else cfg
+    else:
+        model = cfg["chat_model"]
 
     key = cache.make_key({"b": backend_name(), "m": model, "msgs": messages,
                           "t": temperature, "mt": max_tokens, "salt": salt})
@@ -135,7 +139,7 @@ def complete(
     u = r.usage
     details = getattr(u, "prompt_tokens_details", None)
     cached = (getattr(details, "cached_tokens", 0) or 0) if details else 0
-    cost = compute_cost(u.prompt_tokens, cached, u.completion_tokens)
+    cost = compute_cost(u.prompt_tokens, cached, u.completion_tokens, cfg["price_per_1m_usd"])
 
     if backend_name() == "openai":
         cost_guard.add(cost)        # деньги потрачены в любом случае
@@ -154,15 +158,33 @@ _local_embedder = None
 
 
 def embed(texts: list[str]) -> list[list[float]]:
-    cfg = backend_cfg()
-    if backend_name() == "openai":
+    """EMBED_BACKEND=openai|local переопределяет backend только для эмбеддингов
+    (удобно: генерация локально, эмбеддинги text-embedding-3-small за копейки)."""
+    which = os.getenv("EMBED_BACKEND", backend_name()).lower()
+    cfg = base_cfg()["backends"][which]
+    if which == "openai":
         cost_guard.check()
-        r = _get_client().embeddings.create(model=cfg["embed_model"], input=texts)
-        cost_guard.add(r.usage.total_tokens * cfg["price_per_1m_usd"]["embed"] / 1_000_000)
-        return [d.embedding for d in r.data]
+        out, total = [], 0
+        for i in range(0, len(texts), 256):
+            r = _get_openai_embed_client().embeddings.create(model=cfg["embed_model"], input=texts[i:i + 256])
+            total += r.usage.total_tokens
+            out += [d.embedding for d in r.data]
+        cost_guard.add(total * cfg["price_per_1m_usd"]["embed"] / 1_000_000)
+        return out
 
     global _local_embedder
     if _local_embedder is None:
         from sentence_transformers import SentenceTransformer
         _local_embedder = SentenceTransformer(cfg["embed_model"])
     return _local_embedder.encode(texts, normalize_embeddings=True, show_progress_bar=False).tolist()
+
+
+_embed_client = None
+
+
+def _get_openai_embed_client():
+    global _embed_client
+    if _embed_client is None:
+        from openai import OpenAI
+        _embed_client = OpenAI(api_key=os.environ["OPENAI_API_KEY"], max_retries=8)
+    return _embed_client

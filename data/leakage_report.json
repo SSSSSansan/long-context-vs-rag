@@ -1,0 +1,428 @@
+{
+ "backend": "openai",
+ "n": 60,
+ "leaked": 0,
+ "leaked_qids": [],
+ "rows": [
+  {
+   "qid": "q_T1_001",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": false,
+   "answer": "В предоставленных документаах ответа нет."
+  },
+  {
+   "qid": "q_T1_002",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T1_003",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T1_004",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T2_001",
+   "type": "T2",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T2_002",
+   "type": "T2",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T2_003",
+   "type": "T2",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_001",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_002",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_003",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T1_005",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T1_006",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T1_007",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T1_008",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T1_009",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T1_010",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T1_011",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T1_012",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T2_004",
+   "type": "T2",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T2_005",
+   "type": "T2",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T2_006",
+   "type": "T2",
+   "verdict": "abstain",
+   "abstained": false,
+   "answer": "В предоставленных документаах ответа нет."
+  },
+  {
+   "qid": "q_T2_007",
+   "type": "T2",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T2_008",
+   "type": "T2",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T2_009",
+   "type": "T2",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T2_010",
+   "type": "T2",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T2_011",
+   "type": "T2",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T2_012",
+   "type": "T2",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_004",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_005",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_006",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_007",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_008",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_009",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_010",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_011",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_012",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T1_013",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T1_014",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T1_015",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T1_016",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T1_017",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T1_018",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T1_019",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T1_020",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T2_013",
+   "type": "T2",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T2_014",
+   "type": "T2",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T2_015",
+   "type": "T2",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T2_016",
+   "type": "T2",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T2_017",
+   "type": "T2",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T2_018",
+   "type": "T2",
+   "verdict": "abstain",
+   "abstained": false,
+   "answer": "В предоставленных документаах ответа нет."
+  },
+  {
+   "qid": "q_T2_019",
+   "type": "T2",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T2_020",
+   "type": "T2",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_013",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_014",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_015",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_016",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_017",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_018",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_019",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  },
+  {
+   "qid": "q_T3_020",
+   "type": "T3",
+   "verdict": "incorrect",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет."
+  }
+ ]
+}
