@@ -6,9 +6,13 @@ from __future__ import annotations
 
 import json
 import os
+import threading
 from pathlib import Path
 
 from .config import ROOT, base_cfg
+
+
+_lock = threading.Lock()
 
 
 class BudgetExceeded(RuntimeError):
@@ -45,12 +49,13 @@ def check() -> None:
 
 def add(cost_usd: float) -> None:
     """Вызывать ПОСЛЕ запроса с фактической стоимостью."""
-    st = _read()
-    st["spent_usd"] = round(st["spent_usd"] + cost_usd, 6)
-    st["calls"] += 1
-    p = _path()
-    p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps(st, indent=2))
+    with _lock:
+        st = _read()
+        st["spent_usd"] = round(st["spent_usd"] + cost_usd, 6)
+        st["calls"] += 1
+        p = _path()
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(json.dumps(st, indent=2))
 
 
 def report() -> str:

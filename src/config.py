@@ -30,4 +30,8 @@ def backend_name() -> str:
 
 
 def backend_cfg() -> dict:
-    return base_cfg()["backends"][backend_name()]
+    cfg = base_cfg()["backends"][backend_name()]
+    model = os.getenv("CHAT_MODEL")      # переопределение модели ответов (судья остаётся прежним)
+    if model and backend_name() == "openai":
+        cfg = {**cfg, "chat_model": model, "price_per_1m_usd": base_cfg()["model_prices"][model]}
+    return cfg

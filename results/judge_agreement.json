@@ -1,0 +1,6 @@
+{
+ "n": 40,
+ "agreement": 0.825,
+ "cohen_kappa": 0.737,
+ "agreement_binary_correct": 0.925
+}

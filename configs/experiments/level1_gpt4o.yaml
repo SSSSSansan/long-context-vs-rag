@@ -1,0 +1,5 @@
+name: level1_gpt4o
+# сильная модель на урезанной выборке (бюджет): 8k целиком, 30k по 6 вопросов на тип, 1 повтор
+runs:
+  - {sizes: ["8k"], methods: [lc, bm25, emb], question_types: [T1, T2, T3], n_per_type: 20, repeats: 1}
+  - {sizes: ["30k"], methods: [lc, bm25, emb], question_types: [T1, T2, T3], n_per_type: 6, repeats: 1}

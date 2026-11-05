@@ -1,6 +1,3 @@
 name: level1
-sizes: ["8k", "30k"]
-methods: [lc, bm25, emb]
-question_types: [T1, T2, T3]
-n_questions_per_type: 20
-repeats: 3
+runs:
+  - {sizes: ["8k", "30k"], methods: [lc, bm25, emb], question_types: [T1, T2, T3], n_per_type: 20, repeats: 3}

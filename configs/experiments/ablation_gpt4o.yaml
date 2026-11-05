@@ -1,0 +1,4 @@
+name: ablation_gpt4o
+# RAG с растущим k до выровненного бюджета (aligned = столько чанков, сколько токенов в LC-корпусе)
+runs:
+  - {sizes: ["30k"], methods: [bm25, emb], question_types: [T1, T2, T3], n_per_type: 1, repeats: 1, ks: [16, aligned]}
