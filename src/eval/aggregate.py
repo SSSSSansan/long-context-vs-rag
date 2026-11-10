@@ -19,6 +19,29 @@ from ..config import ROOT, base_cfg  # noqa: E402
 
 RES = ROOT / "results"
 
+Z95 = 1.959963984540054  # квантиль N(0,1) для 95% доверительного интервала
+
+
+def wilson_ci(successes: float, n: float, z: float = Z95) -> tuple[float, float]:
+    """Доверительный интервал Уилсона для доли successes/n.
+
+    n здесь — число НЕЗАВИСИМЫХ наблюдений. Для наших данных это число уникальных
+    вопросов в ячейке (model x size x method x type), а не число вызовов API: три
+    повтора одного и того же вопроса — это не три независимых измерения (тот же
+    вопрос, тот же контекст, почти тот же ответ при temperature=0), они только
+    показывают разброс ОДНОГО вопроса. Если бы n считали по вызовам, интервал был
+    бы искусственно узким — казался бы увереннее, чем позволяют данные.
+    `successes` — сумма средних по повторам accuracy для каждого уникального
+    вопроса (может быть нецелой), это несмещённая оценка числа "успехов".
+    """
+    if not n or n <= 0:
+        return (np.nan, np.nan)
+    phat = successes / n
+    denom = 1 + z * z / n
+    center = (phat + z * z / (2 * n)) / denom
+    margin = z * np.sqrt(phat * (1 - phat) / n + z * z / (4 * n * n)) / denom
+    return (max(0.0, center - margin), min(1.0, center + margin))
+
 
 def load(dirs: list[Path]) -> pd.DataFrame:
     rows = []
@@ -61,6 +84,20 @@ def summarize(df: pd.DataFrame, by: list[str]) -> pd.DataFrame:
     # $/correct: стоимость ответов / число верных (стоимость judge не входит; цена из первого, не из кэш-хитов)
     out["usd_per_correct"] = out.cost_nocache_usd / out.n_correct.replace(0, np.nan)
     out["usd_per_correct_cached"] = out.cost_usd / out.n_correct.replace(0, np.nan)
+
+    # Доверительные интервалы Уилсона 95% — по уникальным вопросам, не по вызовам (см. wilson_ci).
+    # Сначала схлопываем повторы одного вопроса в одно число (среднее по repeat для каждого qid),
+    # затем n = число уникальных вопросов в ячейке, successes = сумма этих средних по вопросам.
+    per_q = df.groupby(by + ["qid"]).agg(
+        acc_q=("correct", "mean"), evr_q=("evidence_recall", "mean"), cit_q=("citation_correct", "mean")
+    ).reset_index()
+    ci = per_q.groupby(by).agg(
+        n_q=("qid", "nunique"), acc_k=("acc_q", "sum"), evr_k=("evr_q", "sum"), cit_k=("cit_q", "sum"))
+    for col, k_col in [("acc", "acc_k"), ("evidence_recall", "evr_k"), ("citation", "cit_k")]:
+        lo_hi = ci.apply(lambda row, kc=k_col: wilson_ci(row[kc], row["n_q"]), axis=1)
+        ci[f"{col}_ci_low"] = lo_hi.map(lambda t: t[0])
+        ci[f"{col}_ci_high"] = lo_hi.map(lambda t: t[1])
+    out = out.join(ci[[c for c in ci.columns if c.endswith("_ci_low") or c.endswith("_ci_high")]])
     return out.reset_index()
 
 
