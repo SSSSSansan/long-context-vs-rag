@@ -101,27 +101,95 @@ def summarize(df: pd.DataFrame, by: list[str]) -> pd.DataFrame:
     return out.reset_index()
 
 
+MODEL_ORDER = ["gpt-4o-2024-08-06", "gpt-4o-mini-2024-07-18"]
+SIZE_ORDER = ["8k", "30k", "100k"]
+METHOD_ORDER = ["lc", "bm25", "emb"]
+METHOD_LABEL = {"lc": "LC", "bm25": "BM25", "emb": "EMB"}
+METHOD_COLOR = {"lc": "#4C72B0", "bm25": "#DD8452", "emb": "#55A868"}
+ZERO_MARK_H = 0.02   # высота видимого столбика-маркера для accuracy == 0 (иначе bar высотой 0 не виден)
+
+
+def _models_present(df: pd.DataFrame) -> list[str]:
+    have = set(df["model"].unique())
+    return [m for m in MODEL_ORDER if m in have] + sorted(have - set(MODEL_ORDER))
+
+
+def _bar_panel(ax, sub: pd.DataFrame, value_col: str, sizes: list[str], methods: list[str],
+               log: bool = False, no_data_y: float | None = None) -> None:
+    """Сгруппированные столбцы method x size с явной отметкой нулей и отсутствующих данных.
+
+    На линейной шкале accuracy=0 рисуется видимым коротким столбиком с подписью «0.00»
+    (столбик высотой 0 иначе не виден и неотличим от «нет данных»). Если ячейки method x size
+    вообще нет в данных ИЛИ значение NaN (например $/correct при n_correct=0) — подпись
+    «нет данных» вместо столбика.
+    """
+    n_m = len(methods)
+    width = 0.8 / n_m
+    for mi, method in enumerate(methods):
+        for si, size in enumerate(sizes):
+            xpos = si + (mi - (n_m - 1) / 2) * width
+            row = sub[(sub["size"] == size) & (sub["method"] == method)]
+            val = row[value_col].iloc[0] if not row.empty else np.nan
+            if row.empty or pd.isna(val):
+                y = no_data_y if no_data_y is not None else (0.03 if not log else ax.get_ylim()[0])
+                ax.text(xpos, y, "нет данных", ha="center", va="bottom", fontsize=6.5,
+                        rotation=90, color="#888888")
+                continue
+            if not log and val == 0:
+                ax.bar(xpos, ZERO_MARK_H, width=width * 0.9, color=METHOD_COLOR[method])
+                ax.text(xpos, ZERO_MARK_H + 0.015, "0.00", ha="center", va="bottom", fontsize=7)
+            else:
+                ax.bar(xpos, val, width=width * 0.9, color=METHOD_COLOR[method])
+    ax.set_xlim(-0.5, len(sizes) - 0.5)   # фиксируем ширину панели независимо от того, что отрисовано
+    ax.set_xticks(range(len(sizes)))
+    ax.set_xticklabels([s.upper() for s in sizes])
+
+
+def _method_legend(fig) -> None:
+    handles = [plt.Rectangle((0, 0), 1, 1, color=METHOD_COLOR[m]) for m in METHOD_ORDER]
+    fig.legend(handles, [METHOD_LABEL[m] for m in METHOD_ORDER], loc="upper center",
+               ncol=len(METHOD_ORDER), bbox_to_anchor=(0.5, 1.02), frameon=False)
+
+
 def charts(df: pd.DataFrame):
     (RES / "charts").mkdir(parents=True, exist_ok=True)
     main_ = df[(df.get("target_pct").isna() if "target_pct" in df else True) & df.k_label.isna() | df.method.ne("lc") & df.k_label.eq(8)]
     main_ = main_[main_.get("target_pct", pd.Series(index=main_.index, dtype=float)).isna()] if "target_pct" in main_ else main_
     if main_.empty:
         return
-    s = summarize(main_, ["size", "method", "type"])
-    fig, ax = plt.subplots(1, 3, figsize=(13, 3.8), sharey=True)
-    for a, t in zip(ax, ["T1", "T2", "T3"]):
-        piv = s[s.type == t].pivot(index="size", columns="method", values="accuracy").reindex([x for x in ["8k", "30k", "100k"] if x in set(s["size"])])
-        piv.plot.bar(ax=a, rot=0, width=0.75)
-        a.set_title(t); a.set_ylim(0, 1.05); a.set_xlabel("")
-    ax[0].set_ylabel("accuracy")
-    fig.suptitle("Accuracy по размеру корпуса и типу вопроса"); fig.tight_layout()
-    fig.savefig(RES / "charts/accuracy_by_type.png", dpi=140); plt.close(fig)
+    models = _models_present(main_)
 
-    s2 = summarize(main_, ["size", "method"])
-    fig, a = plt.subplots(figsize=(6.5, 3.8))
-    s2.pivot(index="size", columns="method", values="usd_per_correct").reindex([x for x in ["8k", "30k", "100k"] if x in set(s2["size"])]).plot.bar(ax=a, rot=0, logy=True)
-    a.set_ylabel("$ на один верный ответ (лог.)"); a.set_title("$/correct"); fig.tight_layout()
-    fig.savefig(RES / "charts/usd_per_correct.png", dpi=140); plt.close(fig)
+    # Accuracy по размеру корпуса и типу вопроса: строка на модель, столбец на тип вопроса.
+    s = summarize(main_, ["model", "size", "method", "type"])
+    sizes = [x for x in SIZE_ORDER if x in set(s["size"])]
+    fig, ax = plt.subplots(len(models), 3, figsize=(13, 3.8 * len(models)), sharey=True, squeeze=False)
+    for ri, model in enumerate(models):
+        for ci, t in enumerate(["T1", "T2", "T3"]):
+            a = ax[ri][ci]
+            sub = s[(s.model == model) & (s.type == t)]
+            _bar_panel(a, sub, "accuracy", sizes, METHOD_ORDER)
+            a.set_title(f"{model} — {t}", fontsize=10)
+            a.set_ylim(0, 1.08)
+        ax[ri][0].set_ylabel("accuracy")
+    fig.suptitle("Accuracy по размеру корпуса, типу вопроса и модели", y=1.08 if len(models) == 1 else 1.04)
+    _method_legend(fig)
+    fig.tight_layout(rect=(0, 0, 1, 0.92 if len(models) == 1 else 0.95))
+    fig.savefig(RES / "charts/accuracy_by_type.png", dpi=140, bbox_inches="tight"); plt.close(fig)
+
+    # $/correct по размеру корпуса: панель на модель.
+    s2 = summarize(main_, ["model", "size", "method"])
+    fig, ax2 = plt.subplots(1, len(models), figsize=(6.5 * len(models), 3.8), squeeze=False)
+    for ci, model in enumerate(models):
+        a = ax2[0][ci]
+        sub = s2[s2.model == model]
+        a.set_yscale("log")
+        _bar_panel(a, sub, "usd_per_correct", sizes, METHOD_ORDER, log=True, no_data_y=sub["usd_per_correct"].min(skipna=True) or 1e-4)
+        a.set_title(f"{model}", fontsize=10)
+        a.set_ylabel("$ на один верный ответ (лог.)" if ci == 0 else "")
+    fig.suptitle("$/correct по размеру корпуса и модели", y=1.12)
+    _method_legend(fig)
+    fig.tight_layout(rect=(0, 0, 1, 0.82))
+    fig.savefig(RES / "charts/usd_per_correct.png", dpi=140, bbox_inches="tight"); plt.close(fig)
 
 
 def position_chart(df: pd.DataFrame):
@@ -130,12 +198,34 @@ def position_chart(df: pd.DataFrame):
         return
     s = summarize(p, ["model", "size", "target_pct"])
     s.to_csv(RES / "summary_position.csv", index=False)
-    fig, a = plt.subplots(figsize=(6.5, 3.8))
-    for size, g in s.groupby("size"):
-        a.errorbar(g.target_pct, g.accuracy, yerr=g.accuracy_std, marker="o", label=size, capsize=3)
-    a.set_xlabel("позиция факта в корпусе, %"); a.set_ylabel("accuracy (LC)"); a.set_ylim(0, 1.05); a.legend()
-    a.set_title("Lost in the Middle: LC"); fig.tight_layout()
-    fig.savefig(RES / "charts/position_curve.png", dpi=140); plt.close(fig)
+
+    models = _models_present(s)
+    offsets = {"30k": -2.0, "100k": 2.0}         # сдвиг по x (в п.п.), чтобы точки 30K/100K не сливались
+    markers = {"30k": "o", "100k": "s"}
+    for model in models:
+        sm = s[s.model == model]
+        if sm.empty:
+            continue
+        fig, a = plt.subplots(figsize=(7.5, 4.3))
+        for size, g in sm.groupby("size"):
+            g = g.sort_values("target_pct")
+            x = g.target_pct + offsets.get(size, 0.0)
+            yerr = np.vstack([
+                (g.accuracy - g.acc_ci_low).clip(lower=0).to_numpy(),
+                (g.acc_ci_high - g.accuracy).clip(lower=0).to_numpy(),
+            ])
+            a.errorbar(x, g.accuracy, yerr=yerr, marker=markers.get(size, "o"), linestyle="-",
+                       label=f"{size.upper()} (95% CI Уилсона)", capsize=3)
+            # n вопросов меняется от точки к точке (не один факт на каждой позиции) —
+            # поэтому подписываем n у каждой точки отдельно, а не одним числом в легенде.
+            for xi, yi, ni in zip(x, g.accuracy, g.n_questions):
+                a.annotate(f"n={int(ni)}", (xi, yi), textcoords="offset points", xytext=(0, 8),
+                           ha="center", fontsize=7, color="#555555")
+        a.set_xlabel("позиция факта в корпусе, % (точки 30K/100K разнесены по x для читаемости)")
+        a.set_ylabel("accuracy (LC)"); a.set_ylim(-0.05, 1.15); a.legend(fontsize=8, loc="lower center")
+        a.set_title(f"Lost in the Middle: LC, {model}"); fig.tight_layout()
+        suffix = "" if model == models[0] else f"_{model.split('-')[0]}{'mini' if 'mini' in model else ''}"
+        fig.savefig(RES / f"charts/position_curve{suffix}.png", dpi=140, bbox_inches="tight"); plt.close(fig)
 
 
 def main():
@@ -161,7 +251,7 @@ def main():
     charts_df = base_
     try:
         charts_df = charts_df.assign(k_label=charts_df.k_label.where(charts_df.method.ne("lc"), np.nan))
-        charts(charts_df[charts_df.model.str.startswith('gpt-4o-mini')])
+        charts(charts_df)  # обе модели — отдельные панели/подписи внутри charts()
     except Exception as e:  # графики не должны ломать таблицы
         print("charts:", e)
 
