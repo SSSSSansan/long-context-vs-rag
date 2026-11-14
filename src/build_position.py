@@ -47,7 +47,7 @@ def main() -> None:
     cfg = load_yaml("configs/corpus.yaml")
     gold = {f["fact_id"]: f for f in json.loads((ROOT / "data/gold.json").read_text(encoding="utf-8"))["facts"]}
     qs = json.loads((ROOT / "data/questions.json").read_text(encoding="utf-8"))["questions"]
-    t1 = sorted((q for q in qs if q["type"] == "T1"), key=lambda q: q["qid"])[:cfg["facts"]["position_facts"]]
+    t1 = sorted((q for q in qs if q["type"] == "T1" and q.get("anchor", True)), key=lambda q: q["qid"])[:cfg["facts"]["position_facts"]]
     index = []
     for size in ("30k", "100k"):
         corpus = (ROOT / cfg["built_dir"] / size / "corpus.txt").read_text(encoding="utf-8")

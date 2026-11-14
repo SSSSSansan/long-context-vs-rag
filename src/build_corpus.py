@@ -68,6 +68,28 @@ def assemble(lines: list[str], target: int, count: Callable[[str], int],
     return text, lo
 
 
+def check_core_everywhere(facts: list[dict], questions: list[dict], keys: list[str]) -> int:
+    """Набор A должен быть отвечаем на ВСЕХ размерах: каждый факт каждого вопроса набора A есть во всех корпусах.
+    Набор B на самом маленьком размере отвечаем быть не должен (иначе он не B). Возвращает число вопросов набора A."""
+    by_id = {f["fact_id"]: f for f in facts}
+    n_core = 0
+    for q in questions:
+        if "set" not in q:
+            continue
+        sizes = [set(by_id[i]["corpus_sizes"]) for i in q["fact_ids"]]
+        everywhere = all(set(keys) <= s for s in sizes)
+        if q["set"] == "A":
+            if not q.get("anchor", True):        # A-hard — те же факты, что у своего A-вопроса: отдельно не считаем
+                continue
+            if not everywhere:
+                raise RuntimeError(f"Вопрос {q['qid']} набора A должен быть отвечаем на всех размерах {keys}, "
+                                   f"но факты есть только в {[sorted(s) for s in sizes]}.")
+            n_core += 1
+        elif everywhere:
+            raise RuntimeError(f"Вопрос {q['qid']} набора B отвечаем на всех размерах: он должен быть в наборе A.")
+    return n_core
+
+
 def finalize_gold(corpora: dict[str, str], count: Callable[[str], int] = count_tokens) -> None:
     """Дописывает в data/gold.json chunk_ids, positions_pct, corpus_sizes и проверяет присутствие фактов."""
     gold_path = ROOT / "data" / "gold.json"
@@ -93,9 +115,22 @@ def finalize_gold(corpora: dict[str, str], count: Callable[[str], int] = count_t
         f["chunk_ids"] = [c.chunk_id for c in chunks if f["statement"] in c.text]
         if not f["chunk_ids"]:
             raise RuntimeError(f"Факт {f['fact_id']} не найден ни в одном чанке.")
+    by_id = {f["fact_id"]: f for f in gold["facts"]}
+    for f in gold["facts"]:        # связка обязана лежать в одном чанке со своим фактом (иначе вопрос без имени не решить)
+        if f.get("role") in ("link", "distractor_link") and not set(f["chunk_ids"]) & set(by_id[f["of"]]["chunk_ids"]):
+            raise RuntimeError(f"Связка {f['fact_id']} не попала в один чанк с фактом {f['of']}: смени seed или длину пункта.")
     gold_path.write_text(json.dumps(gold, ensure_ascii=False, indent=2), encoding="utf-8")
     per = {k: sum(1 for f in gold["facts"] if k in f["corpus_sizes"]) for k in keys}
     print("факты в корпусах:", per)
+    q_path = ROOT / "data" / "questions.json"
+    if q_path.exists():
+        qs = json.loads(q_path.read_text(encoding="utf-8"))["questions"]
+        for q in qs:               # чанки связок и дистракторов нужны для leakage-проверки «в контексте только дистракторы»
+            if q.get("link_fact_ids") is not None:
+                q["link_chunk_ids"] = sorted({c for i in q["link_fact_ids"] for c in by_id[i]["chunk_ids"]})
+                q["distractor_chunk_ids"] = sorted({c for i in q["distractor_fact_ids"] for c in by_id[i]["chunk_ids"]})
+        q_path.write_text(json.dumps({"questions": qs}, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(f"вопросов набора A (отвечаемы на всех размерах {keys}):", check_core_everywhere(gold["facts"], qs, keys))
 
 
 def main(count: Callable[[str], int] = count_tokens) -> None:

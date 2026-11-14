@@ -24,12 +24,16 @@ from ..answer import answer_question, build_messages
 from ..config import ROOT, backend_name, base_cfg
 from ..methods.bm25 import chunks_of
 from ..methods.long_context import load_corpus
-from ..methods.registry import METHODS
+from ..methods.registry import METHODS, NO_K_METHODS
 from ..tokens import count_tokens
 from .exact_metrics import citation_correct, evidence_recall, quote_grounded
 from .judge import judge
 
 SIZE_ORDER = ["8k", "30k", "100k"]
+# Наборы вопросов V2 (PLAN_V2 §2.1). A и A-hard — одни и те же факты (set="A"), различается лексический якорь в вопросе.
+QUESTION_SETS = {"A": {"set": "A", "anchor": True},
+                 "A-hard": {"set": "A", "anchor": False},
+                 "B": {"set": "B", "anchor": True}}
 _lock = threading.Lock()
 
 
@@ -39,11 +43,28 @@ def load_data():
     return gold, qs
 
 
-def pick_questions(qs, size, qtype, n, seed):
+def filter_set(qs, question_set: str | None):
+    """Оставляет вопросы набора `question_set` ("A" | "A-hard" | "B").
+
+    Если в данных есть поле `set` (V2), а набор не указан — ошибка: иначе A, A-hard и B молча смешаются в одной ячейке.
+    Если поля `set` нет (данные V1), фильтр не нужен, и question_set=None работает как раньше."""
+    v2 = any("set" in q for q in qs)
+    if question_set is None:
+        if v2:
+            raise ValueError("В данных есть наборы вопросов: укажи question_set (A | A-hard | B) в конфиге эксперимента.")
+        return list(qs)
+    if question_set not in QUESTION_SETS:
+        raise ValueError(f"Неизвестный question_set {question_set!r}; допустимо: {sorted(QUESTION_SETS)}")
+    want = QUESTION_SETS[question_set]
+    return [q for q in qs if q.get("set") == want["set"] and q.get("anchor", True) == want["anchor"]]
+
+
+def pick_questions(qs, size, qtype, n, seed, question_set=None):
     """Вопросы, чьи факты уже есть в корпусе `size`; детерминированная выборка по seed (без перекоса к началу корпуса)."""
-    avail = sorted((q for q in qs if q["type"] == qtype
+    avail = sorted((q for q in filter_set(qs, question_set) if q["type"] == qtype
                     and SIZE_ORDER.index(q["first_corpus"]) <= SIZE_ORDER.index(size)), key=lambda q: q["qid"])
-    return random.Random(f"{seed}-{size}-{qtype}").sample(avail, min(n, len(avail)))
+    salt = f"{seed}-{size}-{qtype}" + (f"-{question_set}" if question_set else "")
+    return random.Random(salt).sample(avail, min(n, len(avail)))
 
 
 def aligned_k(size: str) -> int:
@@ -55,15 +76,19 @@ def aligned_k(size: str) -> int:
 def expand_tasks(spec: dict, qs, seed):
     tasks = []
     for r in spec["runs"]:
-        for size in r["sizes"]:
-            for method in r["methods"]:
-                ks = [None] if method == "lc" else r.get("ks", [base_cfg()["retrieval"]["top_k"]])
-                for k in ks:
-                    kk = aligned_k(size) if k == "aligned" else k
-                    for qt in r.get("question_types", ["T1", "T2", "T3"]):
-                        for q in pick_questions(qs, size, qt, r["n_per_type"], seed):
-                            for rep in range(1, r["repeats"] + 1):
-                                tasks.append(dict(size=size, method=method, k=kk, k_label=k, q=q, repeat=rep))
+        qsets = r.get("question_set")
+        qsets = [qsets] if isinstance(qsets, str) or qsets is None else list(qsets)   # одна строка или список
+        for qset in qsets:
+            for size in r["sizes"]:
+                for method in r["methods"]:
+                    ks = [None] if method in NO_K_METHODS else r.get("ks", [base_cfg()["retrieval"]["top_k"]])
+                    for k in ks:
+                        kk = aligned_k(size) if k == "aligned" else k
+                        for qt in r.get("question_types", ["T1", "T2", "T3"]):
+                            for q in pick_questions(qs, size, qt, r["n_per_type"], seed, qset):
+                                for rep in range(1, r["repeats"] + 1):
+                                    tasks.append(dict(size=size, method=method, k=kk, k_label=k, q=q, repeat=rep,
+                                                      question_set=qset))
     return tasks
 
 
@@ -83,8 +108,9 @@ def execute(t, gold, corpus_text=None, extra=None) -> dict:
     verdict, why, jr = judge(q["question"], q["gold_answer"], pred_text(a), salt=salt)
     r = a.resp
     row = dict(
-        qid=q["qid"], type=q["type"], size=size, method=method, k=k, k_label=t["k_label"], repeat=t["repeat"],
-        backend=backend_name(), model=r.model,
+        qid=q["qid"], type=q["type"], set=q.get("set"), anchor=q.get("anchor"), question_set=t.get("question_set"),
+        size=size, method=method, k=k, k_label=t["k_label"], repeat=t["repeat"],
+        backend=backend_name(), model=r.model, model_api=r.model_api,
         fact_positions_pct=[f["positions_pct"].get(size) for f in facts],
         context_tokens=count_tokens(ctx.text), chunk_ids=ctx.chunk_ids,
         answer=a.answer, doc_ids=a.doc_ids, quote=a.quote, contradiction_found=a.contradiction_found,
@@ -103,11 +129,11 @@ def execute(t, gold, corpus_text=None, extra=None) -> dict:
 
 
 def task_key(t) -> tuple:
-    return (t["q"]["qid"], t["size"], t["method"], t["k_label"], t["repeat"], t.get("pos"))
+    return (t["q"]["qid"], t["size"], t["method"], t["k_label"], t["repeat"], t.get("pos"), t.get("question_set"))
 
 
 def row_key(r) -> tuple:
-    return (r["qid"], r["size"], r["method"], r.get("k_label"), r["repeat"], r.get("target_pct"))
+    return (r["qid"], r["size"], r["method"], r.get("k_label"), r["repeat"], r.get("target_pct"), r.get("question_set"))
 
 
 def run_tasks(tasks, fn, out_path: Path, workers: int, label: str):

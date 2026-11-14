@@ -5,16 +5,20 @@ backends:
   openai:
     # ПРОВЕРИТЬ ПЕРЕД СТАРТОМ: полный идентификатор модели с датой + актуальные цены
     # https://platform.openai.com/docs/pricing
-    chat_model: gpt-4o-mini-2024-07-18
-    judge_model: gpt-4o-mini-2024-07-18
+    # V2: рабочая модель gpt-6-luna. У неё НЕТ датированного снапшота, id вписан как есть
+    # (поведение модели может меняться со временем). Поэтому в raw.jsonl логируется и поле model_api:
+    # id, который вернул сам API. Цены подтверждены Panda 2026-11-13 по странице цен OpenAI.
+    chat_model: gpt-6-luna
+    judge_model: gpt-6-luna     # судью нужно рекалибровать на 40 примерах (PLAN_V2 §7)
     embed_model: text-embedding-3-small
-    context_window: 128000     # консервативно; сверь с документацией выбранной модели
+    context_window: 1050000
     tokenizer: o200k_base
-    price_per_1m_usd:          # ПРОВЕРИТЬ — тарифы меняются
-      input: 0.15
-      cached_input: 0.075
-      output: 0.60
+    price_per_1m_usd:
+      input: 0.10
+      cached_input: 0.01
+      output: 0.50
       embed: 0.02
+      long_context: {threshold: 272000, input_mult: 2.0, output_mult: 1.5}
   local:
     chat_model: qwen2.5-7b-32k  # Ollama-модель с num_ctx 32768 (см. Modelfile.qwen2.5-7b-32k)
     judge_model: qwen2.5-7b-32k
@@ -25,6 +29,12 @@ backends:
 
 # цены моделей для CHAT_MODEL=<id> (проверить на https://platform.openai.com/docs/pricing)
 model_prices:
+  # $/1M токенов. long_context: при prompt_tokens > threshold вход x input_mult, выход x output_mult.
+  # GPT-6: цены подтверждены Panda 2026-11-13. Датированных снапшотов у gpt-6-* нет.
+  gpt-6-luna:    {input: 0.10, cached_input: 0.01, output: 0.50,  embed: 0.02, long_context: {threshold: 272000, input_mult: 2.0, output_mult: 1.5}}
+  gpt-6.1-terra: {input: 1.00, cached_input: 0.05, output: 5.00,  embed: 0.02, long_context: {threshold: 272000, input_mult: 2.0, output_mult: 1.5}}
+  gpt-6.1-sol:   {input: 2.00, cached_input: 0.10, output: 10.00, embed: 0.02, long_context: {threshold: 272000, input_mult: 2.0, output_mult: 1.5}}
+  # V1 (базовая линия, архив v1/):
   gpt-4o-mini-2024-07-18: {input: 0.15, cached_input: 0.075, output: 0.60, embed: 0.02}
   gpt-4o-2024-08-06: {input: 2.50, cached_input: 1.25, output: 10.00, embed: 0.02}
 
@@ -40,4 +50,4 @@ retrieval:
 
 budget:
   cache_dir: runs/cache
-  budget_file: runs/budget.json
+  budget_file: runs/budget_v2.json   # V2; старый счётчик V1 лежит в runs/v1/budget.json

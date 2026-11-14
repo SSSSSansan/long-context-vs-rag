@@ -16,3 +16,5 @@ corpus/built/*/*
 !corpus/built/*/.gitkeep
 *.patch
 runs/budget_interim.json
+runs/budget_v2.json
+runs/v1/

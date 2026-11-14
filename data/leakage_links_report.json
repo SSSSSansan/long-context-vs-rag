@@ -1,0 +1,177 @@
+{
+ "mode": "links",
+ "backend": "local",
+ "n": 18,
+ "leaked": 0,
+ "leaked_qids": [],
+ "abstained": 16,
+ "by_qset": {
+  "A": 0,
+  "A-hard": 0,
+  "B": 0
+ },
+ "rows": [
+  {
+   "qid": "q_T1_001h",
+   "qset": "A-hard",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет.",
+   "value_in_context": []
+  },
+  {
+   "qid": "q_T1_002h",
+   "qset": "A-hard",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет.",
+   "value_in_context": []
+  },
+  {
+   "qid": "q_T1_003h",
+   "qset": "A-hard",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет.",
+   "value_in_context": []
+  },
+  {
+   "qid": "q_T1_004h",
+   "qset": "A-hard",
+   "type": "T1",
+   "verdict": "incorrect",
+   "abstained": false,
+   "answer": "Подразделение «Бюро регистрации и учёта»",
+   "value_in_context": []
+  },
+  {
+   "qid": "q_T1_005h",
+   "qset": "A-hard",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет.",
+   "value_in_context": []
+  },
+  {
+   "qid": "q_T1_006h",
+   "qset": "A-hard",
+   "type": "T1",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет.",
+   "value_in_context": []
+  },
+  {
+   "qid": "q_T2_001h",
+   "qset": "A-hard",
+   "type": "T2",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет.",
+   "value_in_context": []
+  },
+  {
+   "qid": "q_T2_002h",
+   "qset": "A-hard",
+   "type": "T2",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет.",
+   "value_in_context": []
+  },
+  {
+   "qid": "q_T2_003h",
+   "qset": "A-hard",
+   "type": "T2",
+   "verdict": "incorrect",
+   "abstained": false,
+   "answer": "Программа «Талис-56», учреждённая в 2021 году для выпускников и курируемая подразделением «Бюро регистрации и учёта», имеет меньшую продолжительность.",
+   "value_in_context": []
+  },
+  {
+   "qid": "q_T2_004h",
+   "qset": "A-hard",
+   "type": "T2",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет.",
+   "value_in_context": []
+  },
+  {
+   "qid": "q_T2_005h",
+   "qset": "A-hard",
+   "type": "T2",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет.",
+   "value_in_context": []
+  },
+  {
+   "qid": "q_T2_006h",
+   "qset": "A-hard",
+   "type": "T2",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет.",
+   "value_in_context": []
+  },
+  {
+   "qid": "q_T3_001h",
+   "qset": "A-hard",
+   "type": "T3",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет.",
+   "value_in_context": []
+  },
+  {
+   "qid": "q_T3_002h",
+   "qset": "A-hard",
+   "type": "T3",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет.",
+   "value_in_context": []
+  },
+  {
+   "qid": "q_T3_003h",
+   "qset": "A-hard",
+   "type": "T3",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет.",
+   "value_in_context": []
+  },
+  {
+   "qid": "q_T3_004h",
+   "qset": "A-hard",
+   "type": "T3",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет.",
+   "value_in_context": []
+  },
+  {
+   "qid": "q_T3_005h",
+   "qset": "A-hard",
+   "type": "T3",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет.",
+   "value_in_context": []
+  },
+  {
+   "qid": "q_T3_006h",
+   "qset": "A-hard",
+   "type": "T3",
+   "verdict": "abstain",
+   "abstained": true,
+   "answer": "В предоставленных документах ответа нет.",
+   "value_in_context": []
+  }
+ ]
+}

@@ -43,6 +43,17 @@ def wilson_ci(successes: float, n: float, z: float = Z95) -> tuple[float, float]
     return (max(0.0, center - margin), min(1.0, center + margin))
 
 
+def _qset(r) -> str:
+    """Метка набора вопросов для группировки: "A" | "A-hard" | "B" | "V1" (данные без наборов).
+    Группировать надо по qset, а не по set: у A и A-hard одинаковый set="A", различается якорь."""
+    if isinstance(r["question_set"], str):
+        return r["question_set"]
+    if isinstance(r["set"], str):
+        hard = pd.notna(r["anchor"]) and not bool(r["anchor"])
+        return f"{r['set']}-hard" if hard else r["set"]
+    return "V1"
+
+
 def load(dirs: list[Path]) -> pd.DataFrame:
     rows = []
     for d in dirs:
@@ -56,6 +67,10 @@ def load(dirs: list[Path]) -> pd.DataFrame:
     if df.empty:
         return df
     df["correct"] = (df.verdict == "correct").astype(float)
+    for c in ("set", "anchor", "question_set"):      # у данных V1 этих полей нет
+        if c not in df:
+            df[c] = None
+    df["qset"] = df.apply(_qset, axis=1)
     df["lenient"] = df.verdict.isin(["correct", "partial"]).astype(float)
     df["system"] = df.model.str.replace(r"-\d{4}-\d{2}-\d{2}$", "", regex=True) + ":" + df.method + df.k_label.map(lambda k: "" if k is None or pd.isna(k) else f"@k={k}")
     mp = base_cfg()["model_prices"]
@@ -238,8 +253,9 @@ def main():
     base = df[df.target_pct.isna()] if has_pos else df
     main_ = base[base.k_label.isna() | base.k_label.eq(base_cfg()["retrieval"]["top_k"])]
     pd.set_option("display.width", 220); pd.set_option("display.max_columns", 30)
-    for name, by, d in [("summary_by_type", ["model", "size", "method", "type"], main_), ("summary_overall", ["model", "size", "method"], main_),
-                        ("summary_ablation_k", ["model", "size", "system", "type"], base[base.method.ne("lc")])]:
+    for name, by, d in [("summary_by_type", ["model", "qset", "size", "method", "type"], main_),
+                        ("summary_overall", ["model", "qset", "size", "method"], main_),
+                        ("summary_ablation_k", ["model", "qset", "size", "system", "type"], base[~base.method.isin(["lc", "nocontext"])])]:
         if d.empty:
             continue
         s = summarize(d, by)
@@ -248,9 +264,9 @@ def main():
     if has_pos:
         position_chart(df)
     base_ = df[df.target_pct.isna()] if has_pos else df
-    charts_df = base_
+    charts_df = base_[base_.qset.isin(["V1", "A"])]   # столбчатые графики V1-вида: A-hard и B не смешиваем с A
     try:
-        charts_df = charts_df.assign(k_label=charts_df.k_label.where(charts_df.method.ne("lc"), np.nan))
+        charts_df = charts_df.assign(k_label=charts_df.k_label.where(~charts_df.method.isin(["lc", "nocontext"]), np.nan))
         charts(charts_df)  # обе модели — отдельные панели/подписи внутри charts()
     except Exception as e:  # графики не должны ломать таблицы
         print("charts:", e)

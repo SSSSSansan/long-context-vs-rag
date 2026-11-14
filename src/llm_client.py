@@ -43,6 +43,7 @@ class LLMResponse:
     model: str
     backend: str
     from_local_cache: bool = False   # хит нашего дискового кэша (стоимость 0, не тратит бюджет)
+    model_api: str | None = None     # id модели, который вернул сам API (у gpt-6-luna нет датированного снапшота)
 
 
 _client = None
@@ -95,9 +96,12 @@ def check_not_truncated(actual: int, estimate: int | None) -> None:
 
 def compute_cost(prompt_tokens: int, cached_tokens: int, completion_tokens: int, p: dict | None = None) -> float:
     p = p or backend_cfg()["price_per_1m_usd"]
+    inp, cin, out = p["input"], p["cached_input"], p["output"]
+    lc = p.get("long_context")          # повышенный тариф: prompt_tokens > threshold => вход и выход дороже
+    if lc and prompt_tokens > lc["threshold"]:
+        inp, cin, out = inp * lc["input_mult"], cin * lc["input_mult"], out * lc["output_mult"]
     fresh = prompt_tokens - cached_tokens
-    return (fresh * p["input"] + cached_tokens * p["cached_input"]
-            + completion_tokens * p["output"]) / 1_000_000
+    return (fresh * inp + cached_tokens * cin + completion_tokens * out) / 1_000_000
 
 
 def complete(
@@ -149,7 +153,7 @@ def complete(
         text=r.choices[0].message.content or "",
         prompt_tokens=u.prompt_tokens, completion_tokens=u.completion_tokens,
         cached_tokens=cached, latency_ms=latency_ms, cost_usd=cost,
-        model=model, backend=backend_name())
+        model=model, backend=backend_name(), model_api=getattr(r, "model", None))
     cache.put(key, asdict(resp))
     return resp
 

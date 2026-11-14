@@ -6,8 +6,8 @@ import pytest
 from src import build_corpus as b
 from src import plant_facts as pf
 
-LEVELS = {"8k": {"T1": 4, "T2": 3, "T3": 3}, "30k": {"T1": 8, "T2": 9, "T3": 9},
-          "100k": {"T1": 8, "T2": 8, "T3": 8}}
+LEVELS = {"8k": {"T1": 6, "T2": 6, "T3": 6}, "30k": {"T1": 7, "T2": 7, "T3": 7},
+          "100k": {"T1": 7, "T2": 7, "T3": 7}}
 ELIG = {k: [f"doc_{i:03d}" for i in range(1, 6)] for k in LEVELS}
 
 
@@ -25,7 +25,8 @@ def test_counts():
     assert len(questions) == 60 and len(facts) == 100
     from collections import Counter
     assert Counter(q["type"] for q in questions) == {"T1": 20, "T2": 20, "T3": 20}
-    assert Counter(q["first_corpus"] for q in questions) == {"8k": 10, "30k": 26, "100k": 24}
+    assert Counter(q["first_corpus"] for q in questions) == {"8k": 18, "30k": 21, "100k": 21}
+    assert Counter(f["first_corpus"] for f in facts) == {"8k": 30, "30k": 35, "100k": 35}
 
 
 def test_deterministic():
@@ -111,3 +112,32 @@ def test_finalize_gold_checks_presence(tmp_path, monkeypatch):
     (tmp_path / "data" / "gold.json").write_text(json.dumps(gold, ensure_ascii=False), encoding="utf-8")
     with pytest.raises(RuntimeError):
         b.finalize_gold(corpora, count=lambda t: len(t) // 4)
+
+
+def test_sets_core_is_A_rest_is_B():
+    from collections import Counter
+    facts, questions = make_plan()
+    assert Counter(q["set"] for q in questions) == {"A": 18, "B": 42}
+    assert Counter((q["set"], q["type"]) for q in questions)[("A", "T1")] == 6
+    assert all((q["set"] == "A") == (q["first_corpus"] == "8k") for q in questions)
+    assert all(q["anchor"] is True for q in questions)       # вопросы без якоря (A-hard) добавляются отдельным шагом
+    by_id = {f["fact_id"]: f for f in facts}
+    for q in questions:                                      # у факта тот же набор, что у его вопроса
+        assert all(by_id[i]["set"] == q["set"] for i in q["fact_ids"])
+
+
+def test_core_level_is_configurable():
+    _, questions = pf.plan(LEVELS, ELIG, random.Random("s"), core_level="30k")
+    assert {q["set"] for q in questions if q["first_corpus"] == "30k"} == {"A"}
+    assert {q["set"] for q in questions if q["first_corpus"] == "8k"} == {"B"}
+
+
+def test_core_questions_answerable_everywhere_check():
+    keys = ["8k", "30k", "100k"]
+    facts = [{"fact_id": "a", "corpus_sizes": keys}, {"fact_id": "b", "corpus_sizes": ["30k", "100k"]}]
+    ok = [{"qid": "q1", "set": "A", "fact_ids": ["a"]}, {"qid": "q2", "set": "B", "fact_ids": ["b"]}]
+    assert b.check_core_everywhere(facts, ok, keys) == 1
+    with pytest.raises(RuntimeError):       # набор A, но факт есть не везде
+        b.check_core_everywhere(facts, [{"qid": "q3", "set": "A", "fact_ids": ["b"]}], keys)
+    with pytest.raises(RuntimeError):       # набор B, но отвечаем везде
+        b.check_core_everywhere(facts, [{"qid": "q4", "set": "B", "fact_ids": ["a"]}], keys)

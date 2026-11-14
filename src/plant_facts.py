@@ -11,6 +11,12 @@
 присутствует во всех трёх корпусах; факты уровня 30k лежат в документах между 8K и 30K и т.д.
 Размещаем только в документах, которые гарантированно целиком попадают в корпус своего уровня.
 
+Наборы вопросов (V2, PLAN_V2 §2.1): у каждого факта и вопроса есть поле `set`.
+  "A" — ядро: факты уровня core_level (8k), вопрос осмыслен на всех трёх размерах корпуса;
+  "B" — факты, добавленные на 30k и 100k, вопрос осмыслен только начиная со своего размера.
+Поле `anchor` у вопроса: True, если в тексте вопроса названа сущность из факта (лексический якорь).
+Все вопросы, которые создаёт plan(), имеют anchor=True; вопросы без якоря (A-hard) добавляет отдельный шаг.
+
 Типы:
   T1 — один факт, вопрос на значение;
   T2 — два факта о РАЗНЫХ программах в РАЗНЫХ документах, вопрос на сравнение;
@@ -137,13 +143,14 @@ def statement(attr: str, variant: int, kind: str, name: str, value) -> str:
 CLAUSE = re.compile(r"^(\d+)\.(\d+)\. (.*)$")
 
 
-def insert_clause(text: str, section: int, rng: random.Random, clause_text: str) -> str:
-    """Вставляет пункт в случайное место раздела и пересчитывает нумерацию пунктов раздела."""
+def insert_clauses(text: str, section: int, rng: random.Random, clauses: list[str]) -> str:
+    """Вставляет пункты ПОДРЯД в одно случайное место раздела и пересчитывает нумерацию пунктов раздела."""
     lines = text.split("\n")
     idxs = [i for i, l in enumerate(lines) if (m := CLAUSE.match(l)) and int(m.group(1)) == section]
     k = rng.randint(0, len(idxs))
     at = idxs[k] if k < len(idxs) else idxs[-1] + 1
-    lines.insert(at, f"{section}.0. {clause_text}")
+    for off, c in enumerate(clauses):
+        lines.insert(at + off, f"{section}.0. {c}")
     n = 0
     for i, l in enumerate(lines):
         m = CLAUSE.match(l)
@@ -151,6 +158,11 @@ def insert_clause(text: str, section: int, rng: random.Random, clause_text: str)
             n += 1
             lines[i] = f"{section}.{n}. {m.group(3)}"
     return "\n".join(lines)
+
+
+def insert_clause(text: str, section: int, rng: random.Random, clause_text: str) -> str:
+    """Вставляет один пункт в случайное место раздела (пересчитывает нумерацию)."""
+    return insert_clauses(text, section, rng, [clause_text])
 
 
 def doc_offsets(docs: dict[str, str], count: Callable[[str], int]) -> dict[str, tuple[int, int]]:
@@ -195,7 +207,14 @@ def _value(rng: random.Random, attr: str, exclude=()) -> object:
     return rng.choice(cands)
 
 
-def plan(levels_cfg: dict, eligible: dict[str, list[str]], rng: random.Random) -> tuple[list[dict], list[dict]]:
+def set_of(level: str, core_level: str) -> str:
+    """Набор вопроса: "A" для уровня-ядра, иначе "B"."""
+    return "A" if level == core_level else "B"
+
+
+def plan(levels_cfg: dict, eligible: dict[str, list[str]], rng: random.Random,
+         core_level: str | None = None) -> tuple[list[dict], list[dict]]:
+    core_level = core_level or next(iter(levels_cfg))      # по умолчанию — самый маленький уровень
     names = NameFactory(rng)
     facts: list[dict] = []
     questions: list[dict] = []
@@ -207,6 +226,7 @@ def plan(levels_cfg: dict, eligible: dict[str, list[str]], rng: random.Random) -
         return kw
 
     for level, counts in levels_cfg.items():
+        qset = set_of(level, core_level)
         docs = eligible[level]
         if len(docs) < 2:
             raise ValueError(f"Для уровня {level} недостаточно документов ({len(docs)}): проверь размеры.")
@@ -217,9 +237,9 @@ def plan(levels_cfg: dict, eligible: dict[str, list[str]], rng: random.Random) -
             value = _value(rng, attr)
             fid = f"f_T1_{c['T1']:03d}"
             f = fact(fact_id=fid, type="T1", attr=attr, kind=kind, name=name, value=value, variant=rng.randint(0, 1),
-                     doc_id=rng.choice(docs), first_corpus=level, paired_with=None)
+                     doc_id=rng.choice(docs), first_corpus=level, paired_with=None, set=qset)
             questions.append(dict(
-                qid=f"q_T1_{c['T1']:03d}", type="T1", first_corpus=level, fact_ids=[fid],
+                qid=f"q_T1_{c['T1']:03d}", type="T1", first_corpus=level, set=qset, anchor=True, fact_ids=[fid],
                 question=ATTRS[attr]["q_single"].format(**ent_forms(kind, name)),
                 gold_answer=value_str(attr, value)))
         for _ in range(counts["T2"]):
@@ -232,14 +252,14 @@ def plan(levels_cfg: dict, eligible: dict[str, list[str]], rng: random.Random) -
             da, db = rng.sample(docs, 2)
             ida, idb = f"f_T2_{c['T2']:03d}a", f"f_T2_{c['T2']:03d}b"
             fact(fact_id=ida, type="T2", attr=attr, kind="программа", name=na, value=va, variant=rng.randint(0, 1),
-                 doc_id=da, first_corpus=level, paired_with=idb)
+                 doc_id=da, first_corpus=level, paired_with=idb, set=qset)
             fact(fact_id=idb, type="T2", attr=attr, kind="программа", name=nb, value=vb, variant=rng.randint(0, 1),
-                 doc_id=db, first_corpus=level, paired_with=ida)
+                 doc_id=db, first_corpus=level, paired_with=ida, set=qset)
             bigger_is_a = va > vb
             win_is_a = bigger_is_a if direction == "more" else not bigger_is_a
             wname, wv, lname, lv = (na, va, nb, vb) if win_is_a else (nb, vb, na, va)
             questions.append(dict(
-                qid=f"q_T2_{c['T2']:03d}", type="T2", first_corpus=level, fact_ids=[ida, idb],
+                qid=f"q_T2_{c['T2']:03d}", type="T2", first_corpus=level, set=qset, anchor=True, fact_ids=[ida, idb],
                 question=ATTRS[attr][f"q_{direction}"].format(A=na, B=nb),
                 gold_answer=f"«{wname}»: {value_str(attr, wv)} против {value_str(attr, lv)} у «{lname}»"))
         for _ in range(counts["T3"]):
@@ -251,22 +271,30 @@ def plan(levels_cfg: dict, eligible: dict[str, list[str]], rng: random.Random) -
             da, db = rng.sample(docs, 2)
             ida, idb = f"f_T3_{c['T3']:03d}a", f"f_T3_{c['T3']:03d}b"
             fact(fact_id=ida, type="T3", attr=attr, kind=kind, name=name, value=va, variant=0,
-                 doc_id=da, first_corpus=level, paired_with=idb)
+                 doc_id=da, first_corpus=level, paired_with=idb, set=qset)
             fact(fact_id=idb, type="T3", attr=attr, kind=kind, name=name, value=vb, variant=1,
-                 doc_id=db, first_corpus=level, paired_with=ida)
+                 doc_id=db, first_corpus=level, paired_with=ida, set=qset)
             questions.append(dict(
-                qid=f"q_T3_{c['T3']:03d}", type="T3", first_corpus=level, fact_ids=[ida, idb], contradiction=True,
+                qid=f"q_T3_{c['T3']:03d}", type="T3", first_corpus=level, set=qset, anchor=True, fact_ids=[ida, idb], contradiction=True,
                 question=ATTRS[attr]["q_contra"].format(**ent_forms(kind, name)),
                 gold_answer=(f"Да, противоречие: в {da} указано {disp(attr, va)}, "
                              f"а в {db} — {disp(attr, vb)}")))
     return facts, questions
 
 
-def plant(docs: dict[str, str], facts: list[dict], rng: random.Random) -> dict[str, str]:
+PLACED_ROLES = (None, "gold", "distractor_fact")      # связки сами не размещаются: они едут следом за своим фактом
+
+
+def plant(docs: dict[str, str], facts: list[dict], rng: random.Random,
+          attach: dict[str, list[str]] | None = None) -> dict[str, str]:
+    """Вставляет факты в документы. attach[fact_id] — строки, которые встают ПОДРЯД сразу за фактом (связки)."""
+    attach = attach or {}
     out = dict(docs)
     for f in facts:
+        if f.get("role") not in PLACED_ROLES:
+            continue
         section = rng.randint(2, 6)
-        out[f["doc_id"]] = insert_clause(out[f["doc_id"]], section, rng, f["statement"])
+        out[f["doc_id"]] = insert_clauses(out[f["doc_id"]], section, rng, [f["statement"]] + attach.get(f["fact_id"], []))
     return out
 
 
@@ -281,8 +309,21 @@ def main(count: Callable[[str], int] = count_tokens) -> None:
     offsets = doc_offsets(docs, count)
     elig = {lvl: eligible_docs(offsets, cfg["sizes_tokens"], lvl) for lvl in cfg["facts"]["levels"]}
     rng = random.Random(f"{seed}-facts")
-    facts, questions = plan(cfg["facts"]["levels"], elig, rng)
-    planted = plant(docs, facts, rng)
+    facts, questions = plan(cfg["facts"]["levels"], elig, rng, cfg["facts"].get("core_level"))
+    attach: dict[str, list[str]] = {}
+    hcfg = cfg["facts"].get("hard", {})
+    if hcfg.get("enabled"):                              # A-hard: связки, дистракторы, вопросы без имени (src/hard_set.py)
+        from .hard_set import frequent_offices, plan_hard
+        offices = frequent_offices(list(docs.values()), hcfg.get("n_offices", 12))
+        core_level = cfg["facts"].get("core_level") or next(iter(cfg["facts"]["levels"]))
+        recs, hard_qs = plan_hard(facts, questions, elig[core_level], offices, random.Random(f"{seed}-hard"),
+                                  hcfg.get("link_style", "full"), hcfg.get("distractors_per_entity", 1))
+        for r in recs:
+            if r["role"] in ("link", "distractor_link"):
+                attach.setdefault(r["of"], []).append(r["statement"])
+        facts += recs
+        questions += hard_qs
+    planted = plant(docs, facts, rng, attach)
 
     out_dir = ROOT / cfg["planted_dir"]
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -299,8 +340,11 @@ def main(count: Callable[[str], int] = count_tokens) -> None:
 
     print(f"Фактов: {len(facts)}, вопросов: {len(questions)}")
     for lvl, docs_l in elig.items():
-        n_f = sum(1 for f in facts if f["first_corpus"] == lvl)
+        n_f = sum(1 for f in facts if f["first_corpus"] == lvl and f.get("role") in PLACED_ROLES and f.get("role") != "distractor_fact")
         print(f"  уровень {lvl}: документов для вставки {len(docs_l)} ({docs_l[0]}..{docs_l[-1]}), фактов {n_f}")
+    from collections import Counter
+    print("  вопросов по наборам:", dict(Counter(q["set"] + ("" if q["anchor"] else "-hard") for q in questions)))
+    print("  записей по ролям:", dict(Counter(f.get("role", "gold") for f in facts)))
 
 
 if __name__ == "__main__":

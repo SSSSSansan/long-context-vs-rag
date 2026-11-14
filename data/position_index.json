@@ -13,8 +13,8 @@
   "qid": "q_T1_001",
   "fact_id": "f_T1_001",
   "target_pct": 25,
-  "actual_pct": 25.5,
-  "doc_id": "doc_004",
+  "actual_pct": 24.9,
+  "doc_id": "doc_003",
   "file": "corpus/built/position/30k/f_T1_001_p25.txt"
  },
  {
@@ -22,7 +22,7 @@
   "qid": "q_T1_001",
   "fact_id": "f_T1_001",
   "target_pct": 50,
-  "actual_pct": 49.3,
+  "actual_pct": 50.0,
   "doc_id": "doc_006",
   "file": "corpus/built/position/30k/f_T1_001_p50.txt"
  },
@@ -58,8 +58,8 @@
   "qid": "q_T1_002",
   "fact_id": "f_T1_002",
   "target_pct": 25,
-  "actual_pct": 25.5,
-  "doc_id": "doc_004",
+  "actual_pct": 24.9,
+  "doc_id": "doc_003",
   "file": "corpus/built/position/30k/f_T1_002_p25.txt"
  },
  {
@@ -67,7 +67,7 @@
   "qid": "q_T1_002",
   "fact_id": "f_T1_002",
   "target_pct": 50,
-  "actual_pct": 49.3,
+  "actual_pct": 49.9,
   "doc_id": "doc_006",
   "file": "corpus/built/position/30k/f_T1_002_p50.txt"
  },
@@ -103,8 +103,8 @@
   "qid": "q_T1_003",
   "fact_id": "f_T1_003",
   "target_pct": 25,
-  "actual_pct": 25.5,
-  "doc_id": "doc_004",
+  "actual_pct": 25.0,
+  "doc_id": "doc_003",
   "file": "corpus/built/position/30k/f_T1_003_p25.txt"
  },
  {
@@ -112,7 +112,7 @@
   "qid": "q_T1_003",
   "fact_id": "f_T1_003",
   "target_pct": 50,
-  "actual_pct": 49.3,
+  "actual_pct": 50.0,
   "doc_id": "doc_006",
   "file": "corpus/built/position/30k/f_T1_003_p50.txt"
  },
@@ -148,8 +148,8 @@
   "qid": "q_T1_004",
   "fact_id": "f_T1_004",
   "target_pct": 25,
-  "actual_pct": 25.5,
-  "doc_id": "doc_004",
+  "actual_pct": 25.0,
+  "doc_id": "doc_003",
   "file": "corpus/built/position/30k/f_T1_004_p25.txt"
  },
  {
@@ -157,7 +157,7 @@
   "qid": "q_T1_004",
   "fact_id": "f_T1_004",
   "target_pct": 50,
-  "actual_pct": 49.3,
+  "actual_pct": 50.0,
   "doc_id": "doc_006",
   "file": "corpus/built/position/30k/f_T1_004_p50.txt"
  },
@@ -193,8 +193,8 @@
   "qid": "q_T1_005",
   "fact_id": "f_T1_005",
   "target_pct": 25,
-  "actual_pct": 25.6,
-  "doc_id": "doc_004",
+  "actual_pct": 24.9,
+  "doc_id": "doc_003",
   "file": "corpus/built/position/30k/f_T1_005_p25.txt"
  },
  {
@@ -202,7 +202,7 @@
   "qid": "q_T1_005",
   "fact_id": "f_T1_005",
   "target_pct": 50,
-  "actual_pct": 49.4,
+  "actual_pct": 50.0,
   "doc_id": "doc_006",
   "file": "corpus/built/position/30k/f_T1_005_p50.txt"
  },
@@ -247,8 +247,8 @@
   "qid": "q_T1_001",
   "fact_id": "f_T1_001",
   "target_pct": 50,
-  "actual_pct": 50.2,
-  "doc_id": "doc_021",
+  "actual_pct": 50.0,
+  "doc_id": "doc_020",
   "file": "corpus/built/position/100k/f_T1_001_p50.txt"
  },
  {
@@ -257,7 +257,7 @@
   "fact_id": "f_T1_001",
   "target_pct": 75,
   "actual_pct": 75.0,
-  "doc_id": "doc_031",
+  "doc_id": "doc_030",
   "file": "corpus/built/position/100k/f_T1_001_p75.txt"
  },
  {
@@ -292,8 +292,8 @@
   "qid": "q_T1_002",
   "fact_id": "f_T1_002",
   "target_pct": 50,
-  "actual_pct": 50.2,
-  "doc_id": "doc_021",
+  "actual_pct": 50.0,
+  "doc_id": "doc_020",
   "file": "corpus/built/position/100k/f_T1_002_p50.txt"
  },
  {
@@ -302,7 +302,7 @@
   "fact_id": "f_T1_002",
   "target_pct": 75,
   "actual_pct": 75.0,
-  "doc_id": "doc_031",
+  "doc_id": "doc_030",
   "file": "corpus/built/position/100k/f_T1_002_p75.txt"
  },
  {
@@ -337,8 +337,8 @@
   "qid": "q_T1_003",
   "fact_id": "f_T1_003",
   "target_pct": 50,
-  "actual_pct": 50.2,
-  "doc_id": "doc_021",
+  "actual_pct": 50.0,
+  "doc_id": "doc_020",
   "file": "corpus/built/position/100k/f_T1_003_p50.txt"
  },
  {
@@ -347,7 +347,7 @@
   "fact_id": "f_T1_003",
   "target_pct": 75,
   "actual_pct": 75.0,
-  "doc_id": "doc_031",
+  "doc_id": "doc_030",
   "file": "corpus/built/position/100k/f_T1_003_p75.txt"
  },
  {
@@ -382,8 +382,8 @@
   "qid": "q_T1_004",
   "fact_id": "f_T1_004",
   "target_pct": 50,
-  "actual_pct": 50.2,
-  "doc_id": "doc_021",
+  "actual_pct": 50.0,
+  "doc_id": "doc_020",
   "file": "corpus/built/position/100k/f_T1_004_p50.txt"
  },
  {
@@ -392,7 +392,7 @@
   "fact_id": "f_T1_004",
   "target_pct": 75,
   "actual_pct": 75.0,
-  "doc_id": "doc_031",
+  "doc_id": "doc_030",
   "file": "corpus/built/position/100k/f_T1_004_p75.txt"
  },
  {
@@ -427,8 +427,8 @@
   "qid": "q_T1_005",
   "fact_id": "f_T1_005",
   "target_pct": 50,
-  "actual_pct": 50.2,
-  "doc_id": "doc_021",
+  "actual_pct": 50.0,
+  "doc_id": "doc_020",
   "file": "corpus/built/position/100k/f_T1_005_p50.txt"
  },
  {
@@ -437,7 +437,7 @@
   "fact_id": "f_T1_005",
   "target_pct": 75,
   "actual_pct": 75.0,
-  "doc_id": "doc_031",
+  "doc_id": "doc_030",
   "file": "corpus/built/position/100k/f_T1_005_p75.txt"
  },
  {

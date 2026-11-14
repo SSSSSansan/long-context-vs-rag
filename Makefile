@@ -1,7 +1,7 @@
 PY ?= python
 EXP ?= level1
 
-.PHONY: position leakage setup raw facts corpus run report estimate smoke test all clean
+.PHONY: position leakage setup raw facts corpus run report check-sets estimate smoke test all clean
 
 setup:
 	$(PY) -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt && pip freeze > requirements.lock.txt
@@ -27,6 +27,9 @@ facts:               ## внедрить факты -> gold.json, questions.json
 corpus:              ## день 1-2: сборка 8k/30k/100k + факты + gold
 	$(PY) -m src.build_corpus
 
+check-sets:          ## проверка наборов A/B и распределения фактов (бесплатно)
+	$(PY) -m scripts.check_sets
+
 run:                 ## make run EXP=level1
 	$(PY) -m src.eval.run --exp configs/experiments/$(EXP)*.yaml
 
@@ -39,4 +42,4 @@ test:
 all: raw facts corpus run report
 
 clean:
-	rm -rf runs/cache runs/budget.json results/*.csv results/charts/*
+	rm -rf runs/cache runs/budget_v2.json results/*.csv results/charts/*

@@ -21,7 +21,22 @@ def _norm(s: str) -> str:
     return re.sub(r"\s+", " ", re.sub(r"[«»\"']", "", s.lower())).strip()
 
 
+# Метки источника, которые модель вставляет в цитату: "(doc_011)", "doc_011:", "[doc_011]", "doc_011 -".
+_DOC_TAG = re.compile(r"[\(\[]?\bdoc_\d+\b[\)\]]?\s*[:\-–—]?", re.IGNORECASE)
+
+
+def quote_segments(quote: str) -> list[str]:
+    """Режет цитату по меткам doc_NNN на сегменты. Для T2/T3 модель склеивает цитаты из двух документов
+    в одну строку; в корпусе такой цельной строки нет, поэтому проверять надо каждый кусок отдельно."""
+    parts = _DOC_TAG.split(quote)
+    return [p for p in (_norm(p).strip(" .,;:|/") for p in parts) if p]
+
+
 def quote_grounded(quote: str, context_text: str) -> bool:
-    """Цитата — дословный фрагмент контекста (ловит выдуманные цитаты). Пустая цитата = False."""
-    q = _norm(quote)
-    return bool(q) and q in _norm(context_text)
+    """Цитата обоснована, если КАЖДЫЙ её сегмент — дословный фрагмент контекста (ловит выдуманные цитаты).
+    Пустая цитата или цитата без текста (только метки) = False."""
+    segs = quote_segments(quote or "")
+    if not segs:
+        return False
+    ctx = _norm(context_text)
+    return all(s in ctx for s in segs)

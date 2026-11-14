@@ -11,6 +11,7 @@
       "doc_id": "doc_002",
       "first_corpus": "8k",
       "paired_with": null,
+      "set": "A",
       "statement": "Размер ежемесячной выплаты участникам олимпиады «Ксенар-28» составляет 114 МРП.",
       "corpus_sizes": [
         "8k",
@@ -18,12 +19,12 @@
         "100k"
       ],
       "positions_pct": {
-        "8k": 37.8,
-        "30k": 10.0,
-        "100k": 3.0
+        "8k": 60.3,
+        "30k": 15.3,
+        "100k": 4.5
       },
       "chunk_ids": [
-        "doc_002_c01"
+        "doc_002_c05"
       ]
     },
     {
@@ -37,6 +38,7 @@
       "doc_id": "doc_001",
       "first_corpus": "8k",
       "paired_with": null,
+      "set": "A",
       "statement": "Продолжительность стипендии «Нерида-15» составляет 10 недель.",
       "corpus_sizes": [
         "8k",
@@ -44,12 +46,12 @@
         "100k"
       ],
       "positions_pct": {
-        "8k": 22.3,
-        "30k": 5.9,
-        "100k": 1.8
+        "8k": 29.2,
+        "30k": 7.4,
+        "100k": 2.2
       },
       "chunk_ids": [
-        "doc_001_c07"
+        "doc_001_c09"
       ]
     },
     {
@@ -63,6 +65,7 @@
       "doc_id": "doc_001",
       "first_corpus": "8k",
       "paired_with": null,
+      "set": "A",
       "statement": "Срок приёма заявок на участие в стажировке «Ульрик-78» составляет 6 рабочих дней.",
       "corpus_sizes": [
         "8k",
@@ -70,9 +73,9 @@
         "100k"
       ],
       "positions_pct": {
-        "8k": 4.9,
-        "30k": 1.3,
-        "100k": 0.4
+        "8k": 4.1,
+        "30k": 1.0,
+        "100k": 0.3
       },
       "chunk_ids": [
         "doc_001_c01"
@@ -89,6 +92,7 @@
       "doc_id": "doc_001",
       "first_corpus": "8k",
       "paired_with": null,
+      "set": "A",
       "statement": "Заявки по олимпиаде «Гелион-22» принимает подразделение «Центр проектного обучения».",
       "corpus_sizes": [
         "8k",
@@ -96,8 +100,8 @@
         "100k"
       ],
       "positions_pct": {
-        "8k": 16.9,
-        "30k": 4.5,
+        "8k": 17.3,
+        "30k": 4.4,
         "100k": 1.3
       },
       "chunk_ids": [
@@ -105,61 +109,61 @@
       ]
     },
     {
-      "fact_id": "f_T2_001a",
-      "type": "T2",
+      "fact_id": "f_T1_005",
+      "type": "T1",
       "attr": "quota",
-      "kind": "программа",
+      "kind": "школа",
       "name": "Бельфор-28",
-      "value": 17,
+      "value": 60,
       "variant": 1,
-      "doc_id": "doc_002",
-      "first_corpus": "8k",
-      "paired_with": "f_T2_001b",
-      "statement": "Квота на участие в программе «Бельфор-28» установлена в размере 17 мест.",
-      "corpus_sizes": [
-        "8k",
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "8k": 39.2,
-        "30k": 10.4,
-        "100k": 3.1
-      },
-      "chunk_ids": [
-        "doc_002_c01",
-        "doc_002_c02"
-      ]
-    },
-    {
-      "fact_id": "f_T2_001b",
-      "type": "T2",
-      "attr": "quota",
-      "kind": "программа",
-      "name": "Мирант-54",
-      "value": 15,
-      "variant": 0,
       "doc_id": "doc_001",
       "first_corpus": "8k",
-      "paired_with": "f_T2_001a",
-      "statement": "В рамках программы «Мирант-54» предусмотрено 15 мест.",
+      "paired_with": null,
+      "set": "A",
+      "statement": "Квота на участие в школе «Бельфор-28» установлена в размере 60 мест.",
       "corpus_sizes": [
         "8k",
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "8k": 24.5,
-        "30k": 6.5,
-        "100k": 1.9
+        "8k": 23.8,
+        "30k": 6.0,
+        "100k": 1.8
       },
       "chunk_ids": [
-        "doc_001_c07",
-        "doc_001_c08"
+        "doc_001_c07"
       ]
     },
     {
-      "fact_id": "f_T2_002a",
+      "fact_id": "f_T1_006",
+      "type": "T1",
+      "attr": "amount",
+      "kind": "премия",
+      "name": "Мирант-54",
+      "value": 57,
+      "variant": 1,
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "paired_with": null,
+      "set": "A",
+      "statement": "Участникам премии «Мирант-54» ежемесячно выплачивается 57 МРП.",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 10.0,
+        "30k": 2.5,
+        "100k": 0.7
+      },
+      "chunk_ids": [
+        "doc_001_c03"
+      ]
+    },
+    {
+      "fact_id": "f_T2_001a",
       "type": "T2",
       "attr": "score",
       "kind": "программа",
@@ -168,7 +172,8 @@
       "variant": 0,
       "doc_id": "doc_002",
       "first_corpus": "8k",
-      "paired_with": "f_T2_002b",
+      "paired_with": "f_T2_001b",
+      "set": "A",
       "statement": "Для зачисления в программу «Ольвия-49» необходимо набрать не менее 66 баллов.",
       "corpus_sizes": [
         "8k",
@@ -176,16 +181,16 @@
         "100k"
       ],
       "positions_pct": {
-        "8k": 51.2,
-        "30k": 13.5,
-        "100k": 4.0
+        "8k": 62.2,
+        "30k": 15.8,
+        "100k": 4.7
       },
       "chunk_ids": [
-        "doc_002_c05"
+        "doc_002_c06"
       ]
     },
     {
-      "fact_id": "f_T2_002b",
+      "fact_id": "f_T2_001b",
       "type": "T2",
       "attr": "score",
       "kind": "программа",
@@ -194,7 +199,8 @@
       "variant": 0,
       "doc_id": "doc_001",
       "first_corpus": "8k",
-      "paired_with": "f_T2_002a",
+      "paired_with": "f_T2_001a",
+      "set": "A",
       "statement": "Для зачисления в программу «Вельта-76» необходимо набрать не менее 75 баллов.",
       "corpus_sizes": [
         "8k",
@@ -202,16 +208,16 @@
         "100k"
       ],
       "positions_pct": {
-        "8k": 12.0,
-        "30k": 3.2,
-        "100k": 0.9
+        "8k": 18.8,
+        "30k": 4.8,
+        "100k": 1.4
       },
       "chunk_ids": [
-        "doc_001_c03"
+        "doc_001_c06"
       ]
     },
     {
-      "fact_id": "f_T2_003a",
+      "fact_id": "f_T2_002a",
       "type": "T2",
       "attr": "deadline",
       "kind": "программа",
@@ -220,7 +226,8 @@
       "variant": 0,
       "doc_id": "doc_002",
       "first_corpus": "8k",
-      "paired_with": "f_T2_003b",
+      "paired_with": "f_T2_002b",
+      "set": "A",
       "statement": "Заявки на участие в программе «Лумен-91» принимаются в течение 27 рабочих дней.",
       "corpus_sizes": [
         "8k",
@@ -228,16 +235,16 @@
         "100k"
       ],
       "positions_pct": {
-        "8k": 45.5,
-        "30k": 12.0,
-        "100k": 3.6
+        "8k": 60.6,
+        "30k": 15.4,
+        "100k": 4.5
       },
       "chunk_ids": [
-        "doc_002_c03"
+        "doc_002_c05"
       ]
     },
     {
-      "fact_id": "f_T2_003b",
+      "fact_id": "f_T2_002b",
       "type": "T2",
       "attr": "deadline",
       "kind": "программа",
@@ -246,7 +253,8 @@
       "variant": 0,
       "doc_id": "doc_001",
       "first_corpus": "8k",
-      "paired_with": "f_T2_003a",
+      "paired_with": "f_T2_002a",
+      "set": "A",
       "statement": "Заявки на участие в программе «Салмар-29» принимаются в течение 13 рабочих дней.",
       "corpus_sizes": [
         "8k",
@@ -254,361 +262,66 @@
         "100k"
       ],
       "positions_pct": {
-        "8k": 8.7,
-        "30k": 2.3,
-        "100k": 0.7
+        "8k": 4.9,
+        "30k": 1.2,
+        "100k": 0.4
       },
       "chunk_ids": [
-        "doc_001_c02"
+        "doc_001_c01"
       ]
     },
     {
-      "fact_id": "f_T3_001a",
-      "type": "T3",
-      "attr": "office",
-      "kind": "олимпиада",
+      "fact_id": "f_T2_003a",
+      "type": "T2",
+      "attr": "duration",
+      "kind": "программа",
       "name": "Талис-56",
-      "value": "Отдел стажировок и практик",
+      "value": 20,
       "variant": 0,
       "doc_id": "doc_001",
       "first_corpus": "8k",
-      "paired_with": "f_T3_001b",
-      "statement": "Заявки по олимпиаде «Талис-56» принимает подразделение «Отдел стажировок и практик».",
+      "paired_with": "f_T2_003b",
+      "set": "A",
+      "statement": "Продолжительность программы «Талис-56» составляет 20 недель.",
       "corpus_sizes": [
         "8k",
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "8k": 25.4,
-        "30k": 6.7,
-        "100k": 2.0
+        "8k": 32.2,
+        "30k": 8.2,
+        "100k": 2.4
       },
       "chunk_ids": [
-        "doc_001_c08"
+        "doc_001_c10"
       ]
     },
     {
-      "fact_id": "f_T3_001b",
-      "type": "T3",
-      "attr": "office",
-      "kind": "олимпиада",
-      "name": "Талис-56",
-      "value": "Центр международных обменов",
-      "variant": 1,
-      "doc_id": "doc_002",
-      "first_corpus": "8k",
-      "paired_with": "f_T3_001a",
-      "statement": "Приём документов по олимпиаде «Талис-56» осуществляет подразделение «Центр международных обменов».",
-      "corpus_sizes": [
-        "8k",
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "8k": 42.1,
-        "30k": 11.1,
-        "100k": 3.3
-      },
-      "chunk_ids": [
-        "doc_002_c02"
-      ]
-    },
-    {
-      "fact_id": "f_T3_002a",
-      "type": "T3",
-      "attr": "amount",
-      "kind": "премия",
+      "fact_id": "f_T2_003b",
+      "type": "T2",
+      "attr": "duration",
+      "kind": "программа",
       "name": "Нерида-91",
-      "value": 186,
+      "value": 17,
       "variant": 0,
       "doc_id": "doc_002",
       "first_corpus": "8k",
-      "paired_with": "f_T3_002b",
-      "statement": "Размер ежемесячной выплаты участникам премии «Нерида-91» составляет 186 МРП.",
+      "paired_with": "f_T2_003a",
+      "set": "A",
+      "statement": "Продолжительность программы «Нерида-91» составляет 17 недель.",
       "corpus_sizes": [
         "8k",
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "8k": 46.3,
-        "30k": 12.2,
-        "100k": 3.6
-      },
-      "chunk_ids": [
-        "doc_002_c04"
-      ]
-    },
-    {
-      "fact_id": "f_T3_002b",
-      "type": "T3",
-      "attr": "amount",
-      "kind": "премия",
-      "name": "Нерида-91",
-      "value": 178,
-      "variant": 1,
-      "doc_id": "doc_001",
-      "first_corpus": "8k",
-      "paired_with": "f_T3_002a",
-      "statement": "Участникам премии «Нерида-91» ежемесячно выплачивается 178 МРП.",
-      "corpus_sizes": [
-        "8k",
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "8k": 7.5,
-        "30k": 2.0,
-        "100k": 0.6
-      },
-      "chunk_ids": [
-        "doc_001_c02"
-      ]
-    },
-    {
-      "fact_id": "f_T3_003a",
-      "type": "T3",
-      "attr": "score",
-      "kind": "стажировка",
-      "name": "Тонвис-72",
-      "value": 50,
-      "variant": 0,
-      "doc_id": "doc_001",
-      "first_corpus": "8k",
-      "paired_with": "f_T3_003b",
-      "statement": "Для зачисления в стажировку «Тонвис-72» необходимо набрать не менее 50 баллов.",
-      "corpus_sizes": [
-        "8k",
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "8k": 19.2,
-        "30k": 5.1,
-        "100k": 1.5
-      },
-      "chunk_ids": [
-        "doc_001_c06"
-      ]
-    },
-    {
-      "fact_id": "f_T3_003b",
-      "type": "T3",
-      "attr": "score",
-      "kind": "стажировка",
-      "name": "Тонвис-72",
-      "value": 86,
-      "variant": 1,
-      "doc_id": "doc_002",
-      "first_corpus": "8k",
-      "paired_with": "f_T3_003a",
-      "statement": "Минимальный проходной балл для поступления в стажировку «Тонвис-72» составляет 86 баллов.",
-      "corpus_sizes": [
-        "8k",
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "8k": 56.6,
-        "30k": 15.0,
-        "100k": 4.5
+        "8k": 65.8,
+        "30k": 16.7,
+        "100k": 4.9
       },
       "chunk_ids": [
         "doc_002_c07"
-      ]
-    },
-    {
-      "fact_id": "f_T1_005",
-      "type": "T1",
-      "attr": "score",
-      "kind": "стажировка",
-      "name": "Гелион-23",
-      "value": 78,
-      "variant": 1,
-      "doc_id": "doc_007",
-      "first_corpus": "30k",
-      "paired_with": null,
-      "statement": "Минимальный проходной балл для поступления в стажировку «Гелион-23» составляет 78 баллов.",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 56.0,
-        "100k": 16.7
-      },
-      "chunk_ids": [
-        "doc_007_c06"
-      ]
-    },
-    {
-      "fact_id": "f_T1_006",
-      "type": "T1",
-      "attr": "quota",
-      "kind": "стажировка",
-      "name": "Ксенар-58",
-      "value": 39,
-      "variant": 1,
-      "doc_id": "doc_009",
-      "first_corpus": "30k",
-      "paired_with": null,
-      "statement": "Квота на участие в стажировке «Ксенар-58» установлена в размере 39 мест.",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 73.4,
-        "100k": 21.9
-      },
-      "chunk_ids": [
-        "doc_009_c06"
-      ]
-    },
-    {
-      "fact_id": "f_T1_007",
-      "type": "T1",
-      "attr": "score",
-      "kind": "программа",
-      "name": "Салмар-58",
-      "value": 68,
-      "variant": 1,
-      "doc_id": "doc_007",
-      "first_corpus": "30k",
-      "paired_with": null,
-      "statement": "Минимальный проходной балл для поступления в программу «Салмар-58» составляет 68 баллов.",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 54.9,
-        "100k": 16.4
-      },
-      "chunk_ids": [
-        "doc_007_c05"
-      ]
-    },
-    {
-      "fact_id": "f_T1_008",
-      "type": "T1",
-      "attr": "score",
-      "kind": "олимпиада",
-      "name": "Ривена-79",
-      "value": 87,
-      "variant": 1,
-      "doc_id": "doc_006",
-      "first_corpus": "30k",
-      "paired_with": null,
-      "statement": "Минимальный проходной балл для поступления в олимпиаду «Ривена-79» составляет 87 баллов.",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 44.7,
-        "100k": 13.3
-      },
-      "chunk_ids": [
-        "doc_006_c03"
-      ]
-    },
-    {
-      "fact_id": "f_T1_009",
-      "type": "T1",
-      "attr": "deadline",
-      "kind": "стипендия",
-      "name": "Зарнис-50",
-      "value": 27,
-      "variant": 1,
-      "doc_id": "doc_006",
-      "first_corpus": "30k",
-      "paired_with": null,
-      "statement": "Срок приёма заявок на участие в стипендии «Зарнис-50» составляет 27 рабочих дней.",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 44.0,
-        "100k": 13.1
-      },
-      "chunk_ids": [
-        "doc_006_c02"
-      ]
-    },
-    {
-      "fact_id": "f_T1_010",
-      "type": "T1",
-      "attr": "duration",
-      "kind": "стажировка",
-      "name": "Салмар-17",
-      "value": 5,
-      "variant": 0,
-      "doc_id": "doc_005",
-      "first_corpus": "30k",
-      "paired_with": null,
-      "statement": "Продолжительность стажировки «Салмар-17» составляет 5 недель.",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 38.3,
-        "100k": 11.4
-      },
-      "chunk_ids": [
-        "doc_005_c05"
-      ]
-    },
-    {
-      "fact_id": "f_T1_011",
-      "type": "T1",
-      "attr": "quota",
-      "kind": "премия",
-      "name": "Тавро-83",
-      "value": 57,
-      "variant": 0,
-      "doc_id": "doc_010",
-      "first_corpus": "30k",
-      "paired_with": null,
-      "statement": "В рамках премии «Тавро-83» предусмотрено 57 мест.",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 83.2,
-        "100k": 24.8
-      },
-      "chunk_ids": [
-        "doc_010_c07",
-        "doc_010_c08"
-      ]
-    },
-    {
-      "fact_id": "f_T1_012",
-      "type": "T1",
-      "attr": "quota",
-      "kind": "стипендия",
-      "name": "Ульрик-30",
-      "value": 36,
-      "variant": 1,
-      "doc_id": "doc_007",
-      "first_corpus": "30k",
-      "paired_with": null,
-      "statement": "Квота на участие в стипендии «Ульрик-30» установлена в размере 36 мест.",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 57.6,
-        "100k": 17.2
-      },
-      "chunk_ids": [
-        "doc_007_c08"
       ]
     },
     {
@@ -616,23 +329,26 @@
       "type": "T2",
       "attr": "score",
       "kind": "программа",
-      "name": "Хардан-79",
-      "value": 59,
-      "variant": 1,
-      "doc_id": "doc_006",
-      "first_corpus": "30k",
+      "name": "Тонвис-72",
+      "value": 50,
+      "variant": 0,
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
       "paired_with": "f_T2_004b",
-      "statement": "Минимальный проходной балл для поступления в программу «Хардан-79» составляет 59 баллов.",
+      "set": "A",
+      "statement": "Для зачисления в программу «Тонвис-72» необходимо набрать не менее 50 баллов.",
       "corpus_sizes": [
+        "8k",
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 45.0,
-        "100k": 13.4
+        "8k": 55.6,
+        "30k": 14.1,
+        "100k": 4.2
       },
       "chunk_ids": [
-        "doc_006_c04"
+        "doc_002_c03"
       ]
     },
     {
@@ -640,1063 +356,1501 @@
       "type": "T2",
       "attr": "score",
       "kind": "программа",
-      "name": "Дарвен-49",
-      "value": 57,
-      "variant": 0,
-      "doc_id": "doc_011",
-      "first_corpus": "30k",
+      "name": "Гелион-23",
+      "value": 76,
+      "variant": 1,
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
       "paired_with": "f_T2_004a",
-      "statement": "Для зачисления в программу «Дарвен-49» необходимо набрать не менее 57 баллов.",
+      "set": "A",
+      "statement": "Минимальный проходной балл для поступления в программу «Гелион-23» составляет 76 баллов.",
       "corpus_sizes": [
+        "8k",
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 89.7,
-        "100k": 26.7
+        "8k": 15.9,
+        "30k": 4.0,
+        "100k": 1.2
       },
       "chunk_ids": [
-        "doc_011_c05"
+        "doc_001_c05"
       ]
     },
     {
       "fact_id": "f_T2_005a",
       "type": "T2",
-      "attr": "quota",
+      "attr": "score",
       "kind": "программа",
-      "name": "Тонвис-68",
-      "value": 16,
+      "name": "Ксенар-58",
+      "value": 78,
       "variant": 1,
-      "doc_id": "doc_006",
-      "first_corpus": "30k",
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
       "paired_with": "f_T2_005b",
-      "statement": "Квота на участие в программе «Тонвис-68» установлена в размере 16 мест.",
+      "set": "A",
+      "statement": "Минимальный проходной балл для поступления в программу «Ксенар-58» составляет 78 баллов.",
       "corpus_sizes": [
+        "8k",
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 46.0,
-        "100k": 13.7
+        "8k": 51.3,
+        "30k": 13.0,
+        "100k": 3.8
       },
       "chunk_ids": [
-        "doc_006_c05"
+        "doc_002_c02"
       ]
     },
     {
       "fact_id": "f_T2_005b",
       "type": "T2",
-      "attr": "quota",
+      "attr": "score",
       "kind": "программа",
-      "name": "Тавро-26",
-      "value": 14,
-      "variant": 0,
-      "doc_id": "doc_007",
-      "first_corpus": "30k",
+      "name": "Салмар-58",
+      "value": 66,
+      "variant": 1,
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
       "paired_with": "f_T2_005a",
-      "statement": "В рамках программы «Тавро-26» предусмотрено 14 мест.",
+      "set": "A",
+      "statement": "Минимальный проходной балл для поступления в программу «Салмар-58» составляет 66 баллов.",
       "corpus_sizes": [
+        "8k",
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 55.8,
-        "100k": 16.6
+        "8k": 33.1,
+        "30k": 8.4,
+        "100k": 2.5
       },
       "chunk_ids": [
-        "doc_007_c06"
+        "doc_001_c10"
       ]
     },
     {
       "fact_id": "f_T2_006a",
       "type": "T2",
-      "attr": "quota",
+      "attr": "duration",
       "kind": "программа",
-      "name": "Ривена-36",
-      "value": 48,
+      "name": "Ривена-79",
+      "value": 18,
       "variant": 1,
-      "doc_id": "doc_005",
-      "first_corpus": "30k",
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
       "paired_with": "f_T2_006b",
-      "statement": "Квота на участие в программе «Ривена-36» установлена в размере 48 мест.",
+      "set": "A",
+      "statement": "Обучение в рамках программы «Ривена-79» длится 18 недель.",
       "corpus_sizes": [
+        "8k",
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 36.3,
-        "100k": 10.8
+        "8k": 57.1,
+        "30k": 14.5,
+        "100k": 4.3
       },
       "chunk_ids": [
-        "doc_005_c03"
+        "doc_002_c04"
       ]
     },
     {
       "fact_id": "f_T2_006b",
       "type": "T2",
-      "attr": "quota",
+      "attr": "duration",
       "kind": "программа",
-      "name": "Корунд-30",
-      "value": 13,
+      "name": "Зарнис-50",
+      "value": 5,
       "variant": 1,
-      "doc_id": "doc_007",
-      "first_corpus": "30k",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
       "paired_with": "f_T2_006a",
-      "statement": "Квота на участие в программе «Корунд-30» установлена в размере 13 мест.",
+      "set": "A",
+      "statement": "Обучение в рамках программы «Зарнис-50» длится 5 недель.",
       "corpus_sizes": [
+        "8k",
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 57.6,
-        "100k": 17.1
+        "8k": 14.1,
+        "30k": 3.6,
+        "100k": 1.1
       },
       "chunk_ids": [
-        "doc_007_c08"
+        "doc_001_c04"
       ]
     },
     {
-      "fact_id": "f_T2_007a",
-      "type": "T2",
-      "attr": "amount",
-      "kind": "программа",
-      "name": "Зарнис-26",
-      "value": 126,
-      "variant": 1,
-      "doc_id": "doc_007",
-      "first_corpus": "30k",
-      "paired_with": "f_T2_007b",
-      "statement": "Участникам программы «Зарнис-26» ежемесячно выплачивается 126 МРП.",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 53.1,
-        "100k": 15.8
-      },
-      "chunk_ids": [
-        "doc_007_c02"
-      ]
-    },
-    {
-      "fact_id": "f_T2_007b",
-      "type": "T2",
-      "attr": "amount",
-      "kind": "программа",
-      "name": "Корунд-81",
-      "value": 114,
-      "variant": 0,
-      "doc_id": "doc_005",
-      "first_corpus": "30k",
-      "paired_with": "f_T2_007a",
-      "statement": "Размер ежемесячной выплаты участникам программы «Корунд-81» составляет 114 МРП.",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 37.7,
-        "100k": 11.2
-      },
-      "chunk_ids": [
-        "doc_005_c05"
-      ]
-    },
-    {
-      "fact_id": "f_T2_008a",
-      "type": "T2",
+      "fact_id": "f_T3_001a",
+      "type": "T3",
       "attr": "duration",
-      "kind": "программа",
-      "name": "Тавро-33",
-      "value": 12,
-      "variant": 0,
-      "doc_id": "doc_005",
-      "first_corpus": "30k",
-      "paired_with": "f_T2_008b",
-      "statement": "Продолжительность программы «Тавро-33» составляет 12 недель.",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 35.0,
-        "100k": 10.4
-      },
-      "chunk_ids": [
-        "doc_005_c01"
-      ]
-    },
-    {
-      "fact_id": "f_T2_008b",
-      "type": "T2",
-      "attr": "duration",
-      "kind": "программа",
-      "name": "Дарвен-84",
-      "value": 11,
-      "variant": 1,
-      "doc_id": "doc_010",
-      "first_corpus": "30k",
-      "paired_with": "f_T2_008a",
-      "statement": "Обучение в рамках программы «Дарвен-84» длится 11 недель.",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 77.9,
-        "100k": 23.2
-      },
-      "chunk_ids": [
-        "doc_010_c01"
-      ]
-    },
-    {
-      "fact_id": "f_T2_009a",
-      "type": "T2",
-      "attr": "deadline",
-      "kind": "программа",
-      "name": "Зарнис-82",
-      "value": 7,
-      "variant": 1,
-      "doc_id": "doc_005",
-      "first_corpus": "30k",
-      "paired_with": "f_T2_009b",
-      "statement": "Срок приёма заявок на участие в программе «Зарнис-82» составляет 7 рабочих дней.",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 36.2,
-        "100k": 10.8
-      },
-      "chunk_ids": [
-        "doc_005_c03"
-      ]
-    },
-    {
-      "fact_id": "f_T2_009b",
-      "type": "T2",
-      "attr": "deadline",
-      "kind": "программа",
-      "name": "Астрон-76",
-      "value": 9,
-      "variant": 1,
-      "doc_id": "doc_010",
-      "first_corpus": "30k",
-      "paired_with": "f_T2_009a",
-      "statement": "Срок приёма заявок на участие в программе «Астрон-76» составляет 9 рабочих дней.",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 78.3,
-        "100k": 23.3
-      },
-      "chunk_ids": [
-        "doc_010_c02"
-      ]
-    },
-    {
-      "fact_id": "f_T2_010a",
-      "type": "T2",
-      "attr": "duration",
-      "kind": "программа",
-      "name": "Нерида-65",
+      "kind": "школа",
+      "name": "Салмар-17",
       "value": 18,
       "variant": 0,
-      "doc_id": "doc_008",
-      "first_corpus": "30k",
-      "paired_with": "f_T2_010b",
-      "statement": "Продолжительность программы «Нерида-65» составляет 18 недель.",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "paired_with": "f_T3_001b",
+      "set": "A",
+      "statement": "Продолжительность школы «Салмар-17» составляет 18 недель.",
       "corpus_sizes": [
+        "8k",
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 65.8,
-        "100k": 19.6
+        "8k": 4.4,
+        "30k": 1.1,
+        "100k": 0.3
       },
       "chunk_ids": [
-        "doc_008_c07"
+        "doc_001_c01"
       ]
     },
     {
-      "fact_id": "f_T2_010b",
-      "type": "T2",
+      "fact_id": "f_T3_001b",
+      "type": "T3",
+      "attr": "duration",
+      "kind": "школа",
+      "name": "Салмар-17",
+      "value": 7,
+      "variant": 1,
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "paired_with": "f_T3_001a",
+      "set": "A",
+      "statement": "Обучение в рамках школы «Салмар-17» длится 7 недель.",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 66.0,
+        "30k": 16.8,
+        "100k": 5.0
+      },
+      "chunk_ids": [
+        "doc_002_c07"
+      ]
+    },
+    {
+      "fact_id": "f_T3_002a",
+      "type": "T3",
+      "attr": "duration",
+      "kind": "олимпиада",
+      "name": "Тавро-83",
+      "value": 20,
+      "variant": 0,
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "paired_with": "f_T3_002b",
+      "set": "A",
+      "statement": "Продолжительность олимпиады «Тавро-83» составляет 20 недель.",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 73.6,
+        "30k": 18.7,
+        "100k": 5.5
+      },
+      "chunk_ids": [
+        "doc_002_c09",
+        "doc_002_c10"
+      ]
+    },
+    {
+      "fact_id": "f_T3_002b",
+      "type": "T3",
+      "attr": "duration",
+      "kind": "олимпиада",
+      "name": "Тавро-83",
+      "value": 8,
+      "variant": 1,
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "paired_with": "f_T3_002a",
+      "set": "A",
+      "statement": "Обучение в рамках олимпиады «Тавро-83» длится 8 недель.",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 26.9,
+        "30k": 6.8,
+        "100k": 2.0
+      },
+      "chunk_ids": [
+        "doc_001_c08"
+      ]
+    },
+    {
+      "fact_id": "f_T3_003a",
+      "type": "T3",
       "attr": "duration",
       "kind": "программа",
-      "name": "Ксенар-88",
-      "value": 19,
+      "name": "Ульрик-30",
+      "value": 8,
       "variant": 0,
-      "doc_id": "doc_010",
-      "first_corpus": "30k",
-      "paired_with": "f_T2_010a",
-      "statement": "Продолжительность программы «Ксенар-88» составляет 19 недель.",
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "paired_with": "f_T3_003b",
+      "set": "A",
+      "statement": "Продолжительность программы «Ульрик-30» составляет 8 недель.",
       "corpus_sizes": [
+        "8k",
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 78.8,
-        "100k": 23.4
+        "8k": 69.3,
+        "30k": 17.6,
+        "100k": 5.2
       },
       "chunk_ids": [
-        "doc_010_c02"
+        "doc_002_c08"
       ]
     },
     {
-      "fact_id": "f_T2_011a",
-      "type": "T2",
-      "attr": "amount",
+      "fact_id": "f_T3_003b",
+      "type": "T3",
+      "attr": "duration",
       "kind": "программа",
-      "name": "Зарнис-74",
-      "value": 17,
+      "name": "Ульрик-30",
+      "value": 11,
+      "variant": 1,
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "paired_with": "f_T3_003a",
+      "set": "A",
+      "statement": "Обучение в рамках программы «Ульрик-30» длится 11 недель.",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 22.4,
+        "30k": 5.7,
+        "100k": 1.7
+      },
+      "chunk_ids": [
+        "doc_001_c07"
+      ]
+    },
+    {
+      "fact_id": "f_T3_004a",
+      "type": "T3",
+      "attr": "office",
+      "kind": "стажировка",
+      "name": "Хардан-79",
+      "value": "Бюро лабораторных исследований",
       "variant": 0,
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "paired_with": "f_T3_004b",
+      "set": "A",
+      "statement": "Заявки по стажировке «Хардан-79» принимает подразделение «Бюро лабораторных исследований».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 53.1,
+        "30k": 13.5,
+        "100k": 4.0
+      },
+      "chunk_ids": [
+        "doc_002_c03"
+      ]
+    },
+    {
+      "fact_id": "f_T3_004b",
+      "type": "T3",
+      "attr": "office",
+      "kind": "стажировка",
+      "name": "Хардан-79",
+      "value": "Отдел академической репутации",
+      "variant": 1,
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "paired_with": "f_T3_004a",
+      "set": "A",
+      "statement": "Приём документов по стажировке «Хардан-79» осуществляет подразделение «Отдел академической репутации».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 10.2,
+        "30k": 2.6,
+        "100k": 0.8
+      },
+      "chunk_ids": [
+        "doc_001_c03"
+      ]
+    },
+    {
+      "fact_id": "f_T3_005a",
+      "type": "T3",
+      "attr": "score",
+      "kind": "премия",
+      "name": "Дарвен-49",
+      "value": 59,
+      "variant": 0,
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "paired_with": "f_T3_005b",
+      "set": "A",
+      "statement": "Для зачисления в премию «Дарвен-49» необходимо набрать не менее 59 баллов.",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 26.0,
+        "30k": 6.6,
+        "100k": 1.9
+      },
+      "chunk_ids": [
+        "doc_001_c08"
+      ]
+    },
+    {
+      "fact_id": "f_T3_005b",
+      "type": "T3",
+      "attr": "score",
+      "kind": "премия",
+      "name": "Дарвен-49",
+      "value": 57,
+      "variant": 1,
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "paired_with": "f_T3_005a",
+      "set": "A",
+      "statement": "Минимальный проходной балл для поступления в премию «Дарвен-49» составляет 57 баллов.",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 72.9,
+        "30k": 18.5,
+        "100k": 5.5
+      },
+      "chunk_ids": [
+        "doc_002_c09"
+      ]
+    },
+    {
+      "fact_id": "f_T3_006a",
+      "type": "T3",
+      "attr": "office",
+      "kind": "премия",
+      "name": "Тонвис-68",
+      "value": "Бюро летних школ",
+      "variant": 0,
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "paired_with": "f_T3_006b",
+      "set": "A",
+      "statement": "Заявки по премии «Тонвис-68» принимает подразделение «Бюро летних школ».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 33.8,
+        "30k": 8.6,
+        "100k": 2.5
+      },
+      "chunk_ids": [
+        "doc_001_c10",
+        "doc_001_c11"
+      ]
+    },
+    {
+      "fact_id": "f_T3_006b",
+      "type": "T3",
+      "attr": "office",
+      "kind": "премия",
+      "name": "Тонвис-68",
+      "value": "Центр молодёжных проектов",
+      "variant": 1,
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "paired_with": "f_T3_006a",
+      "set": "A",
+      "statement": "Приём документов по премии «Тонвис-68» осуществляет подразделение «Центр молодёжных проектов».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 57.7,
+        "30k": 14.7,
+        "100k": 4.3
+      },
+      "chunk_ids": [
+        "doc_002_c04"
+      ]
+    },
+    {
+      "fact_id": "f_T1_007",
+      "type": "T1",
+      "attr": "amount",
+      "kind": "стажировка",
+      "name": "Тавро-26",
+      "value": 159,
+      "variant": 1,
       "doc_id": "doc_006",
       "first_corpus": "30k",
-      "paired_with": "f_T2_011b",
-      "statement": "Размер ежемесячной выплаты участникам программы «Зарнис-74» составляет 17 МРП.",
+      "paired_with": null,
+      "set": "B",
+      "statement": "Участникам стажировки «Тавро-26» ежемесячно выплачивается 159 МРП.",
       "corpus_sizes": [
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 46.8,
-        "100k": 13.9
+        "30k": 50.8,
+        "100k": 15.0
       },
       "chunk_ids": [
         "doc_006_c06"
       ]
     },
     {
-      "fact_id": "f_T2_011b",
-      "type": "T2",
-      "attr": "amount",
-      "kind": "программа",
-      "name": "Келор-61",
-      "value": 117,
-      "variant": 1,
-      "doc_id": "doc_005",
-      "first_corpus": "30k",
-      "paired_with": "f_T2_011a",
-      "statement": "Участникам программы «Келор-61» ежемесячно выплачивается 117 МРП.",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 39.4,
-        "100k": 11.7
-      },
-      "chunk_ids": [
-        "doc_005_c07"
-      ]
-    },
-    {
-      "fact_id": "f_T2_012a",
-      "type": "T2",
-      "attr": "deadline",
-      "kind": "программа",
-      "name": "Эритон-46",
-      "value": 11,
+      "fact_id": "f_T1_008",
+      "type": "T1",
+      "attr": "quota",
+      "kind": "стипендия",
+      "name": "Ривена-36",
+      "value": 48,
       "variant": 0,
       "doc_id": "doc_005",
       "first_corpus": "30k",
-      "paired_with": "f_T2_012b",
-      "statement": "Заявки на участие в программе «Эритон-46» принимаются в течение 11 рабочих дней.",
+      "paired_with": null,
+      "set": "B",
+      "statement": "В рамках стипендии «Ривена-36» предусмотрено 48 мест.",
       "corpus_sizes": [
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 35.5,
-        "100k": 10.6
+        "30k": 40.4,
+        "100k": 11.9
       },
       "chunk_ids": [
-        "doc_005_c02"
+        "doc_005_c03"
       ]
     },
     {
-      "fact_id": "f_T2_012b",
-      "type": "T2",
-      "attr": "deadline",
-      "kind": "программа",
-      "name": "Тавро-53",
+      "fact_id": "f_T1_009",
+      "type": "T1",
+      "attr": "quota",
+      "kind": "премия",
+      "name": "Корунд-30",
+      "value": 30,
+      "variant": 0,
+      "doc_id": "doc_005",
+      "first_corpus": "30k",
+      "paired_with": null,
+      "set": "B",
+      "statement": "В рамках премии «Корунд-30» предусмотрено 30 мест.",
+      "corpus_sizes": [
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "30k": 41.4,
+        "100k": 12.2
+      },
+      "chunk_ids": [
+        "doc_005_c04"
+      ]
+    },
+    {
+      "fact_id": "f_T1_010",
+      "type": "T1",
+      "attr": "duration",
+      "kind": "олимпиада",
+      "name": "Зарнис-26",
       "value": 16,
       "variant": 0,
       "doc_id": "doc_008",
       "first_corpus": "30k",
-      "paired_with": "f_T2_012a",
-      "statement": "Заявки на участие в программе «Тавро-53» принимаются в течение 16 рабочих дней.",
+      "paired_with": null,
+      "set": "B",
+      "statement": "Продолжительность олимпиады «Зарнис-26» составляет 16 недель.",
       "corpus_sizes": [
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 62.1,
-        "100k": 18.5
+        "30k": 66.0,
+        "100k": 19.5
       },
       "chunk_ids": [
         "doc_008_c03"
       ]
     },
     {
-      "fact_id": "f_T3_004a",
-      "type": "T3",
-      "attr": "amount",
-      "kind": "школа",
-      "name": "Мирант-14",
-      "value": 57,
+      "fact_id": "f_T1_011",
+      "type": "T1",
+      "attr": "deadline",
+      "kind": "олимпиада",
+      "name": "Корунд-81",
+      "value": 18,
       "variant": 0,
-      "doc_id": "doc_011",
+      "doc_id": "doc_008",
       "first_corpus": "30k",
-      "paired_with": "f_T3_004b",
-      "statement": "Размер ежемесячной выплаты участникам школы «Мирант-14» составляет 57 МРП.",
+      "paired_with": null,
+      "set": "B",
+      "statement": "Заявки на участие в олимпиаде «Корунд-81» принимаются в течение 18 рабочих дней.",
       "corpus_sizes": [
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 89.0,
-        "100k": 26.5
+        "30k": 70.1,
+        "100k": 20.7
       },
       "chunk_ids": [
-        "doc_011_c04"
+        "doc_008_c08"
       ]
     },
     {
-      "fact_id": "f_T3_004b",
-      "type": "T3",
-      "attr": "amount",
+      "fact_id": "f_T1_012",
+      "type": "T1",
+      "attr": "deadline",
       "kind": "школа",
-      "name": "Мирант-14",
-      "value": 116,
+      "name": "Тавро-33",
+      "value": 11,
+      "variant": 1,
+      "doc_id": "doc_005",
+      "first_corpus": "30k",
+      "paired_with": null,
+      "set": "B",
+      "statement": "Срок приёма заявок на участие в школе «Тавро-33» составляет 11 рабочих дней.",
+      "corpus_sizes": [
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "30k": 40.1,
+        "100k": 11.8
+      },
+      "chunk_ids": [
+        "doc_005_c02",
+        "doc_005_c03"
+      ]
+    },
+    {
+      "fact_id": "f_T1_013",
+      "type": "T1",
+      "attr": "duration",
+      "kind": "премия",
+      "name": "Дарвен-84",
+      "value": 7,
+      "variant": 0,
+      "doc_id": "doc_005",
+      "first_corpus": "30k",
+      "paired_with": null,
+      "set": "B",
+      "statement": "Продолжительность премии «Дарвен-84» составляет 7 недель.",
+      "corpus_sizes": [
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "30k": 41.6,
+        "100k": 12.3
+      },
+      "chunk_ids": [
+        "doc_005_c04"
+      ]
+    },
+    {
+      "fact_id": "f_T2_007a",
+      "type": "T2",
+      "attr": "score",
+      "kind": "программа",
+      "name": "Зарнис-82",
+      "value": 80,
+      "variant": 1,
+      "doc_id": "doc_007",
+      "first_corpus": "30k",
+      "paired_with": "f_T2_007b",
+      "set": "B",
+      "statement": "Минимальный проходной балл для поступления в программу «Зарнис-82» составляет 80 баллов.",
+      "corpus_sizes": [
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "30k": 55.9,
+        "100k": 16.5
+      },
+      "chunk_ids": [
+        "doc_007_c01"
+      ]
+    },
+    {
+      "fact_id": "f_T2_007b",
+      "type": "T2",
+      "attr": "score",
+      "kind": "программа",
+      "name": "Астрон-76",
+      "value": 85,
       "variant": 1,
       "doc_id": "doc_009",
       "first_corpus": "30k",
-      "paired_with": "f_T3_004a",
-      "statement": "Участникам школы «Мирант-14» ежемесячно выплачивается 116 МРП.",
+      "paired_with": "f_T2_007a",
+      "set": "B",
+      "statement": "Минимальный проходной балл для поступления в программу «Астрон-76» составляет 85 баллов.",
       "corpus_sizes": [
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 73.8,
-        "100k": 22.0
+        "30k": 73.2,
+        "100k": 21.6
       },
       "chunk_ids": [
-        "doc_009_c06"
+        "doc_009_c01"
       ]
     },
     {
-      "fact_id": "f_T3_005a",
-      "type": "T3",
-      "attr": "office",
-      "kind": "стипендия",
-      "name": "Ориаль-17",
-      "value": "Центр языковой подготовки",
+      "fact_id": "f_T2_008a",
+      "type": "T2",
+      "attr": "amount",
+      "kind": "программа",
+      "name": "Нерида-65",
+      "value": 130,
       "variant": 0,
-      "doc_id": "doc_007",
+      "doc_id": "doc_010",
       "first_corpus": "30k",
-      "paired_with": "f_T3_005b",
-      "statement": "Заявки по стипендии «Ориаль-17» принимает подразделение «Центр языковой подготовки».",
+      "paired_with": "f_T2_008b",
+      "set": "B",
+      "statement": "Размер ежемесячной выплаты участникам программы «Нерида-65» составляет 130 МРП.",
       "corpus_sizes": [
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 54.1,
-        "100k": 16.1
+        "30k": 83.4,
+        "100k": 24.6
+      },
+      "chunk_ids": [
+        "doc_010_c03"
+      ]
+    },
+    {
+      "fact_id": "f_T2_008b",
+      "type": "T2",
+      "attr": "amount",
+      "kind": "программа",
+      "name": "Ксенар-88",
+      "value": 187,
+      "variant": 0,
+      "doc_id": "doc_006",
+      "first_corpus": "30k",
+      "paired_with": "f_T2_008a",
+      "set": "B",
+      "statement": "Размер ежемесячной выплаты участникам программы «Ксенар-88» составляет 187 МРП.",
+      "corpus_sizes": [
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "30k": 47.6,
+        "100k": 14.1
+      },
+      "chunk_ids": [
+        "doc_006_c02"
+      ]
+    },
+    {
+      "fact_id": "f_T2_009a",
+      "type": "T2",
+      "attr": "duration",
+      "kind": "программа",
+      "name": "Зарнис-74",
+      "value": 5,
+      "variant": 0,
+      "doc_id": "doc_009",
+      "first_corpus": "30k",
+      "paired_with": "f_T2_009b",
+      "set": "B",
+      "statement": "Продолжительность программы «Зарнис-74» составляет 5 недель.",
+      "corpus_sizes": [
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "30k": 78.1,
+        "100k": 23.1
+      },
+      "chunk_ids": [
+        "doc_009_c07"
+      ]
+    },
+    {
+      "fact_id": "f_T2_009b",
+      "type": "T2",
+      "attr": "duration",
+      "kind": "программа",
+      "name": "Келор-61",
+      "value": 8,
+      "variant": 1,
+      "doc_id": "doc_007",
+      "first_corpus": "30k",
+      "paired_with": "f_T2_009a",
+      "set": "B",
+      "statement": "Обучение в рамках программы «Келор-61» длится 8 недель.",
+      "corpus_sizes": [
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "30k": 58.2,
+        "100k": 17.2
       },
       "chunk_ids": [
         "doc_007_c04"
       ]
     },
     {
-      "fact_id": "f_T3_005b",
-      "type": "T3",
-      "attr": "office",
-      "kind": "стипендия",
-      "name": "Ориаль-17",
-      "value": "Отдел студенческой науки",
-      "variant": 1,
-      "doc_id": "doc_008",
-      "first_corpus": "30k",
-      "paired_with": "f_T3_005a",
-      "statement": "Приём документов по стипендии «Ориаль-17» осуществляет подразделение «Отдел студенческой науки».",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 63.2,
-        "100k": 18.8
-      },
-      "chunk_ids": [
-        "doc_008_c04"
-      ]
-    },
-    {
-      "fact_id": "f_T3_006a",
-      "type": "T3",
-      "attr": "quota",
-      "kind": "стажировка",
-      "name": "Бельфор-89",
+      "fact_id": "f_T2_010a",
+      "type": "T2",
+      "attr": "amount",
+      "kind": "программа",
+      "name": "Эритон-46",
       "value": 19,
       "variant": 0,
-      "doc_id": "doc_009",
+      "doc_id": "doc_006",
       "first_corpus": "30k",
-      "paired_with": "f_T3_006b",
-      "statement": "В рамках стажировки «Бельфор-89» предусмотрено 19 мест.",
+      "paired_with": "f_T2_010b",
+      "set": "B",
+      "statement": "Размер ежемесячной выплаты участникам программы «Эритон-46» составляет 19 МРП.",
       "corpus_sizes": [
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 70.2,
-        "100k": 20.9
+        "30k": 47.4,
+        "100k": 14.0
       },
       "chunk_ids": [
-        "doc_009_c02"
+        "doc_006_c01",
+        "doc_006_c02"
       ]
     },
     {
-      "fact_id": "f_T3_006b",
-      "type": "T3",
-      "attr": "quota",
-      "kind": "стажировка",
-      "name": "Бельфор-89",
-      "value": 39,
-      "variant": 1,
-      "doc_id": "doc_007",
-      "first_corpus": "30k",
-      "paired_with": "f_T3_006a",
-      "statement": "Квота на участие в стажировке «Бельфор-89» установлена в размере 39 мест.",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 53.3,
-        "100k": 15.9
-      },
-      "chunk_ids": [
-        "doc_007_c02",
-        "doc_007_c03"
-      ]
-    },
-    {
-      "fact_id": "f_T3_007a",
-      "type": "T3",
-      "attr": "duration",
-      "kind": "олимпиада",
-      "name": "Хардан-27",
-      "value": 7,
+      "fact_id": "f_T2_010b",
+      "type": "T2",
+      "attr": "amount",
+      "kind": "программа",
+      "name": "Тавро-53",
+      "value": 106,
       "variant": 0,
+      "doc_id": "doc_005",
+      "first_corpus": "30k",
+      "paired_with": "f_T2_010a",
+      "set": "B",
+      "statement": "Размер ежемесячной выплаты участникам программы «Тавро-53» составляет 106 МРП.",
+      "corpus_sizes": [
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "30k": 41.6,
+        "100k": 12.3
+      },
+      "chunk_ids": [
+        "doc_005_c04"
+      ]
+    },
+    {
+      "fact_id": "f_T2_011a",
+      "type": "T2",
+      "attr": "duration",
+      "kind": "программа",
+      "name": "Мирант-14",
+      "value": 16,
+      "variant": 1,
       "doc_id": "doc_011",
       "first_corpus": "30k",
-      "paired_with": "f_T3_007b",
-      "statement": "Продолжительность олимпиады «Хардан-27» составляет 7 недель.",
+      "paired_with": "f_T2_011b",
+      "set": "B",
+      "statement": "Обучение в рамках программы «Мирант-14» длится 16 недель.",
       "corpus_sizes": [
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 90.3,
-        "100k": 26.9
+        "30k": 93.7,
+        "100k": 27.7
       },
       "chunk_ids": [
-        "doc_011_c06"
+        "doc_011_c05"
       ]
     },
     {
-      "fact_id": "f_T3_007b",
-      "type": "T3",
+      "fact_id": "f_T2_011b",
+      "type": "T2",
       "attr": "duration",
-      "kind": "олимпиада",
-      "name": "Хардан-27",
-      "value": 5,
+      "kind": "программа",
+      "name": "Ориаль-17",
+      "value": 12,
+      "variant": 1,
+      "doc_id": "doc_009",
+      "first_corpus": "30k",
+      "paired_with": "f_T2_011a",
+      "set": "B",
+      "statement": "Обучение в рамках программы «Ориаль-17» длится 12 недель.",
+      "corpus_sizes": [
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "30k": 73.1,
+        "100k": 21.6
+      },
+      "chunk_ids": [
+        "doc_009_c01"
+      ]
+    },
+    {
+      "fact_id": "f_T2_012a",
+      "type": "T2",
+      "attr": "score",
+      "kind": "программа",
+      "name": "Бельфор-89",
+      "value": 67,
       "variant": 1,
       "doc_id": "doc_008",
       "first_corpus": "30k",
-      "paired_with": "f_T3_007a",
-      "statement": "Обучение в рамках олимпиады «Хардан-27» длится 5 недель.",
+      "paired_with": "f_T2_012b",
+      "set": "B",
+      "statement": "Минимальный проходной балл для поступления в программу «Бельфор-89» составляет 67 баллов.",
       "corpus_sizes": [
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 61.2,
-        "100k": 18.2
-      },
-      "chunk_ids": [
-        "doc_008_c01",
-        "doc_008_c02"
-      ]
-    },
-    {
-      "fact_id": "f_T3_008a",
-      "type": "T3",
-      "attr": "office",
-      "kind": "премия",
-      "name": "Нерида-90",
-      "value": "Бюро корпоративных проектов",
-      "variant": 0,
-      "doc_id": "doc_010",
-      "first_corpus": "30k",
-      "paired_with": "f_T3_008b",
-      "statement": "Заявки по премии «Нерида-90» принимает подразделение «Бюро корпоративных проектов».",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 81.4,
-        "100k": 24.2
-      },
-      "chunk_ids": [
-        "doc_010_c05"
-      ]
-    },
-    {
-      "fact_id": "f_T3_008b",
-      "type": "T3",
-      "attr": "office",
-      "kind": "премия",
-      "name": "Нерида-90",
-      "value": "Бюро инновационных стартапов",
-      "variant": 1,
-      "doc_id": "doc_008",
-      "first_corpus": "30k",
-      "paired_with": "f_T3_008a",
-      "statement": "Приём документов по премии «Нерида-90» осуществляет подразделение «Бюро инновационных стартапов».",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 63.6,
-        "100k": 18.9
-      },
-      "chunk_ids": [
-        "doc_008_c04"
-      ]
-    },
-    {
-      "fact_id": "f_T3_009a",
-      "type": "T3",
-      "attr": "office",
-      "kind": "премия",
-      "name": "Ульрик-60",
-      "value": "Бюро международных обменов",
-      "variant": 0,
-      "doc_id": "doc_008",
-      "first_corpus": "30k",
-      "paired_with": "f_T3_009b",
-      "statement": "Заявки по премии «Ульрик-60» принимает подразделение «Бюро международных обменов».",
-      "corpus_sizes": [
-        "30k",
-        "100k"
-      ],
-      "positions_pct": {
-        "30k": 65.9,
-        "100k": 19.6
+        "30k": 69.3,
+        "100k": 20.5
       },
       "chunk_ids": [
         "doc_008_c07"
       ]
     },
     {
-      "fact_id": "f_T3_009b",
+      "fact_id": "f_T2_012b",
+      "type": "T2",
+      "attr": "score",
+      "kind": "программа",
+      "name": "Хардан-27",
+      "value": 65,
+      "variant": 0,
+      "doc_id": "doc_009",
+      "first_corpus": "30k",
+      "paired_with": "f_T2_012a",
+      "set": "B",
+      "statement": "Для зачисления в программу «Хардан-27» необходимо набрать не менее 65 баллов.",
+      "corpus_sizes": [
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "30k": 76.0,
+        "100k": 22.4
+      },
+      "chunk_ids": [
+        "doc_009_c04",
+        "doc_009_c05"
+      ]
+    },
+    {
+      "fact_id": "f_T2_013a",
+      "type": "T2",
+      "attr": "deadline",
+      "kind": "программа",
+      "name": "Нерида-90",
+      "value": 20,
+      "variant": 0,
+      "doc_id": "doc_009",
+      "first_corpus": "30k",
+      "paired_with": "f_T2_013b",
+      "set": "B",
+      "statement": "Заявки на участие в программе «Нерида-90» принимаются в течение 20 рабочих дней.",
+      "corpus_sizes": [
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "30k": 77.8,
+        "100k": 23.0
+      },
+      "chunk_ids": [
+        "doc_009_c07"
+      ]
+    },
+    {
+      "fact_id": "f_T2_013b",
+      "type": "T2",
+      "attr": "deadline",
+      "kind": "программа",
+      "name": "Ульрик-60",
+      "value": 8,
+      "variant": 1,
+      "doc_id": "doc_006",
+      "first_corpus": "30k",
+      "paired_with": "f_T2_013a",
+      "set": "B",
+      "statement": "Срок приёма заявок на участие в программе «Ульрик-60» составляет 8 рабочих дней.",
+      "corpus_sizes": [
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "30k": 49.7,
+        "100k": 14.7
+      },
+      "chunk_ids": [
+        "doc_006_c04"
+      ]
+    },
+    {
+      "fact_id": "f_T3_007a",
       "type": "T3",
       "attr": "office",
       "kind": "премия",
-      "name": "Ульрик-60",
+      "name": "Ольвия-65",
+      "value": "Бюро международных обменов",
+      "variant": 0,
+      "doc_id": "doc_008",
+      "first_corpus": "30k",
+      "paired_with": "f_T3_007b",
+      "set": "B",
+      "statement": "Заявки по премии «Ольвия-65» принимает подразделение «Бюро международных обменов».",
+      "corpus_sizes": [
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "30k": 66.9,
+        "100k": 19.8
+      },
+      "chunk_ids": [
+        "doc_008_c04"
+      ]
+    },
+    {
+      "fact_id": "f_T3_007b",
+      "type": "T3",
+      "attr": "office",
+      "kind": "премия",
+      "name": "Ольвия-65",
       "value": "Отдел летних школ",
       "variant": 1,
       "doc_id": "doc_006",
       "first_corpus": "30k",
-      "paired_with": "f_T3_009a",
-      "statement": "Приём документов по премии «Ульрик-60» осуществляет подразделение «Отдел летних школ».",
+      "paired_with": "f_T3_007a",
+      "set": "B",
+      "statement": "Приём документов по премии «Ольвия-65» осуществляет подразделение «Отдел летних школ».",
       "corpus_sizes": [
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 42.9,
-        "100k": 12.8
+        "30k": 47.8,
+        "100k": 14.1
       },
       "chunk_ids": [
-        "doc_006_c01"
+        "doc_006_c02"
       ]
     },
     {
-      "fact_id": "f_T3_010a",
+      "fact_id": "f_T3_008a",
       "type": "T3",
       "attr": "deadline",
       "kind": "школа",
-      "name": "Ольвия-65",
+      "name": "Эндор-92",
       "value": 16,
       "variant": 0,
       "doc_id": "doc_009",
       "first_corpus": "30k",
-      "paired_with": "f_T3_010b",
-      "statement": "Заявки на участие в школе «Ольвия-65» принимаются в течение 16 рабочих дней.",
+      "paired_with": "f_T3_008b",
+      "set": "B",
+      "statement": "Заявки на участие в школе «Эндор-92» принимаются в течение 16 рабочих дней.",
       "corpus_sizes": [
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 71.3,
-        "100k": 21.2
+        "30k": 74.8,
+        "100k": 22.1
       },
       "chunk_ids": [
         "doc_009_c03"
       ]
     },
     {
-      "fact_id": "f_T3_010b",
+      "fact_id": "f_T3_008b",
       "type": "T3",
       "attr": "deadline",
       "kind": "школа",
-      "name": "Ольвия-65",
+      "name": "Эндор-92",
       "value": 25,
       "variant": 1,
       "doc_id": "doc_010",
       "first_corpus": "30k",
-      "paired_with": "f_T3_010a",
-      "statement": "Срок приёма заявок на участие в школе «Ольвия-65» составляет 25 рабочих дней.",
+      "paired_with": "f_T3_008a",
+      "set": "B",
+      "statement": "Срок приёма заявок на участие в школе «Эндор-92» составляет 25 рабочих дней.",
       "corpus_sizes": [
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 80.8,
-        "100k": 24.0
+        "30k": 85.7,
+        "100k": 25.3
       },
       "chunk_ids": [
-        "doc_010_c05"
+        "doc_010_c06"
       ]
     },
     {
-      "fact_id": "f_T3_011a",
+      "fact_id": "f_T3_009a",
       "type": "T3",
       "attr": "office",
       "kind": "стипендия",
-      "name": "Эндор-92",
+      "name": "Гелион-46",
       "value": "Центр проектного обучения",
       "variant": 0,
       "doc_id": "doc_011",
       "first_corpus": "30k",
-      "paired_with": "f_T3_011b",
-      "statement": "Заявки по стипендии «Эндор-92» принимает подразделение «Центр проектного обучения».",
+      "paired_with": "f_T3_009b",
+      "set": "B",
+      "statement": "Заявки по стипендии «Гелион-46» принимает подразделение «Центр проектного обучения».",
       "corpus_sizes": [
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 89.4,
-        "100k": 26.6
+        "30k": 90.8,
+        "100k": 26.8
       },
       "chunk_ids": [
-        "doc_011_c04",
-        "doc_011_c05"
+        "doc_011_c01"
       ]
     },
     {
-      "fact_id": "f_T3_011b",
+      "fact_id": "f_T3_009b",
       "type": "T3",
       "attr": "office",
       "kind": "стипендия",
-      "name": "Эндор-92",
+      "name": "Гелион-46",
       "value": "Центр лабораторных исследований",
       "variant": 1,
       "doc_id": "doc_005",
       "first_corpus": "30k",
-      "paired_with": "f_T3_011a",
-      "statement": "Приём документов по стипендии «Эндор-92» осуществляет подразделение «Центр лабораторных исследований».",
+      "paired_with": "f_T3_009a",
+      "set": "B",
+      "statement": "Приём документов по стипендии «Гелион-46» осуществляет подразделение «Центр лабораторных исследований».",
       "corpus_sizes": [
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 39.4,
-        "100k": 11.7
+        "30k": 42.3,
+        "100k": 12.5
       },
       "chunk_ids": [
-        "doc_005_c07"
+        "doc_005_c05"
       ]
     },
     {
-      "fact_id": "f_T3_012a",
+      "fact_id": "f_T3_010a",
       "type": "T3",
       "attr": "office",
       "kind": "школа",
-      "name": "Гелион-46",
+      "name": "Тавро-36",
       "value": "Отдел стажировок и практик",
       "variant": 0,
       "doc_id": "doc_011",
       "first_corpus": "30k",
-      "paired_with": "f_T3_012b",
-      "statement": "Заявки по школе «Гелион-46» принимает подразделение «Отдел стажировок и практик».",
+      "paired_with": "f_T3_010b",
+      "set": "B",
+      "statement": "Заявки по школе «Тавро-36» принимает подразделение «Отдел стажировок и практик».",
       "corpus_sizes": [
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 89.3,
-        "100k": 26.6
+        "30k": 93.2,
+        "100k": 27.5
       },
       "chunk_ids": [
         "doc_011_c04"
       ]
     },
     {
-      "fact_id": "f_T3_012b",
+      "fact_id": "f_T3_010b",
       "type": "T3",
       "attr": "office",
       "kind": "школа",
-      "name": "Гелион-46",
+      "name": "Тавро-36",
       "value": "Бюро экспертной оценки",
       "variant": 1,
       "doc_id": "doc_006",
       "first_corpus": "30k",
-      "paired_with": "f_T3_012a",
-      "statement": "Приём документов по школе «Гелион-46» осуществляет подразделение «Бюро экспертной оценки».",
+      "paired_with": "f_T3_010a",
+      "set": "B",
+      "statement": "Приём документов по школе «Тавро-36» осуществляет подразделение «Бюро экспертной оценки».",
       "corpus_sizes": [
         "30k",
         "100k"
       ],
       "positions_pct": {
-        "30k": 44.3,
-        "100k": 13.2
+        "30k": 52.2,
+        "100k": 15.4
       },
       "chunk_ids": [
-        "doc_006_c03"
+        "doc_006_c07",
+        "doc_006_c08"
       ]
     },
     {
-      "fact_id": "f_T1_013",
-      "type": "T1",
+      "fact_id": "f_T3_011a",
+      "type": "T3",
       "attr": "deadline",
       "kind": "стипендия",
-      "name": "Тавро-36",
+      "name": "Фарос-51",
       "value": 5,
       "variant": 0,
-      "doc_id": "doc_022",
-      "first_corpus": "100k",
-      "paired_with": null,
-      "statement": "Заявки на участие в стипендии «Тавро-36» принимаются в течение 5 рабочих дней.",
+      "doc_id": "doc_007",
+      "first_corpus": "30k",
+      "paired_with": "f_T3_011b",
+      "set": "B",
+      "statement": "Заявки на участие в стипендии «Фарос-51» принимаются в течение 5 рабочих дней.",
       "corpus_sizes": [
+        "30k",
         "100k"
       ],
       "positions_pct": {
-        "100k": 53.6
+        "30k": 56.5,
+        "100k": 16.7
       },
       "chunk_ids": [
-        "doc_022_c04"
+        "doc_007_c02"
+      ]
+    },
+    {
+      "fact_id": "f_T3_011b",
+      "type": "T3",
+      "attr": "deadline",
+      "kind": "стипендия",
+      "name": "Фарос-51",
+      "value": 12,
+      "variant": 1,
+      "doc_id": "doc_010",
+      "first_corpus": "30k",
+      "paired_with": "f_T3_011a",
+      "set": "B",
+      "statement": "Срок приёма заявок на участие в стипендии «Фарос-51» составляет 12 рабочих дней.",
+      "corpus_sizes": [
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "30k": 81.9,
+        "100k": 24.2
+      },
+      "chunk_ids": [
+        "doc_010_c01"
+      ]
+    },
+    {
+      "fact_id": "f_T3_012a",
+      "type": "T3",
+      "attr": "quota",
+      "kind": "школа",
+      "name": "Эндор-75",
+      "value": 45,
+      "variant": 0,
+      "doc_id": "doc_009",
+      "first_corpus": "30k",
+      "paired_with": "f_T3_012b",
+      "set": "B",
+      "statement": "В рамках школы «Эндор-75» предусмотрено 45 мест.",
+      "corpus_sizes": [
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "30k": 76.8,
+        "100k": 22.7
+      },
+      "chunk_ids": [
+        "doc_009_c05"
+      ]
+    },
+    {
+      "fact_id": "f_T3_012b",
+      "type": "T3",
+      "attr": "quota",
+      "kind": "школа",
+      "name": "Эндор-75",
+      "value": 58,
+      "variant": 1,
+      "doc_id": "doc_005",
+      "first_corpus": "30k",
+      "paired_with": "f_T3_012a",
+      "set": "B",
+      "statement": "Квота на участие в школе «Эндор-75» установлена в размере 58 мест.",
+      "corpus_sizes": [
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "30k": 43.3,
+        "100k": 12.8
+      },
+      "chunk_ids": [
+        "doc_005_c06",
+        "doc_005_c07"
+      ]
+    },
+    {
+      "fact_id": "f_T3_013a",
+      "type": "T3",
+      "attr": "score",
+      "kind": "школа",
+      "name": "Хардан-26",
+      "value": 59,
+      "variant": 0,
+      "doc_id": "doc_011",
+      "first_corpus": "30k",
+      "paired_with": "f_T3_013b",
+      "set": "B",
+      "statement": "Для зачисления в школу «Хардан-26» необходимо набрать не менее 59 баллов.",
+      "corpus_sizes": [
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "30k": 91.2,
+        "100k": 26.9
+      },
+      "chunk_ids": [
+        "doc_011_c02"
+      ]
+    },
+    {
+      "fact_id": "f_T3_013b",
+      "type": "T3",
+      "attr": "score",
+      "kind": "школа",
+      "name": "Хардан-26",
+      "value": 79,
+      "variant": 1,
+      "doc_id": "doc_010",
+      "first_corpus": "30k",
+      "paired_with": "f_T3_013a",
+      "set": "B",
+      "statement": "Минимальный проходной балл для поступления в школу «Хардан-26» составляет 79 баллов.",
+      "corpus_sizes": [
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "30k": 86.9,
+        "100k": 25.7
+      },
+      "chunk_ids": [
+        "doc_010_c07"
       ]
     },
     {
       "fact_id": "f_T1_014",
       "type": "T1",
-      "attr": "office",
+      "attr": "quota",
       "kind": "стажировка",
-      "name": "Фарос-51",
-      "value": "Отдел дополнительного образования",
+      "name": "Зарнис-58",
+      "value": 29,
       "variant": 0,
-      "doc_id": "doc_027",
+      "doc_id": "doc_022",
       "first_corpus": "100k",
       "paired_with": null,
-      "statement": "Заявки по стажировке «Фарос-51» принимает подразделение «Отдел дополнительного образования».",
+      "set": "B",
+      "statement": "В рамках стажировки «Зарнис-58» предусмотрено 29 мест.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 65.8
+        "100k": 54.2
       },
       "chunk_ids": [
-        "doc_027_c04"
+        "doc_022_c02"
       ]
     },
     {
       "fact_id": "f_T1_015",
       "type": "T1",
-      "attr": "office",
-      "kind": "стипендия",
-      "name": "Эндор-75",
-      "value": "Отдел кадрового резерва",
-      "variant": 1,
-      "doc_id": "doc_023",
+      "attr": "score",
+      "kind": "школа",
+      "name": "Келор-36",
+      "value": 79,
+      "variant": 0,
+      "doc_id": "doc_032",
       "first_corpus": "100k",
       "paired_with": null,
-      "statement": "Приём документов по стипендии «Эндор-75» осуществляет подразделение «Отдел кадрового резерва».",
+      "set": "B",
+      "statement": "Для зачисления в школу «Келор-36» необходимо набрать не менее 79 баллов.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 56.5
+        "100k": 79.0
       },
       "chunk_ids": [
-        "doc_023_c05",
-        "doc_023_c06"
+        "doc_032_c04"
       ]
     },
     {
       "fact_id": "f_T1_016",
       "type": "T1",
-      "attr": "quota",
-      "kind": "стипендия",
-      "name": "Хардан-26",
-      "value": 25,
-      "variant": 1,
-      "doc_id": "doc_034",
+      "attr": "amount",
+      "kind": "школа",
+      "name": "Тавро-47",
+      "value": 169,
+      "variant": 0,
+      "doc_id": "doc_033",
       "first_corpus": "100k",
       "paired_with": null,
-      "statement": "Квота на участие в стипендии «Хардан-26» установлена в размере 25 мест.",
+      "set": "B",
+      "statement": "Размер ежемесячной выплаты участникам школы «Тавро-47» составляет 169 МРП.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 83.4
+        "100k": 81.6
       },
       "chunk_ids": [
-        "doc_034_c06"
+        "doc_033_c04"
       ]
     },
     {
       "fact_id": "f_T1_017",
       "type": "T1",
-      "attr": "duration",
-      "kind": "школа",
-      "name": "Зарнис-58",
-      "value": 8,
+      "attr": "score",
+      "kind": "стажировка",
+      "name": "Корунд-21",
+      "value": 68,
       "variant": 0,
-      "doc_id": "doc_035",
+      "doc_id": "doc_024",
       "first_corpus": "100k",
       "paired_with": null,
-      "statement": "Продолжительность школы «Зарнис-58» составляет 8 недель.",
+      "set": "B",
+      "statement": "Для зачисления в стажировку «Корунд-21» необходимо набрать не менее 68 баллов.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 85.8
+        "100k": 59.9
       },
       "chunk_ids": [
-        "doc_035_c06"
+        "doc_024_c06"
       ]
     },
     {
       "fact_id": "f_T1_018",
       "type": "T1",
-      "attr": "deadline",
+      "attr": "office",
       "kind": "олимпиада",
-      "name": "Келор-36",
-      "value": 20,
+      "name": "Корунд-80",
+      "value": "Бюро корпоративных проектов",
       "variant": 1,
-      "doc_id": "doc_024",
+      "doc_id": "doc_029",
       "first_corpus": "100k",
       "paired_with": null,
-      "statement": "Срок приёма заявок на участие в олимпиаде «Келор-36» составляет 20 рабочих дней.",
+      "set": "B",
+      "statement": "Приём документов по олимпиаде «Корунд-80» осуществляет подразделение «Бюро корпоративных проектов».",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 58.7
+        "100k": 72.0
       },
       "chunk_ids": [
-        "doc_024_c04"
+        "doc_029_c06"
       ]
     },
     {
       "fact_id": "f_T1_019",
       "type": "T1",
-      "attr": "amount",
-      "kind": "стажировка",
-      "name": "Тавро-47",
-      "value": 147,
+      "attr": "duration",
+      "kind": "школа",
+      "name": "Келор-88",
+      "value": 15,
       "variant": 0,
-      "doc_id": "doc_033",
+      "doc_id": "doc_019",
       "first_corpus": "100k",
       "paired_with": null,
-      "statement": "Размер ежемесячной выплаты участникам стажировки «Тавро-47» составляет 147 МРП.",
+      "set": "B",
+      "statement": "Продолжительность школы «Келор-88» составляет 15 недель.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 80.7
+        "100k": 48.0
       },
       "chunk_ids": [
-        "doc_033_c05"
+        "doc_019_c07"
       ]
     },
     {
       "fact_id": "f_T1_020",
       "type": "T1",
-      "attr": "score",
-      "kind": "премия",
-      "name": "Корунд-21",
-      "value": 85,
-      "variant": 1,
-      "doc_id": "doc_019",
-      "first_corpus": "100k",
-      "paired_with": null,
-      "statement": "Минимальный проходной балл для поступления в премию «Корунд-21» составляет 85 баллов.",
-      "corpus_sizes": [
-        "100k"
-      ],
-      "positions_pct": {
-        "100k": 45.8
-      },
-      "chunk_ids": [
-        "doc_019_c02"
-      ]
-    },
-    {
-      "fact_id": "f_T2_013a",
-      "type": "T2",
-      "attr": "amount",
-      "kind": "программа",
-      "name": "Корунд-80",
-      "value": 48,
-      "variant": 1,
-      "doc_id": "doc_028",
-      "first_corpus": "100k",
-      "paired_with": "f_T2_013b",
-      "statement": "Участникам программы «Корунд-80» ежемесячно выплачивается 48 МРП.",
-      "corpus_sizes": [
-        "100k"
-      ],
-      "positions_pct": {
-        "100k": 67.9
-      },
-      "chunk_ids": [
-        "doc_028_c03"
-      ]
-    },
-    {
-      "fact_id": "f_T2_013b",
-      "type": "T2",
-      "attr": "amount",
-      "kind": "программа",
-      "name": "Келор-88",
-      "value": 107,
+      "attr": "deadline",
+      "kind": "стипендия",
+      "name": "Тонвис-29",
+      "value": 20,
       "variant": 1,
       "doc_id": "doc_014",
       "first_corpus": "100k",
-      "paired_with": "f_T2_013a",
-      "statement": "Участникам программы «Келор-88» ежемесячно выплачивается 107 МРП.",
+      "paired_with": null,
+      "set": "B",
+      "statement": "Срок приёма заявок на участие в стипендии «Тонвис-29» составляет 20 рабочих дней.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 34.7
+        "100k": 34.2
       },
       "chunk_ids": [
-        "doc_014_c07"
+        "doc_014_c01"
       ]
     },
     {
@@ -1704,21 +1858,23 @@
       "type": "T2",
       "attr": "quota",
       "kind": "программа",
-      "name": "Тонвис-29",
-      "value": 49,
-      "variant": 1,
-      "doc_id": "doc_017",
+      "name": "Гелион-87",
+      "value": 25,
+      "variant": 0,
+      "doc_id": "doc_030",
       "first_corpus": "100k",
       "paired_with": "f_T2_014b",
-      "statement": "Квота на участие в программе «Тонвис-29» установлена в размере 49 мест.",
+      "set": "B",
+      "statement": "В рамках программы «Гелион-87» предусмотрено 25 мест.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 41.4
+        "100k": 73.4
       },
       "chunk_ids": [
-        "doc_017_c04"
+        "doc_030_c01",
+        "doc_030_c02"
       ]
     },
     {
@@ -1726,21 +1882,22 @@
       "type": "T2",
       "attr": "quota",
       "kind": "программа",
-      "name": "Гелион-87",
-      "value": 36,
+      "name": "Гелион-88",
+      "value": 12,
       "variant": 1,
-      "doc_id": "doc_033",
+      "doc_id": "doc_025",
       "first_corpus": "100k",
       "paired_with": "f_T2_014a",
-      "statement": "Квота на участие в программе «Гелион-87» установлена в размере 36 мест.",
+      "set": "B",
+      "statement": "Квота на участие в программе «Гелион-88» установлена в размере 12 мест.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 79.7
+        "100k": 62.2
       },
       "chunk_ids": [
-        "doc_033_c01"
+        "doc_025_c05"
       ]
     },
     {
@@ -1748,21 +1905,23 @@
       "type": "T2",
       "attr": "score",
       "kind": "программа",
-      "name": "Гелион-88",
-      "value": 87,
-      "variant": 1,
-      "doc_id": "doc_030",
+      "name": "Талис-89",
+      "value": 67,
+      "variant": 0,
+      "doc_id": "doc_024",
       "first_corpus": "100k",
       "paired_with": "f_T2_015b",
-      "statement": "Минимальный проходной балл для поступления в программу «Гелион-88» составляет 87 баллов.",
+      "set": "B",
+      "statement": "Для зачисления в программу «Талис-89» необходимо набрать не менее 67 баллов.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 73.1
+        "100k": 59.9
       },
       "chunk_ids": [
-        "doc_030_c04"
+        "doc_024_c05",
+        "doc_024_c06"
       ]
     },
     {
@@ -1770,128 +1929,134 @@
       "type": "T2",
       "attr": "score",
       "kind": "программа",
-      "name": "Талис-89",
-      "value": 68,
-      "variant": 0,
-      "doc_id": "doc_014",
+      "name": "Ривена-13",
+      "value": 88,
+      "variant": 1,
+      "doc_id": "doc_030",
       "first_corpus": "100k",
       "paired_with": "f_T2_015a",
-      "statement": "Для зачисления в программу «Талис-89» необходимо набрать не менее 68 баллов.",
+      "set": "B",
+      "statement": "Минимальный проходной балл для поступления в программу «Ривена-13» составляет 88 баллов.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 33.8
+        "100k": 73.9
       },
       "chunk_ids": [
-        "doc_014_c04"
+        "doc_030_c04"
       ]
     },
     {
       "fact_id": "f_T2_016a",
       "type": "T2",
-      "attr": "quota",
+      "attr": "amount",
       "kind": "программа",
-      "name": "Ривена-13",
-      "value": 12,
+      "name": "Ольвия-33",
+      "value": 118,
       "variant": 1,
-      "doc_id": "doc_014",
+      "doc_id": "doc_022",
       "first_corpus": "100k",
       "paired_with": "f_T2_016b",
-      "statement": "Квота на участие в программе «Ривена-13» установлена в размере 12 мест.",
+      "set": "B",
+      "statement": "Участникам программы «Ольвия-33» ежемесячно выплачивается 118 МРП.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 34.6
+        "100k": 55.4
       },
       "chunk_ids": [
-        "doc_014_c07"
+        "doc_022_c07"
       ]
     },
     {
       "fact_id": "f_T2_016b",
       "type": "T2",
-      "attr": "quota",
+      "attr": "amount",
       "kind": "программа",
-      "name": "Ольвия-33",
-      "value": 40,
+      "name": "Ульрик-38",
+      "value": 159,
       "variant": 0,
-      "doc_id": "doc_035",
+      "doc_id": "doc_017",
       "first_corpus": "100k",
       "paired_with": "f_T2_016a",
-      "statement": "В рамках программы «Ольвия-33» предусмотрено 40 мест.",
+      "set": "B",
+      "statement": "Размер ежемесячной выплаты участникам программы «Ульрик-38» составляет 159 МРП.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 85.0
+        "100k": 42.2
       },
       "chunk_ids": [
-        "doc_035_c02"
+        "doc_017_c04"
       ]
     },
     {
       "fact_id": "f_T2_017a",
       "type": "T2",
-      "attr": "deadline",
+      "attr": "quota",
       "kind": "программа",
-      "name": "Ульрик-38",
-      "value": 19,
+      "name": "Ривена-72",
+      "value": 6,
       "variant": 1,
-      "doc_id": "doc_023",
+      "doc_id": "doc_028",
       "first_corpus": "100k",
       "paired_with": "f_T2_017b",
-      "statement": "Срок приёма заявок на участие в программе «Ульрик-38» составляет 19 рабочих дней.",
+      "set": "B",
+      "statement": "Квота на участие в программе «Ривена-72» установлена в размере 6 мест.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 57.0
+        "100k": 68.8
       },
       "chunk_ids": [
-        "doc_023_c07"
+        "doc_028_c03"
       ]
     },
     {
       "fact_id": "f_T2_017b",
       "type": "T2",
-      "attr": "deadline",
+      "attr": "quota",
       "kind": "программа",
-      "name": "Ривена-72",
-      "value": 25,
+      "name": "Зарнис-93",
+      "value": 19,
       "variant": 1,
-      "doc_id": "doc_031",
+      "doc_id": "doc_029",
       "first_corpus": "100k",
       "paired_with": "f_T2_017a",
-      "statement": "Срок приёма заявок на участие в программе «Ривена-72» составляет 25 рабочих дней.",
+      "set": "B",
+      "statement": "Квота на участие в программе «Зарнис-93» установлена в размере 19 мест.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 75.1
+        "100k": 70.8
       },
       "chunk_ids": [
-        "doc_031_c02"
+        "doc_029_c01"
       ]
     },
     {
       "fact_id": "f_T2_018a",
       "type": "T2",
-      "attr": "score",
+      "attr": "duration",
       "kind": "программа",
-      "name": "Зарнис-93",
-      "value": 65,
+      "name": "Ривена-91",
+      "value": 20,
       "variant": 0,
       "doc_id": "doc_037",
       "first_corpus": "100k",
       "paired_with": "f_T2_018b",
-      "statement": "Для зачисления в программу «Зарнис-93» необходимо набрать не менее 65 баллов.",
+      "set": "B",
+      "statement": "Продолжительность программы «Ривена-91» составляет 20 недель.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 90.3
+        "100k": 91.4
       },
       "chunk_ids": [
         "doc_037_c04"
@@ -1900,170 +2065,85 @@
     {
       "fact_id": "f_T2_018b",
       "type": "T2",
-      "attr": "score",
+      "attr": "duration",
       "kind": "программа",
-      "name": "Ривена-91",
-      "value": 59,
+      "name": "Эритон-93",
+      "value": 12,
       "variant": 0,
-      "doc_id": "doc_020",
+      "doc_id": "doc_016",
       "first_corpus": "100k",
       "paired_with": "f_T2_018a",
-      "statement": "Для зачисления в программу «Ривена-91» необходимо набрать не менее 59 баллов.",
+      "set": "B",
+      "statement": "Продолжительность программы «Эритон-93» составляет 12 недель.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 48.5
+        "100k": 40.0
       },
       "chunk_ids": [
-        "doc_020_c03"
+        "doc_016_c05"
       ]
     },
     {
       "fact_id": "f_T2_019a",
       "type": "T2",
-      "attr": "duration",
+      "attr": "amount",
       "kind": "программа",
-      "name": "Эритон-93",
-      "value": 19,
-      "variant": 0,
-      "doc_id": "doc_025",
+      "name": "Гелион-95",
+      "value": 47,
+      "variant": 1,
+      "doc_id": "doc_016",
       "first_corpus": "100k",
       "paired_with": "f_T2_019b",
-      "statement": "Продолжительность программы «Эритон-93» составляет 19 недель.",
+      "set": "B",
+      "statement": "Участникам программы «Гелион-95» ежемесячно выплачивается 47 МРП.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 60.2
+        "100k": 40.4
       },
       "chunk_ids": [
-        "doc_025_c01"
+        "doc_016_c06"
       ]
     },
     {
       "fact_id": "f_T2_019b",
       "type": "T2",
-      "attr": "duration",
+      "attr": "amount",
       "kind": "программа",
-      "name": "Гелион-95",
-      "value": 11,
+      "name": "Ориаль-22",
+      "value": 126,
       "variant": 1,
-      "doc_id": "doc_016",
+      "doc_id": "doc_028",
       "first_corpus": "100k",
       "paired_with": "f_T2_019a",
-      "statement": "Обучение в рамках программы «Гелион-95» длится 11 недель.",
+      "set": "B",
+      "statement": "Участникам программы «Ориаль-22» ежемесячно выплачивается 126 МРП.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 38.9
+        "100k": 69.9
       },
       "chunk_ids": [
-        "doc_016_c04",
-        "doc_016_c05"
+        "doc_028_c07"
       ]
     },
     {
       "fact_id": "f_T2_020a",
       "type": "T2",
-      "attr": "quota",
-      "kind": "программа",
-      "name": "Ориаль-22",
-      "value": 47,
-      "variant": 0,
-      "doc_id": "doc_026",
-      "first_corpus": "100k",
-      "paired_with": "f_T2_020b",
-      "statement": "В рамках программы «Ориаль-22» предусмотрено 47 мест.",
-      "corpus_sizes": [
-        "100k"
-      ],
-      "positions_pct": {
-        "100k": 62.6
-      },
-      "chunk_ids": [
-        "doc_026_c01"
-      ]
-    },
-    {
-      "fact_id": "f_T2_020b",
-      "type": "T2",
-      "attr": "quota",
+      "attr": "deadline",
       "kind": "программа",
       "name": "Мирант-95",
-      "value": 12,
-      "variant": 0,
-      "doc_id": "doc_019",
-      "first_corpus": "100k",
-      "paired_with": "f_T2_020a",
-      "statement": "В рамках программы «Мирант-95» предусмотрено 12 мест.",
-      "corpus_sizes": [
-        "100k"
-      ],
-      "positions_pct": {
-        "100k": 46.8
-      },
-      "chunk_ids": [
-        "doc_019_c06"
-      ]
-    },
-    {
-      "fact_id": "f_T3_013a",
-      "type": "T3",
-      "attr": "deadline",
-      "kind": "стипендия",
-      "name": "Фарос-27",
-      "value": 6,
-      "variant": 0,
-      "doc_id": "doc_025",
-      "first_corpus": "100k",
-      "paired_with": "f_T3_013b",
-      "statement": "Заявки на участие в стипендии «Фарос-27» принимаются в течение 6 рабочих дней.",
-      "corpus_sizes": [
-        "100k"
-      ],
-      "positions_pct": {
-        "100k": 60.5
-      },
-      "chunk_ids": [
-        "doc_025_c02"
-      ]
-    },
-    {
-      "fact_id": "f_T3_013b",
-      "type": "T3",
-      "attr": "deadline",
-      "kind": "стипендия",
-      "name": "Фарос-27",
-      "value": 15,
+      "value": 25,
       "variant": 1,
-      "doc_id": "doc_032",
-      "first_corpus": "100k",
-      "paired_with": "f_T3_013a",
-      "statement": "Срок приёма заявок на участие в стипендии «Фарос-27» составляет 15 рабочих дней.",
-      "corpus_sizes": [
-        "100k"
-      ],
-      "positions_pct": {
-        "100k": 77.4
-      },
-      "chunk_ids": [
-        "doc_032_c02"
-      ]
-    },
-    {
-      "fact_id": "f_T3_014a",
-      "type": "T3",
-      "attr": "score",
-      "kind": "стажировка",
-      "name": "Тавро-71",
-      "value": 88,
-      "variant": 0,
       "doc_id": "doc_023",
       "first_corpus": "100k",
-      "paired_with": "f_T3_014b",
-      "statement": "Для зачисления в стажировку «Тавро-71» необходимо набрать не менее 88 баллов.",
+      "paired_with": "f_T2_020b",
+      "set": "B",
+      "statement": "Срок приёма заявок на участие в программе «Мирант-95» составляет 25 рабочих дней.",
       "corpus_sizes": [
         "100k"
       ],
@@ -2071,241 +2151,45 @@
         "100k": 56.7
       },
       "chunk_ids": [
-        "doc_023_c06"
-      ]
-    },
-    {
-      "fact_id": "f_T3_014b",
-      "type": "T3",
-      "attr": "score",
-      "kind": "стажировка",
-      "name": "Тавро-71",
-      "value": 58,
-      "variant": 1,
-      "doc_id": "doc_032",
-      "first_corpus": "100k",
-      "paired_with": "f_T3_014a",
-      "statement": "Минимальный проходной балл для поступления в стажировку «Тавро-71» составляет 58 баллов.",
-      "corpus_sizes": [
-        "100k"
-      ],
-      "positions_pct": {
-        "100k": 78.0
-      },
-      "chunk_ids": [
-        "doc_032_c04"
-      ]
-    },
-    {
-      "fact_id": "f_T3_015a",
-      "type": "T3",
-      "attr": "score",
-      "kind": "стипендия",
-      "name": "Бельфор-87",
-      "value": 59,
-      "variant": 0,
-      "doc_id": "doc_025",
-      "first_corpus": "100k",
-      "paired_with": "f_T3_015b",
-      "statement": "Для зачисления в стипендию «Бельфор-87» необходимо набрать не менее 59 баллов.",
-      "corpus_sizes": [
-        "100k"
-      ],
-      "positions_pct": {
-        "100k": 60.2
-      },
-      "chunk_ids": [
-        "doc_025_c01"
-      ]
-    },
-    {
-      "fact_id": "f_T3_015b",
-      "type": "T3",
-      "attr": "score",
-      "kind": "стипендия",
-      "name": "Бельфор-87",
-      "value": 90,
-      "variant": 1,
-      "doc_id": "doc_019",
-      "first_corpus": "100k",
-      "paired_with": "f_T3_015a",
-      "statement": "Минимальный проходной балл для поступления в стипендию «Бельфор-87» составляет 90 баллов.",
-      "corpus_sizes": [
-        "100k"
-      ],
-      "positions_pct": {
-        "100k": 46.4
-      },
-      "chunk_ids": [
-        "doc_019_c05"
-      ]
-    },
-    {
-      "fact_id": "f_T3_016a",
-      "type": "T3",
-      "attr": "amount",
-      "kind": "стипендия",
-      "name": "Хардан-46",
-      "value": 55,
-      "variant": 0,
-      "doc_id": "doc_030",
-      "first_corpus": "100k",
-      "paired_with": "f_T3_016b",
-      "statement": "Размер ежемесячной выплаты участникам стипендии «Хардан-46» составляет 55 МРП.",
-      "corpus_sizes": [
-        "100k"
-      ],
-      "positions_pct": {
-        "100k": 73.8
-      },
-      "chunk_ids": [
-        "doc_030_c07"
-      ]
-    },
-    {
-      "fact_id": "f_T3_016b",
-      "type": "T3",
-      "attr": "amount",
-      "kind": "стипендия",
-      "name": "Хардан-46",
-      "value": 136,
-      "variant": 1,
-      "doc_id": "doc_014",
-      "first_corpus": "100k",
-      "paired_with": "f_T3_016a",
-      "statement": "Участникам стипендии «Хардан-46» ежемесячно выплачивается 136 МРП.",
-      "corpus_sizes": [
-        "100k"
-      ],
-      "positions_pct": {
-        "100k": 33.0
-      },
-      "chunk_ids": [
-        "doc_014_c01"
-      ]
-    },
-    {
-      "fact_id": "f_T3_017a",
-      "type": "T3",
-      "attr": "quota",
-      "kind": "премия",
-      "name": "Эритон-52",
-      "value": 16,
-      "variant": 0,
-      "doc_id": "doc_023",
-      "first_corpus": "100k",
-      "paired_with": "f_T3_017b",
-      "statement": "В рамках премии «Эритон-52» предусмотрено 16 мест.",
-      "corpus_sizes": [
-        "100k"
-      ],
-      "positions_pct": {
-        "100k": 55.6
-      },
-      "chunk_ids": [
         "doc_023_c02"
       ]
     },
     {
-      "fact_id": "f_T3_017b",
-      "type": "T3",
-      "attr": "quota",
-      "kind": "премия",
-      "name": "Эритон-52",
-      "value": 5,
-      "variant": 1,
-      "doc_id": "doc_025",
+      "fact_id": "f_T2_020b",
+      "type": "T2",
+      "attr": "deadline",
+      "kind": "программа",
+      "name": "Фарос-27",
+      "value": 20,
+      "variant": 0,
+      "doc_id": "doc_019",
       "first_corpus": "100k",
-      "paired_with": "f_T3_017a",
-      "statement": "Квота на участие в премии «Эритон-52» установлена в размере 5 мест.",
+      "paired_with": "f_T2_020a",
+      "set": "B",
+      "statement": "Заявки на участие в программе «Фарос-27» принимаются в течение 20 рабочих дней.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 61.1
+        "100k": 47.3
       },
       "chunk_ids": [
-        "doc_025_c04"
+        "doc_019_c04"
       ]
     },
     {
-      "fact_id": "f_T3_018a",
+      "fact_id": "f_T3_014a",
       "type": "T3",
       "attr": "score",
-      "kind": "премия",
-      "name": "Астрон-71",
+      "kind": "стипендия",
+      "name": "Тавро-71",
       "value": 87,
       "variant": 0,
-      "doc_id": "doc_020",
-      "first_corpus": "100k",
-      "paired_with": "f_T3_018b",
-      "statement": "Для зачисления в премию «Астрон-71» необходимо набрать не менее 87 баллов.",
-      "corpus_sizes": [
-        "100k"
-      ],
-      "positions_pct": {
-        "100k": 48.1
-      },
-      "chunk_ids": [
-        "doc_020_c02"
-      ]
-    },
-    {
-      "fact_id": "f_T3_018b",
-      "type": "T3",
-      "attr": "score",
-      "kind": "премия",
-      "name": "Астрон-71",
-      "value": 79,
-      "variant": 1,
-      "doc_id": "doc_021",
-      "first_corpus": "100k",
-      "paired_with": "f_T3_018a",
-      "statement": "Минимальный проходной балл для поступления в премию «Астрон-71» составляет 79 баллов.",
-      "corpus_sizes": [
-        "100k"
-      ],
-      "positions_pct": {
-        "100k": 51.9
-      },
-      "chunk_ids": [
-        "doc_021_c07"
-      ]
-    },
-    {
-      "fact_id": "f_T3_019a",
-      "type": "T3",
-      "attr": "quota",
-      "kind": "стажировка",
-      "name": "Хардан-37",
-      "value": 57,
-      "variant": 0,
-      "doc_id": "doc_014",
-      "first_corpus": "100k",
-      "paired_with": "f_T3_019b",
-      "statement": "В рамках стажировки «Хардан-37» предусмотрено 57 мест.",
-      "corpus_sizes": [
-        "100k"
-      ],
-      "positions_pct": {
-        "100k": 34.6
-      },
-      "chunk_ids": [
-        "doc_014_c07"
-      ]
-    },
-    {
-      "fact_id": "f_T3_019b",
-      "type": "T3",
-      "attr": "quota",
-      "kind": "стажировка",
-      "name": "Хардан-37",
-      "value": 13,
-      "variant": 1,
       "doc_id": "doc_015",
       "first_corpus": "100k",
-      "paired_with": "f_T3_019a",
-      "statement": "Квота на участие в стажировке «Хардан-37» установлена в размере 13 мест.",
+      "paired_with": "f_T3_014b",
+      "set": "B",
+      "statement": "Для зачисления в стипендию «Тавро-71» необходимо набрать не менее 87 баллов.",
       "corpus_sizes": [
         "100k"
       ],
@@ -2313,51 +2197,1179 @@
         "100k": 37.1
       },
       "chunk_ids": [
-        "doc_015_c07"
+        "doc_015_c03"
+      ]
+    },
+    {
+      "fact_id": "f_T3_014b",
+      "type": "T3",
+      "attr": "score",
+      "kind": "стипендия",
+      "name": "Тавро-71",
+      "value": 50,
+      "variant": 1,
+      "doc_id": "doc_014",
+      "first_corpus": "100k",
+      "paired_with": "f_T3_014a",
+      "set": "B",
+      "statement": "Минимальный проходной балл для поступления в стипендию «Тавро-71» составляет 50 баллов.",
+      "corpus_sizes": [
+        "100k"
+      ],
+      "positions_pct": {
+        "100k": 34.0
+      },
+      "chunk_ids": [
+        "doc_014_c01"
+      ]
+    },
+    {
+      "fact_id": "f_T3_015a",
+      "type": "T3",
+      "attr": "amount",
+      "kind": "программа",
+      "name": "Бельфор-87",
+      "value": 157,
+      "variant": 0,
+      "doc_id": "doc_025",
+      "first_corpus": "100k",
+      "paired_with": "f_T3_015b",
+      "set": "B",
+      "statement": "Размер ежемесячной выплаты участникам программы «Бельфор-87» составляет 157 МРП.",
+      "corpus_sizes": [
+        "100k"
+      ],
+      "positions_pct": {
+        "100k": 62.0
+      },
+      "chunk_ids": [
+        "doc_025_c04"
+      ]
+    },
+    {
+      "fact_id": "f_T3_015b",
+      "type": "T3",
+      "attr": "amount",
+      "kind": "программа",
+      "name": "Бельфор-87",
+      "value": 69,
+      "variant": 1,
+      "doc_id": "doc_032",
+      "first_corpus": "100k",
+      "paired_with": "f_T3_015a",
+      "set": "B",
+      "statement": "Участникам программы «Бельфор-87» ежемесячно выплачивается 69 МРП.",
+      "corpus_sizes": [
+        "100k"
+      ],
+      "positions_pct": {
+        "100k": 78.3
+      },
+      "chunk_ids": [
+        "doc_032_c01"
+      ]
+    },
+    {
+      "fact_id": "f_T3_016a",
+      "type": "T3",
+      "attr": "score",
+      "kind": "стажировка",
+      "name": "Хардан-46",
+      "value": 88,
+      "variant": 0,
+      "doc_id": "doc_023",
+      "first_corpus": "100k",
+      "paired_with": "f_T3_016b",
+      "set": "B",
+      "statement": "Для зачисления в стажировку «Хардан-46» необходимо набрать не менее 88 баллов.",
+      "corpus_sizes": [
+        "100k"
+      ],
+      "positions_pct": {
+        "100k": 57.7
+      },
+      "chunk_ids": [
+        "doc_023_c06"
+      ]
+    },
+    {
+      "fact_id": "f_T3_016b",
+      "type": "T3",
+      "attr": "score",
+      "kind": "стажировка",
+      "name": "Хардан-46",
+      "value": 58,
+      "variant": 1,
+      "doc_id": "doc_032",
+      "first_corpus": "100k",
+      "paired_with": "f_T3_016a",
+      "set": "B",
+      "statement": "Минимальный проходной балл для поступления в стажировку «Хардан-46» составляет 58 баллов.",
+      "corpus_sizes": [
+        "100k"
+      ],
+      "positions_pct": {
+        "100k": 78.6
+      },
+      "chunk_ids": [
+        "doc_032_c02"
+      ]
+    },
+    {
+      "fact_id": "f_T3_017a",
+      "type": "T3",
+      "attr": "score",
+      "kind": "стипендия",
+      "name": "Эритон-52",
+      "value": 59,
+      "variant": 0,
+      "doc_id": "doc_025",
+      "first_corpus": "100k",
+      "paired_with": "f_T3_017b",
+      "set": "B",
+      "statement": "Для зачисления в стипендию «Эритон-52» необходимо набрать не менее 59 баллов.",
+      "corpus_sizes": [
+        "100k"
+      ],
+      "positions_pct": {
+        "100k": 61.4
+      },
+      "chunk_ids": [
+        "doc_025_c01",
+        "doc_025_c02"
+      ]
+    },
+    {
+      "fact_id": "f_T3_017b",
+      "type": "T3",
+      "attr": "score",
+      "kind": "стипендия",
+      "name": "Эритон-52",
+      "value": 90,
+      "variant": 1,
+      "doc_id": "doc_019",
+      "first_corpus": "100k",
+      "paired_with": "f_T3_017a",
+      "set": "B",
+      "statement": "Минимальный проходной балл для поступления в стипендию «Эритон-52» составляет 90 баллов.",
+      "corpus_sizes": [
+        "100k"
+      ],
+      "positions_pct": {
+        "100k": 48.0
+      },
+      "chunk_ids": [
+        "doc_019_c07"
+      ]
+    },
+    {
+      "fact_id": "f_T3_018a",
+      "type": "T3",
+      "attr": "amount",
+      "kind": "стипендия",
+      "name": "Астрон-71",
+      "value": 55,
+      "variant": 0,
+      "doc_id": "doc_030",
+      "first_corpus": "100k",
+      "paired_with": "f_T3_018b",
+      "set": "B",
+      "statement": "Размер ежемесячной выплаты участникам стипендии «Астрон-71» составляет 55 МРП.",
+      "corpus_sizes": [
+        "100k"
+      ],
+      "positions_pct": {
+        "100k": 74.0
+      },
+      "chunk_ids": [
+        "doc_030_c04"
+      ]
+    },
+    {
+      "fact_id": "f_T3_018b",
+      "type": "T3",
+      "attr": "amount",
+      "kind": "стипендия",
+      "name": "Астрон-71",
+      "value": 136,
+      "variant": 1,
+      "doc_id": "doc_014",
+      "first_corpus": "100k",
+      "paired_with": "f_T3_018a",
+      "set": "B",
+      "statement": "Участникам стипендии «Астрон-71» ежемесячно выплачивается 136 МРП.",
+      "corpus_sizes": [
+        "100k"
+      ],
+      "positions_pct": {
+        "100k": 34.7
+      },
+      "chunk_ids": [
+        "doc_014_c03",
+        "doc_014_c04"
+      ]
+    },
+    {
+      "fact_id": "f_T3_019a",
+      "type": "T3",
+      "attr": "quota",
+      "kind": "премия",
+      "name": "Хардан-37",
+      "value": 16,
+      "variant": 0,
+      "doc_id": "doc_023",
+      "first_corpus": "100k",
+      "paired_with": "f_T3_019b",
+      "set": "B",
+      "statement": "В рамках премии «Хардан-37» предусмотрено 16 мест.",
+      "corpus_sizes": [
+        "100k"
+      ],
+      "positions_pct": {
+        "100k": 56.9
+      },
+      "chunk_ids": [
+        "doc_023_c03"
+      ]
+    },
+    {
+      "fact_id": "f_T3_019b",
+      "type": "T3",
+      "attr": "quota",
+      "kind": "премия",
+      "name": "Хардан-37",
+      "value": 5,
+      "variant": 1,
+      "doc_id": "doc_025",
+      "first_corpus": "100k",
+      "paired_with": "f_T3_019a",
+      "set": "B",
+      "statement": "Квота на участие в премии «Хардан-37» установлена в размере 5 мест.",
+      "corpus_sizes": [
+        "100k"
+      ],
+      "positions_pct": {
+        "100k": 61.4
+      },
+      "chunk_ids": [
+        "doc_025_c01"
       ]
     },
     {
       "fact_id": "f_T3_020a",
       "type": "T3",
-      "attr": "amount",
+      "attr": "score",
       "kind": "премия",
       "name": "Астрон-16",
-      "value": 96,
+      "value": 87,
       "variant": 0,
-      "doc_id": "doc_035",
+      "doc_id": "doc_020",
       "first_corpus": "100k",
       "paired_with": "f_T3_020b",
-      "statement": "Размер ежемесячной выплаты участникам премии «Астрон-16» составляет 96 МРП.",
+      "set": "B",
+      "statement": "Для зачисления в премию «Астрон-16» необходимо набрать не менее 87 баллов.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 84.9
+        "100k": 50.1
       },
       "chunk_ids": [
-        "doc_035_c02"
+        "doc_020_c05"
       ]
     },
     {
       "fact_id": "f_T3_020b",
       "type": "T3",
-      "attr": "amount",
+      "attr": "score",
       "kind": "премия",
       "name": "Астрон-16",
-      "value": 56,
+      "value": 79,
       "variant": 1,
-      "doc_id": "doc_018",
+      "doc_id": "doc_021",
       "first_corpus": "100k",
       "paired_with": "f_T3_020a",
-      "statement": "Участникам премии «Астрон-16» ежемесячно выплачивается 56 МРП.",
+      "set": "B",
+      "statement": "Минимальный проходной балл для поступления в премию «Астрон-16» составляет 79 баллов.",
       "corpus_sizes": [
         "100k"
       ],
       "positions_pct": {
-        "100k": 43.2
+        "100k": 51.3
       },
       "chunk_ids": [
-        "doc_018_c01"
+        "doc_021_c01"
+      ]
+    },
+    {
+      "fact_id": "l_f_T1_001",
+      "role": "link",
+      "of": "f_T1_001",
+      "type": "T1",
+      "attr": "link",
+      "kind": "олимпиада",
+      "name": "Ксенар-28",
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2018,
+      "audience": "выпускников",
+      "office": "Служба студенческих инициатив",
+      "statement": "«Ксенар-28» (олимпиада): 2018 г., для выпускников, подразделение «Служба студенческих инициатив».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 61.2,
+        "30k": 15.6,
+        "100k": 4.6
+      },
+      "chunk_ids": [
+        "doc_002_c05"
+      ]
+    },
+    {
+      "fact_id": "l_f_T1_002",
+      "role": "link",
+      "of": "f_T1_002",
+      "type": "T1",
+      "attr": "link",
+      "kind": "стипендия",
+      "name": "Нерида-15",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2019,
+      "audience": "докторантов",
+      "office": "Служба внешних связей",
+      "statement": "«Нерида-15» (стипендия): 2019 г., для докторантов, подразделение «Служба внешних связей».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 29.4,
+        "30k": 7.5,
+        "100k": 2.2
+      },
+      "chunk_ids": [
+        "doc_001_c09"
+      ]
+    },
+    {
+      "fact_id": "l_f_T1_003",
+      "role": "link",
+      "of": "f_T1_003",
+      "type": "T1",
+      "attr": "link",
+      "kind": "стажировка",
+      "name": "Ульрик-78",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2016,
+      "audience": "докторантов",
+      "office": "Управление качества образования",
+      "statement": "Стажировка «Ульрик-78»: учреждена в 2016 г., для докторантов, курирует «Управление качества образования».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 5.5,
+        "30k": 1.4,
+        "100k": 0.4
+      },
+      "chunk_ids": [
+        "doc_001_c01"
+      ]
+    },
+    {
+      "fact_id": "l_f_T1_004",
+      "role": "link",
+      "of": "f_T1_004",
+      "type": "T1",
+      "attr": "link",
+      "kind": "олимпиада",
+      "name": "Гелион-22",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2017,
+      "audience": "преподавателей",
+      "office": "Бюро регистрации и учёта",
+      "statement": "«Гелион-22» (олимпиада): 2017 г., для преподавателей, подразделение «Бюро регистрации и учёта».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 17.6,
+        "30k": 4.5,
+        "100k": 1.3
+      },
+      "chunk_ids": [
+        "doc_001_c05"
+      ]
+    },
+    {
+      "fact_id": "l_f_T1_005",
+      "role": "link",
+      "of": "f_T1_005",
+      "type": "T1",
+      "attr": "link",
+      "kind": "школа",
+      "name": "Бельфор-28",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2018,
+      "audience": "выпускников",
+      "office": "Управление академического сопровождения",
+      "statement": "Школа «Бельфор-28»: учреждена в 2018 г., для выпускников, курирует «Управление академического сопровождения».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 24.1,
+        "30k": 6.1,
+        "100k": 1.8
+      },
+      "chunk_ids": [
+        "doc_001_c07"
+      ]
+    },
+    {
+      "fact_id": "l_f_T1_006",
+      "role": "link",
+      "of": "f_T1_006",
+      "type": "T1",
+      "attr": "link",
+      "kind": "премия",
+      "name": "Мирант-54",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2019,
+      "audience": "преподавателей",
+      "office": "Бюро карьерного развития",
+      "statement": "Премия «Мирант-54»: учреждена в 2019 г., для преподавателей, курирует «Бюро карьерного развития».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 10.9,
+        "30k": 2.8,
+        "100k": 0.8
+      },
+      "chunk_ids": [
+        "doc_001_c03"
+      ]
+    },
+    {
+      "fact_id": "l_f_T2_001a",
+      "role": "link",
+      "of": "f_T2_001a",
+      "type": "T2",
+      "attr": "link",
+      "kind": "программа",
+      "name": "Ольвия-49",
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2022,
+      "audience": "преподавателей",
+      "office": "Управление академического сопровождения",
+      "statement": "«Ольвия-49» (программа): 2022 г., для преподавателей, подразделение «Управление академического сопровождения».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 62.5,
+        "30k": 15.9,
+        "100k": 4.7
+      },
+      "chunk_ids": [
+        "doc_002_c06"
+      ]
+    },
+    {
+      "fact_id": "l_f_T2_001b",
+      "role": "link",
+      "of": "f_T2_001b",
+      "type": "T2",
+      "attr": "link",
+      "kind": "программа",
+      "name": "Вельта-76",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2019,
+      "audience": "магистрантов",
+      "office": "Центр качества образования",
+      "statement": "«Вельта-76» (программа): 2019 г., для магистрантов, подразделение «Центр качества образования».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 19.1,
+        "30k": 4.8,
+        "100k": 1.4
+      },
+      "chunk_ids": [
+        "doc_001_c06"
+      ]
+    },
+    {
+      "fact_id": "l_f_T2_002a",
+      "role": "link",
+      "of": "f_T2_002a",
+      "type": "T2",
+      "attr": "link",
+      "kind": "программа",
+      "name": "Лумен-91",
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2018,
+      "audience": "аспирантов",
+      "office": "Центр качества образования",
+      "statement": "«Лумен-91» (программа): 2018 г., для аспирантов, подразделение «Центр качества образования».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 60.9,
+        "30k": 15.5,
+        "100k": 4.6
+      },
+      "chunk_ids": [
+        "doc_002_c05"
+      ]
+    },
+    {
+      "fact_id": "l_f_T2_002b",
+      "role": "link",
+      "of": "f_T2_002b",
+      "type": "T2",
+      "attr": "link",
+      "kind": "программа",
+      "name": "Салмар-29",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2018,
+      "audience": "аспирантов",
+      "office": "Отдел качества образования",
+      "statement": "«Салмар-29» (программа): 2018 г., для аспирантов, подразделение «Отдел качества образования».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 5.2,
+        "30k": 1.3,
+        "100k": 0.4
+      },
+      "chunk_ids": [
+        "doc_001_c01"
+      ]
+    },
+    {
+      "fact_id": "l_f_T2_003a",
+      "role": "link",
+      "of": "f_T2_003a",
+      "type": "T2",
+      "attr": "link",
+      "kind": "программа",
+      "name": "Талис-56",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2021,
+      "audience": "выпускников",
+      "office": "Бюро регистрации и учёта",
+      "statement": "«Талис-56» (программа): 2021 г., для выпускников, подразделение «Бюро регистрации и учёта».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 32.5,
+        "30k": 8.3,
+        "100k": 2.4
+      },
+      "chunk_ids": [
+        "doc_001_c10"
+      ]
+    },
+    {
+      "fact_id": "l_f_T2_003b",
+      "role": "link",
+      "of": "f_T2_003b",
+      "type": "T2",
+      "attr": "link",
+      "kind": "программа",
+      "name": "Нерида-91",
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2020,
+      "audience": "докторантов",
+      "office": "Бюро карьерного развития",
+      "statement": "«Нерида-91» (программа): 2020 г., для докторантов, подразделение «Бюро карьерного развития».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 66.5,
+        "30k": 16.9,
+        "100k": 5.0
+      },
+      "chunk_ids": [
+        "doc_002_c07"
+      ]
+    },
+    {
+      "fact_id": "l_f_T2_004a",
+      "role": "link",
+      "of": "f_T2_004a",
+      "type": "T2",
+      "attr": "link",
+      "kind": "программа",
+      "name": "Тонвис-72",
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2014,
+      "audience": "преподавателей",
+      "office": "Служба студенческих инициатив",
+      "statement": "«Тонвис-72» (программа): 2014 г., для преподавателей, подразделение «Служба студенческих инициатив».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 55.9,
+        "30k": 14.2,
+        "100k": 4.2
+      },
+      "chunk_ids": [
+        "doc_002_c03",
+        "doc_002_c04"
+      ]
+    },
+    {
+      "fact_id": "l_f_T2_004b",
+      "role": "link",
+      "of": "f_T2_004b",
+      "type": "T2",
+      "attr": "link",
+      "kind": "программа",
+      "name": "Гелион-23",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2020,
+      "audience": "бакалавров",
+      "office": "Отдел карьерного развития",
+      "statement": "Программа «Гелион-23»: учреждена в 2020 г., для бакалавров, курирует «Отдел карьерного развития».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 16.2,
+        "30k": 4.1,
+        "100k": 1.2
+      },
+      "chunk_ids": [
+        "doc_001_c05"
+      ]
+    },
+    {
+      "fact_id": "l_f_T2_005a",
+      "role": "link",
+      "of": "f_T2_005a",
+      "type": "T2",
+      "attr": "link",
+      "kind": "программа",
+      "name": "Ксенар-58",
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2016,
+      "audience": "преподавателей",
+      "office": "Служба внешних связей",
+      "statement": "Программа «Ксенар-58»: учреждена в 2016 г., для преподавателей, курирует «Служба внешних связей».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 51.6,
+        "30k": 13.1,
+        "100k": 3.9
+      },
+      "chunk_ids": [
+        "doc_002_c02"
+      ]
+    },
+    {
+      "fact_id": "l_f_T2_005b",
+      "role": "link",
+      "of": "f_T2_005b",
+      "type": "T2",
+      "attr": "link",
+      "kind": "программа",
+      "name": "Салмар-58",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2017,
+      "audience": "магистрантов",
+      "office": "Бюро карьерного развития",
+      "statement": "Программа «Салмар-58»: учреждена в 2017 г., для магистрантов, курирует «Бюро карьерного развития».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 33.4,
+        "30k": 8.5,
+        "100k": 2.5
+      },
+      "chunk_ids": [
+        "doc_001_c10"
+      ]
+    },
+    {
+      "fact_id": "l_f_T2_006a",
+      "role": "link",
+      "of": "f_T2_006a",
+      "type": "T2",
+      "attr": "link",
+      "kind": "программа",
+      "name": "Ривена-79",
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2017,
+      "audience": "аспирантов",
+      "office": "Управление академического сопровождения",
+      "statement": "Программа «Ривена-79»: учреждена в 2017 г., для аспирантов, курирует «Управление академического сопровождения».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 57.3,
+        "30k": 14.6,
+        "100k": 4.3
+      },
+      "chunk_ids": [
+        "doc_002_c04"
+      ]
+    },
+    {
+      "fact_id": "l_f_T2_006b",
+      "role": "link",
+      "of": "f_T2_006b",
+      "type": "T2",
+      "attr": "link",
+      "kind": "программа",
+      "name": "Зарнис-50",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2017,
+      "audience": "бакалавров",
+      "office": "Управление качества образования",
+      "statement": "Программа «Зарнис-50»: учреждена в 2017 г., для бакалавров, курирует «Управление качества образования».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 14.3,
+        "30k": 3.6,
+        "100k": 1.1
+      },
+      "chunk_ids": [
+        "doc_001_c04"
+      ]
+    },
+    {
+      "fact_id": "l_f_T3_001a",
+      "role": "link",
+      "of": "f_T3_001a",
+      "type": "T3",
+      "attr": "link",
+      "kind": "школа",
+      "name": "Салмар-17",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2024,
+      "audience": "магистрантов",
+      "office": "Бюро карьерного развития",
+      "statement": "«Салмар-17» (школа): 2024 г., для магистрантов, подразделение «Бюро карьерного развития».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 4.6,
+        "30k": 1.2,
+        "100k": 0.3
+      },
+      "chunk_ids": [
+        "doc_001_c01"
+      ]
+    },
+    {
+      "fact_id": "l_f_T3_001b",
+      "role": "link",
+      "of": "f_T3_001b",
+      "type": "T3",
+      "attr": "link",
+      "kind": "школа",
+      "name": "Салмар-17",
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2024,
+      "audience": "магистрантов",
+      "office": "Бюро карьерного развития",
+      "statement": "Школа «Салмар-17»: учреждена в 2024 г., для магистрантов, курирует «Бюро карьерного развития».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 66.2,
+        "30k": 16.8,
+        "100k": 5.0
+      },
+      "chunk_ids": [
+        "doc_002_c07"
+      ]
+    },
+    {
+      "fact_id": "l_f_T3_002a",
+      "role": "link",
+      "of": "f_T3_002a",
+      "type": "T3",
+      "attr": "link",
+      "kind": "олимпиада",
+      "name": "Тавро-83",
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2019,
+      "audience": "аспирантов",
+      "office": "Управление академического сопровождения",
+      "statement": "«Тавро-83» (олимпиада): 2019 г., для аспирантов, подразделение «Управление академического сопровождения».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 73.8,
+        "30k": 18.8,
+        "100k": 5.5
+      },
+      "chunk_ids": [
+        "doc_002_c10"
+      ]
+    },
+    {
+      "fact_id": "l_f_T3_002b",
+      "role": "link",
+      "of": "f_T3_002b",
+      "type": "T3",
+      "attr": "link",
+      "kind": "олимпиада",
+      "name": "Тавро-83",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2019,
+      "audience": "аспирантов",
+      "office": "Управление академического сопровождения",
+      "statement": "Олимпиада «Тавро-83»: учреждена в 2019 г., для аспирантов, курирует «Управление академического сопровождения».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 27.1,
+        "30k": 6.9,
+        "100k": 2.0
+      },
+      "chunk_ids": [
+        "doc_001_c08"
+      ]
+    },
+    {
+      "fact_id": "l_f_T3_003a",
+      "role": "link",
+      "of": "f_T3_003a",
+      "type": "T3",
+      "attr": "link",
+      "kind": "программа",
+      "name": "Ульрик-30",
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2021,
+      "audience": "докторантов",
+      "office": "Центр научной деятельности",
+      "statement": "«Ульрик-30» (программа): 2021 г., для докторантов, подразделение «Центр научной деятельности».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 69.5,
+        "30k": 17.7,
+        "100k": 5.2
+      },
+      "chunk_ids": [
+        "doc_002_c08"
+      ]
+    },
+    {
+      "fact_id": "l_f_T3_003b",
+      "role": "link",
+      "of": "f_T3_003b",
+      "type": "T3",
+      "attr": "link",
+      "kind": "программа",
+      "name": "Ульрик-30",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2021,
+      "audience": "докторантов",
+      "office": "Центр научной деятельности",
+      "statement": "Программа «Ульрик-30»: учреждена в 2021 г., для докторантов, курирует «Центр научной деятельности».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 22.6,
+        "30k": 5.7,
+        "100k": 1.7
+      },
+      "chunk_ids": [
+        "doc_001_c07"
+      ]
+    },
+    {
+      "fact_id": "l_f_T3_004a",
+      "role": "link",
+      "of": "f_T3_004a",
+      "type": "T3",
+      "attr": "link",
+      "kind": "стажировка",
+      "name": "Хардан-79",
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2023,
+      "audience": "сотрудников",
+      "office": "Отдел качества образования",
+      "statement": "«Хардан-79» (стажировка): 2023 г., для сотрудников, подразделение «Отдел качества образования».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 53.4,
+        "30k": 13.6,
+        "100k": 4.0
+      },
+      "chunk_ids": [
+        "doc_002_c03"
+      ]
+    },
+    {
+      "fact_id": "l_f_T3_004b",
+      "role": "link",
+      "of": "f_T3_004b",
+      "type": "T3",
+      "attr": "link",
+      "kind": "стажировка",
+      "name": "Хардан-79",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2023,
+      "audience": "сотрудников",
+      "office": "Отдел качества образования",
+      "statement": "Стажировка «Хардан-79»: учреждена в 2023 г., для сотрудников, курирует «Отдел качества образования».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 10.6,
+        "30k": 2.7,
+        "100k": 0.8
+      },
+      "chunk_ids": [
+        "doc_001_c03"
+      ]
+    },
+    {
+      "fact_id": "l_f_T3_005a",
+      "role": "link",
+      "of": "f_T3_005a",
+      "type": "T3",
+      "attr": "link",
+      "kind": "премия",
+      "name": "Дарвен-49",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2018,
+      "audience": "бакалавров",
+      "office": "Управление академического сопровождения",
+      "statement": "«Дарвен-49» (премия): 2018 г., для бакалавров, подразделение «Управление академического сопровождения».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 26.2,
+        "30k": 6.7,
+        "100k": 2.0
+      },
+      "chunk_ids": [
+        "doc_001_c08"
+      ]
+    },
+    {
+      "fact_id": "l_f_T3_005b",
+      "role": "link",
+      "of": "f_T3_005b",
+      "type": "T3",
+      "attr": "link",
+      "kind": "премия",
+      "name": "Дарвен-49",
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2018,
+      "audience": "бакалавров",
+      "office": "Управление академического сопровождения",
+      "statement": "Премия «Дарвен-49»: учреждена в 2018 г., для бакалавров, курирует «Управление академического сопровождения».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 73.2,
+        "30k": 18.6,
+        "100k": 5.5
+      },
+      "chunk_ids": [
+        "doc_002_c09"
+      ]
+    },
+    {
+      "fact_id": "l_f_T3_006a",
+      "role": "link",
+      "of": "f_T3_006a",
+      "type": "T3",
+      "attr": "link",
+      "kind": "премия",
+      "name": "Тонвис-68",
+      "doc_id": "doc_001",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2016,
+      "audience": "аспирантов",
+      "office": "Центр научной деятельности",
+      "statement": "«Тонвис-68» (премия): 2016 г., для аспирантов, подразделение «Центр научной деятельности».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 34.1,
+        "30k": 8.7,
+        "100k": 2.6
+      },
+      "chunk_ids": [
+        "doc_001_c11"
+      ]
+    },
+    {
+      "fact_id": "l_f_T3_006b",
+      "role": "link",
+      "of": "f_T3_006b",
+      "type": "T3",
+      "attr": "link",
+      "kind": "премия",
+      "name": "Тонвис-68",
+      "doc_id": "doc_002",
+      "first_corpus": "8k",
+      "set": "A",
+      "year": 2016,
+      "audience": "аспирантов",
+      "office": "Центр научной деятельности",
+      "statement": "Премия «Тонвис-68»: учреждена в 2016 г., для аспирантов, курирует «Центр научной деятельности».",
+      "corpus_sizes": [
+        "8k",
+        "30k",
+        "100k"
+      ],
+      "positions_pct": {
+        "8k": 58.1,
+        "30k": 14.8,
+        "100k": 4.4
+      },
+      "chunk_ids": [
+        "doc_002_c04"
       ]
     }
   ]
