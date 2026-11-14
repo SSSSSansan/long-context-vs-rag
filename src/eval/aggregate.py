@@ -16,6 +16,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
 from ..config import ROOT, base_cfg  # noqa: E402
+from .value_check import value_in_answer  # noqa: E402
 
 RES = ROOT / "results"
 
@@ -66,7 +67,10 @@ def load(dirs: list[Path]) -> pd.DataFrame:
     df = pd.DataFrame(rows)
     if df.empty:
         return df
-    df["correct"] = (df.verdict == "correct").astype(float)
+    # итоговая accuracy = судья == correct И value_in_answer (src/eval/value_check.py); «по судье» оставлена отдельно
+    df["correct_judge"] = (df.verdict == "correct").astype(float)
+    df["value_ok"] = [value_in_answer(g, a, q) for g, a, q in zip(df.gold_answer.fillna(""), df.answer.fillna(""), df.quote.fillna(""))]
+    df["correct"] = df.correct_judge * df.value_ok.astype(float)
     for c in ("set", "anchor", "question_set"):      # у данных V1 этих полей нет
         if c not in df:
             df[c] = None
@@ -83,7 +87,7 @@ def load(dirs: list[Path]) -> pd.DataFrame:
 def summarize(df: pd.DataFrame, by: list[str]) -> pd.DataFrame:
     # сначала среднее по повторам внутри каждого повтора -> потом mean ± std по повторам
     per_rep = df.groupby(by + ["repeat"]).agg(
-        accuracy=("correct", "mean"), lenient=("lenient", "mean"), evidence_recall=("evidence_recall", "mean"),
+        accuracy=("correct", "mean"), accuracy_judge=("correct_judge", "mean"), value_ok=("value_ok", "mean"), lenient=("lenient", "mean"), evidence_recall=("evidence_recall", "mean"),
         citation=("citation_correct", "mean"), quote_grounded=("quote_grounded", "mean"),
         abstain=("abstained", "mean")).reset_index()
     g = per_rep.groupby(by)

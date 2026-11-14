@@ -40,7 +40,9 @@ def cell(rows: list[dict], model: str, size: str, method: str, type_: str | None
             upc = r["usd_per_correct"]
             upc_s = "—" if upc in ("", None) else f"${float(upc):.4f}"
             ci_s = f"[{float(lo):.2f}–{float(hi):.2f}]" if lo not in ("", None) else "—"
-            return f"{acc:.2f} {ci_s}, {upc_s}, n={n}"
+            aj = r.get("accuracy_judge")
+            judge_s = f" (судья {float(aj):.2f})" if aj not in ("", None) else ""
+            return f"{acc:.2f}{judge_s} {ci_s}, {upc_s}, n={n}"
         if r["model"] == model and r["size"] == size and r["method"] == method and type_ is not None and r.get("type") != type_:
             continue
     return "—"
@@ -62,7 +64,7 @@ def build_markdown() -> str:
 
     parts = ["# Главная таблица: Long Context vs RAG",
              "",
-             "Ячейка: accuracy [95% CI Уилсона по уникальным вопросам] · $/correct (без кэша) · n вопросов.",
+             "Ячейка: accuracy = судья correct И value_in_answer (судья отдельно в скобках, если есть) [95% CI Уилсона по уникальным вопросам] · $/correct (без кэша) · n вопросов.",
              "Прочерк «—» значит данных нет (прогон не делался или бюджет не позволил), не 0.",
              ""]
     for model, model_label in MODELS:

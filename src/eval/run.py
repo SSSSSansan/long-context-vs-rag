@@ -28,6 +28,7 @@ from ..methods.registry import METHODS, NO_K_METHODS
 from ..tokens import count_tokens
 from .exact_metrics import citation_correct, evidence_recall, quote_grounded
 from .judge import judge
+from .value_check import value_in_answer
 
 SIZE_ORDER = ["8k", "30k", "100k"]
 # Наборы вопросов V2 (PLAN_V2 §2.1). A и A-hard — одни и те же факты (set="A"), различается лексический якорь в вопросе.
@@ -117,7 +118,7 @@ def execute(t, gold, corpus_text=None, extra=None) -> dict:
         parsed_ok=a.parsed_ok, abstained=a.abstained, raw_text=a.text,
         gold_answer=q["gold_answer"], verdict=verdict, judge_rationale=why,
         evidence_recall=evidence_recall(facts, ctx), citation_correct=citation_correct(facts, a.doc_ids),
-        quote_grounded=quote_grounded(a.quote, ctx.text),
+        quote_grounded=quote_grounded(a.quote, ctx.text), value_in_answer=value_in_answer(q["gold_answer"], a.answer, a.quote),
         prompt_tokens=r.prompt_tokens, completion_tokens=r.completion_tokens, cached_tokens=r.cached_tokens,
         retrieval_ms=round(ctx.retrieval_ms, 2), generation_ms=round(r.latency_ms, 1),
         cost_usd=r.cost_usd, judge_cost_usd=jr.cost_usd, from_cache=r.from_local_cache,
