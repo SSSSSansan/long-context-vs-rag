@@ -53,6 +53,14 @@ def retrieve(size: str, question: str, k: int):
     return [chunks[h.id] for h in hits]
 
 
+def rank(size: str, question: str, n: int) -> list[int]:
+    """Индексы чанков по убыванию косинуса (для гибрида)."""
+    with _lock:
+        client = _store(size)
+    qv = _embed_cached([question])[0]
+    return [h.id for h in client.query_points("c", query=qv, limit=n).points]
+
+
 def build_context(size: str, question: str, k: int | None = None, corpus_text: str | None = None) -> Context:
     k = k or base_cfg()["retrieval"]["top_k"]
     t0 = time.perf_counter()

@@ -46,6 +46,9 @@ retrieval:
   chunk_tokens: 300
   chunk_overlap: 40
   top_k: 8
+  hybrid_candidates: 20            # HYB: кандидатов от dense и от BM25
+  rrf_k: 60                        # константа RRF
+  reranker_model: BAAI/bge-reranker-v2-m3   # cross-encoder, Apache 2.0, локально
   qdrant: {mode: memory}       # memory | http://localhost:6333
 
 budget:

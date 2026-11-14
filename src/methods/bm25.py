@@ -37,6 +37,12 @@ def retrieve(size: str, question: str, k: int) -> list[Chunk]:
     return [chunks[i] for i in order]
 
 
+def rank(size: str, question: str, n: int) -> list[int]:
+    """Индексы чанков по убыванию BM25 (для гибрида). Порядок тот же, что у retrieve()."""
+    scores = _index(size).get_scores(tokenize(question))
+    return sorted(range(len(scores)), key=lambda i: (-scores[i], i))[:n]
+
+
 def build_context(size: str, question: str, k: int | None = None, corpus_text: str | None = None) -> Context:
     k = k or base_cfg()["retrieval"]["top_k"]
     t0 = time.perf_counter()
