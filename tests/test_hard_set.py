@@ -139,3 +139,15 @@ def test_injected_share_decreases_with_size_and_dist_adds_rows():
     _, _, r0, _ = build(0)
     _, _, r1, _ = build(1)
     assert len(r1) - len(r0) == 48
+
+
+def test_office_questions_distinguish_curator_from_target():
+    facts, qs, recs, hq = build(0)
+    by_id = {f["fact_id"]: f for f in facts}
+    office_qs = [q for q in hq if by_id[q["fact_ids"][0]]["attr"] == "office"]
+    assert office_qs
+    for q in office_qs:
+        assert "(куратор)" in q["question"]
+        assert "другое подразделение, не куратор" in q["question"] or "(не кураторе)" in q["question"]
+    other = [q for q in hq if by_id[q["fact_ids"][0]]["attr"] != "office"]
+    assert all("куратор)" not in q["question"] for q in other)       # остальные вопросы не менялись

@@ -55,11 +55,12 @@ def link_statement(kind: str, name: str, feats: dict, style: str = "full", varia
     return f"Подразделение «{o}» курирует {KINDS[kind][3]} «{name}», учреждённую в {y} году для {a}."
 
 
-def describe(feats: dict, case: str | None = None, kind: str | None = None) -> str:
+def describe(feats: dict, case: str | None = None, kind: str | None = None, curator: bool = False) -> str:
     """Описание сущности по трём признакам. С kind и case — «олимпиады, учреждённой ...»; без них — «учреждённая ...»."""
     sfx = PARTICIPLE[case or "nom"]
+    mark = " (куратор)" if curator else ""        # для вопросов про подразделение: куратор из признаков != искомое подразделение
     core = (f"учреждённ{sfx} в {feats['year']} году для {feats['audience']} "
-            f"и курируем{sfx} подразделением «{feats['office']}»")
+            f"и курируем{sfx} подразделением «{feats['office']}»{mark}")
     return f"{KINDS[kind][CASES.index(case)]}, {core}" if kind and case else core
 
 
@@ -84,8 +85,14 @@ def _hard_question(q: dict, ents: list[dict], by_id: dict, link_ids: list[str], 
         winner = ents[0] if head.startswith(f"«{ents[0]['name']}»") else ents[1]
         gold = f"{head} ({describe(winner)}): {tail}"
     else:
-        forms = {f"e_{c}": describe(ents[0], c, kind) for c in CASES}
-        text = spec["q_single" if q["type"] == "T1" else "q_contra"].format(**forms)
+        office_q = attr == "office"
+        forms = {f"e_{c}": describe(ents[0], c, kind, curator=office_q) for c in CASES}
+        tpl = spec["q_single" if q["type"] == "T1" else "q_contra"]
+        if office_q:       # иначе модель путает куратора из описания с подразделением, которое принимает заявки (см. q_T1_004h)
+            tpl = (tpl.replace("Какое подразделение принимает", "Какое другое подразделение, не куратор, принимает")
+                      .replace("о подразделении, принимающем заявки", "о подразделении (не кураторе), принимающем заявки"))
+            assert tpl != spec["q_single" if q["type"] == "T1" else "q_contra"], "шаблон office изменился: поправь замену"
+        text = tpl.format(**forms)
         gold = q["gold_answer"]
     return dict(
         qid=f"{q['qid']}h", parent_qid=q["qid"], type=q["type"], first_corpus=q["first_corpus"], set="A", anchor=False,
