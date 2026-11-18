@@ -17,6 +17,8 @@ Research-проект R04 (KBTU X-DAI, Document AI): при каких объё�
 - [x] Учёт записи в кэш (`cache_write_tokens`, ставка 1.25× input) добавлен в `compute_cost` и смету; расход Ш1–Ш7 ≈ $1.23 вместо $1.06 (оценка, ждёт сверки с дашбордом OpenAI)
 - [x] Набор B (42 вопроса с якорем, 100K, 1 повтор): [results/main_table_b.md](results/main_table_b.md); считается отдельно от A и A-hard
 - [x] P1 (положение факта в LC) на Luna: 30K (13 вопросов) и 100K (6 вопросов), позиции 0/50/100% — [results/p1_luna.md](results/p1_luna.md); эффекта не обнаружено (малое n, потолок)
+- [x] P2 (ранг gold-чанка 1/5/10 в RAG) на Luna: 30K, T1, A и A-hard — [results/p2_luna.md](results/p2_luna.md); эффекта не обнаружено (потолок 1.00, n=6)
+- [x] Ragas faithfulness (BM25, B, 100K, n=20): среднее 0.95 ([results/ragas_faithfulness_bm25_b100k.json](results/ragas_faithfulness_bm25_b100k.json)); запуск `PYTHONPATH=. <чистый venv>/bin/python -m scripts.ragas_faithfulness --live --n 20` (в основном .venv Ragas не импортируется)
 - [ ] Не сделано: B-hard (нужна пересборка корпуса), P1 на Luna, другие модели, Ragas, видео. Все числа предварительные (калибровка судьи n=40, не независимая разметка)
 - Воспроизведение V2: `LLM_BACKEND=openai python -m src.eval.run --exp configs/experiments/v2_s<N>_*.yaml --workers 2 --out runs/v2_s<N>` (под `cost_guard`), затем `python -m scripts.build_main_table --v2 && python -m scripts.mcnemar_v2`. Локально бесплатно: `LLM_BACKEND=local`, `--repeats 1 --limit 12`.
 
