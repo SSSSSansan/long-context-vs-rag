@@ -100,10 +100,11 @@ def pred_text(a) -> str:
     return f"{a.answer}\nПротиворечие найдено: {'да' if a.contradiction_found else 'нет'}\nЦитата: {a.quote}"
 
 
-def execute(t, gold, corpus_text=None, extra=None) -> dict:
+def execute(t, gold, corpus_text=None, extra=None, ctx=None) -> dict:
     q, size, method, k = t["q"], t["size"], t["method"], t["k"]
     facts = [gold[f] for f in q["fact_ids"]]
-    ctx = METHODS[method](size, q["question"], k, corpus_text) if corpus_text is not None else METHODS[method](size, q["question"], k)
+    if ctx is None:
+        ctx = METHODS[method](size, q["question"], k, corpus_text) if corpus_text is not None else METHODS[method](size, q["question"], k)
     salt = f"r{t['repeat']}"
     a = answer_question(ctx.text, q["question"], salt=salt)
     verdict, why, jr = judge(q["question"], q["gold_answer"], pred_text(a), salt=salt)
@@ -180,8 +181,12 @@ def main():
     ap.add_argument("--workers", type=int, default=1)
     ap.add_argument("--limit", type=int, default=0, help="только первые N вызовов (smoke)")
     ap.add_argument("--out", default="")
+    ap.add_argument("--repeats", type=int, default=0, help="переопределить число повторов (локальная отладка: 1)")
     args = ap.parse_args()
     spec = yaml.safe_load(Path(args.exp).read_text(encoding="utf-8"))
+    if args.repeats:
+        for run in spec["runs"]:
+            run["repeats"] = args.repeats
     seed = base_cfg()["seed"]
     gold, qs = load_data()
     out_dir = ROOT / (args.out or f"runs/{datetime.now():%Y%m%d_%H%M%S}_{spec['name']}")
@@ -192,6 +197,9 @@ def main():
     if spec.get("mode") == "position":
         from .position import position_tasks
         tasks, fn = position_tasks(spec, gold, qs)
+    elif spec.get("mode") == "rank":                 # P2: ранг gold-чанка в top-10
+        from .rank_position import rank_tasks
+        tasks, fn = rank_tasks(spec, gold, qs)
     else:
         tasks = expand_tasks(spec, qs, seed)
         fn = lambda t: execute(t, gold)

@@ -15,6 +15,8 @@
       -> сравнивает заполненный human_verdict с вердиктом судьи (results/judge_calibration.csv,
          сопоставление по row_id = номеру строки), пишет results/judge_agreement.json
 
+  python -m scripts.calibrate_judge rejudge   # перекалибровка текущего судьи на тех же 40 слепых примерах
+
 Старый режим (export/score) оставлен ниже без изменений — он читает runs/*/raw.jsonl напрямую
 и генерирует results/judge_calibration.csv, на основе которого сделан export_blind.
 """
@@ -118,6 +120,44 @@ def score_blind() -> None:
     print(out)
 
 
+def rejudge() -> None:
+    """Перекалибровка: тот же слепой файл (40 примеров) и ТА ЖЕ ручная разметка human_verdict, но судит текущая
+    модель судьи (backends.<backend>.judge_model в configs/base.yaml). Новая ручная разметка не нужна.
+    Пишет results/judge_calibration_<model>.csv и results/judge_agreement_<model>.json; старый judge_agreement.json не трогает.
+
+      LLM_BACKEND=local  python -m scripts.calibrate_judge rejudge   # бесплатно, qwen как судья
+      LLM_BACKEND=openai python -m scripts.calibrate_judge rejudge   # gpt-6-luna, ~$0.01 (cost_guard считает)
+    """
+    from src.config import backend_name, base_cfg
+    from src.eval.judge import judge
+
+    model = base_cfg()["backends"][backend_name()]["judge_model"]
+    rows = [r for r in csv.DictReader(CSV_BLIND.open(encoding="utf-8")) if r["human_verdict"].strip()]
+    if not rows:
+        print(f"human_verdict пуст в {CSV_BLIND}.")
+        return
+    h, j, out_rows, cost = [], [], [], 0.0
+    for r in rows:
+        verdict, why, resp = judge(r["question"], r["gold_answer"], r["prediction"], salt="calib")
+        cost += resp.cost_usd
+        h.append(r["human_verdict"].strip().lower()); j.append(verdict)
+        out_rows.append([r["row_id"], h[-1], verdict, why])
+    n = len(h)
+    agree = sum(a == b for a, b in zip(h, j)) / n
+    labs = sorted(set(h) | set(j))
+    pe = sum((h.count(l) / n) * (j.count(l) / n) for l in labs)
+    kappa = (agree - pe) / (1 - pe) if pe < 1 else 1.0
+    bin_agree = sum((a == "correct") == (b == "correct") for a, b in zip(h, j)) / n
+    res = dict(n=n, judge_model=model, agreement=round(agree, 3), cohen_kappa=round(kappa, 3),
+               agreement_binary_correct=round(bin_agree, 3), cost_usd=round(cost, 6), rater="human", blind=True)
+    tag = model.replace("/", "_")
+    with (ROOT / f"results/judge_calibration_{tag}.csv").open("w", encoding="utf-8", newline="") as f:
+        w = csv.writer(f); w.writerow(["row_id", "human", "judge", "rationale"]); w.writerows(out_rows)
+    (ROOT / f"results/judge_agreement_{tag}.json").write_text(json.dumps(res, indent=1, ensure_ascii=False))
+    print(res)
+    print("расхождения (row_id: человек -> судья):", [(r[0], r[1], r[2]) for r in out_rows if r[1] != r[2]])
+
+
 if __name__ == "__main__":
     cmd = sys.argv[1]
     if cmd == "export":
@@ -128,5 +168,7 @@ if __name__ == "__main__":
         export_blind()
     elif cmd == "score_blind":
         score_blind()
+    elif cmd == "rejudge":
+        rejudge()
     else:
         raise SystemExit(f"неизвестная команда: {cmd}")

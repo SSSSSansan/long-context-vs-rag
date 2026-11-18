@@ -1,0 +1,5 @@
+# Ш3: long context на 8K (корпус целиком перед вопросом). 2 набора x 18 x 3 повтора = 108 вызовов.
+# Это единственный размер LC, который помещается в локальную qwen2.5-7b-32k.
+name: v2_s3_lc_8k
+runs:
+  - {question_set: [A, A-hard], sizes: ["8k"], methods: [lc], question_types: [T1, T2, T3], n_per_type: 6, repeats: 3}

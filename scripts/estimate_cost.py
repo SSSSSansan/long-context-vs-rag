@@ -31,7 +31,7 @@ TOK = {"8k": 8_204, "30k": 30_191, "100k": 100_194, "rag": 2_550, "nc": 400, "ag
 OUT = 120                     # измерено ~90-103 токена на ответ; 120 - с запасом
 AGENT_OUT = 400
 JUDGE_IN, JUDGE_OUT = 1_000, 60
-NA, NB, REP, RAGM = 18, 60, 3, 3   # вопросов в наборе A, в наборе B, повторов, RAG-методов (BM25/EMB/HYB)
+NA, NB, REP, RAGM = 18, 60, 3, 4   # вопросов в наборе A, в наборе B, повторов, RAG-методов (bm25, emb, hyb_rrf, hyb_rerank)
 CS_LC, CS_RAG = 0.90, 0.50         # допущение о доле кэша (cached_tokens / prompt_tokens)
 MODEL = "gpt-6-luna"
 
@@ -61,13 +61,13 @@ def ladder(model: str = MODEL) -> list[dict]:
     A2 = 2 * NA * REP                  # набор A + A-hard, REP повторов = 108 вызовов
     steps = [
         ("Ш1 NO-CONTEXT (A + A-hard)",            [(A2, TOK["nc"], OUT, 0.0)]),
-        ("Ш2 RAG 8K+30K: BM25/EMB/HYB, A+A-hard",  [(RAGM * 2 * A2, TOK["rag"], OUT, CS_RAG)]),
+        ("Ш2 RAG 8K+30K: BM25/EMB/HYB×2, A+A-hard",  [(RAGM * 2 * A2, TOK["rag"], OUT, CS_RAG)]),
         ("Ш3 LC 8K, A + A-hard",                  [(A2, TOK["8k"], OUT, CS_LC)]),
         ("Ш4 LC 30K, A + A-hard",                 [(A2, TOK["30k"], OUT, CS_LC)]),
-        ("Ш5 RAG 100K: BM25/EMB/HYB, A+A-hard",    [(RAGM * A2, TOK["rag"], OUT, CS_RAG)]),
+        ("Ш5 RAG 100K: BM25/EMB/HYB×2, A+A-hard",    [(RAGM * A2, TOK["rag"], OUT, CS_RAG)]),
         ("Ш6 AGENT (A-hard, 3 индекса)",          [(NA * REP * 3, TOK["agent"], AGENT_OUT, 0.0)]),
         ("Ш7 LC 100K, A + A-hard",                [(A2, TOK["100k"], OUT, CS_LC)]),
-        ("Ш8 набор B на 100K: LC + 3 RAG",        [(NB * REP, TOK["100k"], OUT, CS_LC),
+        ("Ш8 набор B на 100K: LC + 4 RAG",        [(NB * REP, TOK["100k"], OUT, CS_LC),
                                                    (RAGM * NB * REP, TOK["rag"], OUT, CS_RAG)]),
     ]
     rows = []

@@ -1,0 +1,5 @@
+# Ш2: RAG на 8K и 30K, четыре метода (bm25, emb, hyb_rrf, hyb_rerank), k=8 из configs/base.yaml.
+# 2 набора x 18 вопросов x 2 размера x 4 метода x 3 повтора = 864 вызова. Локальная отладка: --repeats 1
+name: v2_s2_rag_8k_30k
+runs:
+  - {question_set: [A, A-hard], sizes: ["8k", "30k"], methods: [bm25, emb, hyb_rrf, hyb_rerank], question_types: [T1, T2, T3], n_per_type: 6, repeats: 3}

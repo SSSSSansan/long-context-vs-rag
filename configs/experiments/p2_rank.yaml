@@ -1,0 +1,7 @@
+# P2: ранг gold-чанка в top-10 (1 / 5 / 10), T1, трудные BM25-дистракторы. Сначала локальная модель (LLM_BACKEND=local).
+# Локально 100K не нужен (контекст 10 чанков), но чанки берутся из корпуса указанного размера.
+name: p2_rank
+mode: rank
+runs:
+  - {question_set: A,      sizes: ["30k"], ranks: [1, 5, 10], n_questions: 6, repeats: 1}
+  - {question_set: A-hard, sizes: ["30k"], ranks: [1, 5, 10], n_questions: 6, repeats: 1}

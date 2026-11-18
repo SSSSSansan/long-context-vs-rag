@@ -10,6 +10,7 @@ RRF: score(d) = sum_r 1 / (rrf_k + rank_r(d)), rank с 1. Без мультив�
 """
 from __future__ import annotations
 
+import os
 import time
 from functools import lru_cache
 from typing import Callable
@@ -31,7 +32,9 @@ def set_scorer(fn: Scorer | None) -> None:
 @lru_cache(maxsize=1)
 def _cross_encoder():
     from sentence_transformers import CrossEncoder
-    return CrossEncoder(base_cfg()["retrieval"].get("reranker_model", "BAAI/bge-reranker-v2-m3"), max_length=512)
+    # CPU по умолчанию: на Mac MPS делит память с Ollama и падает с OutOfMemory (прогон Ш2 от 17.11). RERANK_DEVICE=mps|cuda — вернуть GPU.
+    device = os.environ.get("RERANK_DEVICE", "cpu")
+    return CrossEncoder(base_cfg()["retrieval"].get("reranker_model", "BAAI/bge-reranker-v2-m3"), max_length=512, device=device)
 
 
 def score_pairs(question: str, texts: list[str]) -> list[float]:

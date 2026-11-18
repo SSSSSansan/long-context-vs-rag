@@ -1,11 +1,15 @@
 """Агрегация: results/summary_*.csv и графики. mean ± std считается по повторам (std между повторами, не между вопросами).
 
   python -m src.eval.aggregate [runs/dir1 runs/dir2 ...]     # по умолчанию — все runs/*/raw.jsonl
+  RESULTS_DIR=results/local python -m src.eval.aggregate runs/local_s1   # писать таблицы в другую папку
 """
 from __future__ import annotations
 
 import json
+import math
+import os
 import sys
+from itertools import combinations
 from pathlib import Path
 
 import matplotlib
@@ -18,7 +22,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 from ..config import ROOT, base_cfg  # noqa: E402
 from .value_check import value_in_answer  # noqa: E402
 
-RES = ROOT / "results"
+RES = Path(os.environ["RESULTS_DIR"]).resolve() if os.environ.get("RESULTS_DIR") else ROOT / "results"   # RESULTS_DIR=results/local — отладка, не затирает V1-таблицы
 
 Z95 = 1.959963984540054  # квантиль N(0,1) для 95% доверительного интервала
 
@@ -247,6 +251,91 @@ def position_chart(df: pd.DataFrame):
         fig.savefig(RES / f"charts/position_curve{suffix}.png", dpi=140, bbox_inches="tight"); plt.close(fig)
 
 
+METHOD_PAIR_ORDER = ["nocontext", "lc", "bm25", "emb", "hyb_rrf", "hyb_rerank"]
+MCNEMAR_QSETS = ("A", "A-hard")   # парный дизайн есть только там: один и тот же вопрос во всех условиях
+
+
+def mcnemar_exact(only_a: int, only_b: int) -> float:
+    """Точный двусторонний тест Макнемара (биномиальный, p=0.5 на несогласных парах).
+
+    only_a — вопросов, где верно только условие A; only_b — только условие B.
+    Совпавшие пары (оба верно / оба неверно) на результат не влияют. При n=18 вопросах
+    точный тест надёжнее хи-квадрат приближения. Если несогласных пар нет, p=1.0.
+    """
+    n = only_a + only_b
+    if n == 0:
+        return 1.0
+    tail = sum(math.comb(n, i) for i in range(min(only_a, only_b) + 1))
+    return min(1.0, 2 * tail / 2 ** n)
+
+
+def holm_adjust(pvals: list[float]) -> list[float]:
+    """Поправка Холма на множественные сравнения (возвращает скорректированные p в исходном порядке)."""
+    m = len(pvals)
+    order = sorted(range(m), key=lambda i: pvals[i])
+    adj, running = [0.0] * m, 0.0
+    for rank, i in enumerate(order):
+        running = max(running, min(1.0, (m - rank) * pvals[i]))
+        adj[i] = running
+    return adj
+
+
+def question_outcomes(df: pd.DataFrame) -> pd.Series:
+    """Один бинарный исход на вопрос: верно, если верны БОЛЬШЕ половины повторов (mean(correct) > 0.5).
+    Повторы одного вопроса — не независимые наблюдения, поэтому в тест идёт один исход на вопрос."""
+    return df.groupby(["model", "qset", "size", "method", "qid"]).correct.mean().gt(0.5)
+
+
+def _pair_row(family: str, model: str, qset: str, context: str, a: str, b: str, wide: pd.DataFrame) -> dict | None:
+    pair = wide[[a, b]].dropna().astype(bool)
+    if pair.empty:
+        return None
+    xa, xb = pair[a], pair[b]
+    only_a, only_b = int((xa & ~xb).sum()), int((~xa & xb).sum())
+    return {"family": family, "model": model, "qset": qset, "context": context, "a": a, "b": b,
+            "n_pairs": len(pair), "both_correct": int((xa & xb).sum()), "only_a": only_a, "only_b": only_b,
+            "both_wrong": int((~xa & ~xb).sum()), "acc_a": float(xa.mean()), "acc_b": float(xb.mean()),
+            "p_value": mcnemar_exact(only_a, only_b)}
+
+
+def mcnemar_tables(df: pd.DataFrame, qsets: tuple[str, ...] = MCNEMAR_QSETS) -> pd.DataFrame:
+    """Парные тесты Макнемара внутри наборов A и A-hard.
+
+    family="method": пары методов на каждом размере (context = размер).
+    family="size":   пары размеров для каждого метода (context = метод); сравниваются только вопросы,
+                     которые есть на обоих размерах.
+    p_holm — поправка Холма внутри одной таблицы пар (family, model, qset, context).
+    """
+    d = df[df.qset.isin(qsets)]
+    if d.empty:
+        return pd.DataFrame()
+    out = question_outcomes(d)
+    rows: list[dict] = []
+    for (model, qset), g in out.groupby(level=["model", "qset"]):
+        g = g.droplevel(["model", "qset"])
+        for size in [x for x in SIZE_ORDER if x in set(g.index.get_level_values("size"))]:
+            wide = g.xs(size, level="size").unstack("method")
+            methods = sorted(wide.columns, key=lambda m: METHOD_PAIR_ORDER.index(m) if m in METHOD_PAIR_ORDER else 99)
+            for a, b in combinations(methods, 2):
+                r = _pair_row("method", model, qset, size, a, b, wide)
+                if r:
+                    rows.append(r)
+        for method in sorted(set(g.index.get_level_values("method"))):
+            wide = g.xs(method, level="method").unstack("size")
+            sizes = [x for x in SIZE_ORDER if x in wide.columns]
+            for a, b in combinations(sizes, 2):
+                r = _pair_row("size", model, qset, method, a, b, wide)
+                if r:
+                    rows.append(r)
+    res = pd.DataFrame(rows)
+    if res.empty:
+        return res
+    res["p_holm"] = np.nan
+    for _, idx in res.groupby(["family", "model", "qset", "context"]).groups.items():
+        res.loc[idx, "p_holm"] = holm_adjust(res.loc[idx, "p_value"].tolist())
+    return res
+
+
 def main():
     dirs = [Path(a) for a in sys.argv[1:]] or sorted((ROOT / "runs").glob("*/"))
     df = load([d if d.is_absolute() else ROOT / d for d in dirs])
@@ -254,6 +343,8 @@ def main():
         raise SystemExit("нет данных в runs/*/raw.jsonl")
     RES.mkdir(exist_ok=True)
     has_pos = "target_pct" in df
+    p2 = df[df.gold_rank.notna()] if "gold_rank" in df else df.iloc[0:0]            # P2: ранг gold-чанка в top-10
+    df = df.drop(p2.index)
     base = df[df.target_pct.isna()] if has_pos else df
     main_ = base[base.k_label.isna() | base.k_label.eq(base_cfg()["retrieval"]["top_k"])]
     pd.set_option("display.width", 220); pd.set_option("display.max_columns", 30)
@@ -265,6 +356,16 @@ def main():
         s = summarize(d, by)
         s.to_csv(RES / f"{name}.csv", index=False)
         print(f"\n== {name} ==\n", s.round(3).to_string(index=False))
+    mc = mcnemar_tables(main_)
+    if not mc.empty:
+        mc.to_csv(RES / "mcnemar.csv", index=False)
+        sig = mc[mc.p_value < 0.05]
+        print(f"\n== mcnemar (парные тесты A / A-hard; значимых при p<0.05: {len(sig)} из {len(mc)}; полная таблица results/mcnemar.csv) ==\n",
+              sig.round(4).to_string(index=False) if len(sig) else "значимых различий нет")
+    if not p2.empty:
+        s2 = summarize(p2, ["model", "qset", "size", "gold_rank"])
+        s2.to_csv(RES / "summary_p2.csv", index=False)
+        print("\n== summary_p2 (accuracy по рангу gold-чанка, k=10) ==\n", s2.round(3).to_string(index=False))
     if has_pos:
         position_chart(df)
     base_ = df[df.target_pct.isna()] if has_pos else df

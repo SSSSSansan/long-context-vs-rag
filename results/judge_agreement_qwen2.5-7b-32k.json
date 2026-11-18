@@ -1,0 +1,10 @@
+{
+ "n": 40,
+ "judge_model": "qwen2.5-7b-32k",
+ "agreement": 0.85,
+ "cohen_kappa": 0.781,
+ "agreement_binary_correct": 0.975,
+ "cost_usd": 0.0,
+ "rater": "human",
+ "blind": true
+}

@@ -1,0 +1,5 @@
+# Ш4: long context на 30K. 108 вызовов. Локально НЕ запускается (30K не влезает в окно 32768), только gpt-6-luna.
+# Запускать, чтобы получить cached_share по номеру вопроса: вызовы идут подряд по одному корпусу.
+name: v2_s4_lc_30k
+runs:
+  - {question_set: [A, A-hard], sizes: ["30k"], methods: [lc], question_types: [T1, T2, T3], n_per_type: 6, repeats: 3}

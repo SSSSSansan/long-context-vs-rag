@@ -21,7 +21,7 @@ def test_ladder_has_eight_steps_and_is_cumulative_positive():
     rows = ec.ladder()
     assert [r["name"].split()[0] for r in rows] == [f"Ш{i}" for i in range(1, 9)]
     assert all(r["nocache"] >= r["cached"] >= 0 for r in rows)
-    assert rows[0]["n"] == 108 and rows[1]["n"] == 648 and rows[7]["n"] == 720
+    assert rows[0]["n"] == 108 and rows[1]["n"] == 864 and rows[7]["n"] == 900
 
 
 def test_unknown_model_raises():

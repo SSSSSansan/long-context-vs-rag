@@ -1,0 +1,5 @@
+# Ш1 (PLAN_V2 §5.2): NO-CONTEXT, нижняя граница. {context} пустой, промпт тот же. Размер не влияет на промпт -> один размер.
+# 2 набора x 18 вопросов x 3 повтора = 108 вызовов. Локальная отладка: --repeats 1
+name: v2_s1_nocontext
+runs:
+  - {question_set: [A, A-hard], sizes: ["8k"], methods: [nocontext], question_types: [T1, T2, T3], n_per_type: 6, repeats: 3}

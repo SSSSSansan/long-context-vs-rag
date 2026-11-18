@@ -1,0 +1,4 @@
+# Ш5: RAG на 100K (контекст ~2.5K токенов, растёт только индекс). 2 набора x 18 x 4 метода x 3 повтора = 432 вызова.
+name: v2_s5_rag_100k
+runs:
+  - {question_set: [A, A-hard], sizes: ["100k"], methods: [bm25, emb, hyb_rrf, hyb_rerank], question_types: [T1, T2, T3], n_per_type: 6, repeats: 3}
