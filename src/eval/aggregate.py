@@ -87,7 +87,10 @@ def load(dirs: list[Path]) -> pd.DataFrame:
     df["system"] = df.model.str.replace(r"-\d{4}-\d{2}-\d{2}$", "", regex=True) + ":" + df.method + df.k_label.map(lambda k: "" if k is None or pd.isna(k) else f"@k={k}")
     mp = base_cfg()["model_prices"]
     pin = df.model.map(lambda m: mp.get(m, {"input": 0.0})["input"])
+    pw = df.model.map(lambda m: mp.get(m, {"input": 0.0}).get("cache_write_input", mp.get(m, {"input": 0.0})["input"]))
     pout = df.model.map(lambda m: mp.get(m, {"output": 0.0})["output"])
+    # «холодная» цена вызова (кэш не сработал): весь промпт >=1024 токенов записывается в кэш по cache_write_input (1.25x input)
+    pin = pin.where(df.prompt_tokens < 1024, pw)
     df["cost_nocache_usd"] = (df.prompt_tokens * pin + df.completion_tokens * pout) / 1e6
     return df
 

@@ -14,7 +14,10 @@ Research-проект R04 (KBTU X-DAI, Document AI): при каких объё�
 - [x] Наборы вопросов A (с якорем), A-hard (без якоря), B; NO-CONTEXT; HYB-RRF и HYB-rerank; AGENT (инструменты: поиск, чанк, расчёт, запись в Notion-мок)
 - [x] Прогоны Ш1–Ш7 на `gpt-6-luna` (расход $1.06 из $3.00); таблица [results/main_table_v2.md](results/main_table_v2.md), парные тесты Макнемара + Холм `results/mcnemar_v2_*.csv`, безубыточность `results/breakeven_*.csv`
 - [x] Метрика: судья И `value_in_answer` (T2: число победителя, строгая версия — диагностика); отказ не бывает correct
-- [ ] Не сделано: Ш8 (набор B), P1 на Luna, другие модели, Ragas, видео. Все числа предварительные (калибровка судьи n=40, не независимая разметка)
+- [x] Учёт записи в кэш (`cache_write_tokens`, ставка 1.25× input) добавлен в `compute_cost` и смету; расход Ш1–Ш7 ≈ $1.23 вместо $1.06 (оценка, ждёт сверки с дашбордом OpenAI)
+- [x] Набор B (42 вопроса с якорем, 100K, 1 повтор): [results/main_table_b.md](results/main_table_b.md); считается отдельно от A и A-hard
+- [x] P1 (положение факта в LC) на Luna: 30K (13 вопросов) и 100K (6 вопросов), позиции 0/50/100% — [results/p1_luna.md](results/p1_luna.md); эффекта не обнаружено (малое n, потолок)
+- [ ] Не сделано: B-hard (нужна пересборка корпуса), P1 на Luna, другие модели, Ragas, видео. Все числа предварительные (калибровка судьи n=40, не независимая разметка)
 - Воспроизведение V2: `LLM_BACKEND=openai python -m src.eval.run --exp configs/experiments/v2_s<N>_*.yaml --workers 2 --out runs/v2_s<N>` (под `cost_guard`), затем `python -m scripts.build_main_table --v2 && python -m scripts.mcnemar_v2`. Локально бесплатно: `LLM_BACKEND=local`, `--repeats 1 --limit 12`.
 
 ## Статус V1 (промежуточный, на 10 ноября)

@@ -44,6 +44,7 @@ class LLMResponse:
     backend: str
     from_local_cache: bool = False   # хит нашего дискового кэша (стоимость 0, не тратит бюджет)
     model_api: str | None = None     # id модели, который вернул сам API (у gpt-6-luna нет датированного снапшота)
+    cache_write_tokens: int = 0      # токены, записанные в prompt-cache (usage.prompt_tokens_details.cache_write_tokens), ставка cache_write_input
 
 
 _client = None
@@ -94,14 +95,27 @@ def check_not_truncated(actual: int, estimate: int | None) -> None:
             f"Проверь num_ctx в Modelfile / --max-model-len в vLLM.")
 
 
-def compute_cost(prompt_tokens: int, cached_tokens: int, completion_tokens: int, p: dict | None = None) -> float:
+def compute_cost(prompt_tokens: int, cached_tokens: int, completion_tokens: int, p: dict | None = None,
+                 cache_write_tokens: int = 0) -> float:
+    """Токены записи в кэш (cache_write_tokens, видны в usage с 18.11) идут по ставке cache_write_input (Luna 0.125 = 1.25x input),
+    остальные некэшированные — по input. Раньше записи не учитывались (всё некэшированное считалось по input)."""
     p = p or backend_cfg()["price_per_1m_usd"]
     inp, cin, out = p["input"], p["cached_input"], p["output"]
+    cw = p.get("cache_write_input", inp)
     lc = p.get("long_context")          # повышенный тариф: prompt_tokens > threshold => вход и выход дороже
     if lc and prompt_tokens > lc["threshold"]:
-        inp, cin, out = inp * lc["input_mult"], cin * lc["input_mult"], out * lc["output_mult"]
-    fresh = prompt_tokens - cached_tokens
-    return (fresh * inp + cached_tokens * cin + completion_tokens * out) / 1_000_000
+        inp, cin, cw, out = inp * lc["input_mult"], cin * lc["input_mult"], cw * lc["input_mult"], out * lc["output_mult"]
+    writes = min(cache_write_tokens, max(prompt_tokens - cached_tokens, 0))
+    fresh = prompt_tokens - cached_tokens - writes
+    return (fresh * inp + writes * cw + cached_tokens * cin + completion_tokens * out) / 1_000_000
+
+
+def _usage_tokens(u) -> tuple[int, int]:
+    """(cached_tokens, cache_write_tokens) из usage; поле записи в кэш — нестандартное для SDK, лежит в prompt_tokens_details."""
+    d = getattr(u, "prompt_tokens_details", None)
+    if not d:
+        return 0, 0
+    return (getattr(d, "cached_tokens", 0) or 0), (getattr(d, "cache_write_tokens", 0) or 0)
 
 
 
@@ -151,9 +165,8 @@ def complete(
     latency_ms = (time.perf_counter() - t0) * 1000
 
     u = r.usage
-    details = getattr(u, "prompt_tokens_details", None)
-    cached = (getattr(details, "cached_tokens", 0) or 0) if details else 0
-    cost = compute_cost(u.prompt_tokens, cached, u.completion_tokens, cfg["price_per_1m_usd"])
+    cached, writes = _usage_tokens(u)
+    cost = compute_cost(u.prompt_tokens, cached, u.completion_tokens, cfg["price_per_1m_usd"], writes)
 
     if backend_name() == "openai":
         cost_guard.add(cost)        # деньги потрачены в любом случае
@@ -162,7 +175,7 @@ def complete(
     resp = LLMResponse(
         text=r.choices[0].message.content or "",
         prompt_tokens=u.prompt_tokens, completion_tokens=u.completion_tokens,
-        cached_tokens=cached, latency_ms=latency_ms, cost_usd=cost,
+        cached_tokens=cached, cache_write_tokens=writes, latency_ms=latency_ms, cost_usd=cost,
         model=model, backend=backend_name(), model_api=getattr(r, "model", None))
     cache.put(key, asdict(resp))
     return resp
@@ -214,9 +227,8 @@ def complete_tools(
     latency_ms = (time.perf_counter() - t0) * 1000
 
     u = r.usage
-    details = getattr(u, "prompt_tokens_details", None)
-    cached = (getattr(details, "cached_tokens", 0) or 0) if details else 0
-    cost = compute_cost(u.prompt_tokens, cached, u.completion_tokens, cfg["price_per_1m_usd"])
+    cached, writes = _usage_tokens(u)
+    cost = compute_cost(u.prompt_tokens, cached, u.completion_tokens, cfg["price_per_1m_usd"], writes)
     if backend_name() == "openai":
         cost_guard.add(cost)
     check_not_truncated(u.prompt_tokens, estimate)
@@ -226,7 +238,7 @@ def complete_tools(
              for tc in (getattr(msg, "tool_calls", None) or [])]
     resp = LLMResponse(
         text=msg.content or "", prompt_tokens=u.prompt_tokens, completion_tokens=u.completion_tokens,
-        cached_tokens=cached, latency_ms=latency_ms, cost_usd=cost,
+        cached_tokens=cached, cache_write_tokens=writes, latency_ms=latency_ms, cost_usd=cost,
         model=model, backend=backend_name(), model_api=getattr(r, "model", None))
     cache.put(key, {"resp": asdict(resp), "tool_calls": calls})
     return ToolResponse(resp, calls)

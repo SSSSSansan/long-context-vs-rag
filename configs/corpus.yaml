@@ -18,6 +18,11 @@ facts:
     link_style: compact                # full | compact (compact короче, но менее похожа на стиль документов)
     distractors_per_entity: 0       # двойников на каждую сущность вопроса; 0 = без дистракторов
   position_facts: 5
+  # V2 P1 (18.11): если задан блок position, он заменяет position_facts/position_levels_pct. facts — сколько T1-вопросов (с якорем,
+  # отвечаемых на этом размере, по qid) берётся на размер; levels_pct — позиции факта: начало / середина / конец.
+  position:
+    levels_pct: [0, 50, 100]
+    facts: {"30k": 13, "100k": 6}
   position_levels_pct: [0, 25, 50, 75, 100]
 raw_dir: corpus/raw
 planted_dir: corpus/built/planted   # документы с внедрёнными фактами (git не коммитится)

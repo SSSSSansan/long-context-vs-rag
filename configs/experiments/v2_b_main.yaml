@@ -1,0 +1,5 @@
+# Набор B (вопросы С якорем, 42 шт.) на 100K, 1 повтор. Считается ОТДЕЛЬНО от A и A-hard. Пилот (6 вопросов, LC+EMB, runs/v2_pilot_b)
+# подтягивается из дискового кэша ответов (тот же промпт и salt r1), поэтому не тратит деньги. n_per_type=14 = все вопросы типа.
+name: v2_b_main
+runs:
+  - {question_set: [B], sizes: ["100k"], methods: [bm25, hyb_rerank, emb, agent_bm25, lc], question_types: [T1, T2, T3], n_per_type: 14, repeats: 1}

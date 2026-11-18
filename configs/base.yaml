@@ -16,6 +16,7 @@ backends:
     price_per_1m_usd:
       input: 0.10
       cached_input: 0.01
+      cache_write_input: 0.125   # запись в кэш = 1.25x input (Panda сверила по странице цен, 18.11; API отдаёт cache_write_tokens)
       output: 0.50
       embed: 0.02
       long_context: {threshold: 272000, input_mult: 2.0, output_mult: 1.5}
@@ -31,8 +32,8 @@ backends:
 model_prices:
   # $/1M токенов. long_context: при prompt_tokens > threshold вход x input_mult, выход x output_mult.
   # GPT-6: цены подтверждены Panda 2026-11-13. Датированных снапшотов у gpt-6-* нет.
-  gpt-6-luna:    {input: 0.10, cached_input: 0.01, output: 0.50,  embed: 0.02, long_context: {threshold: 272000, input_mult: 2.0, output_mult: 1.5}}
-  gpt-6.1-terra: {input: 1.00, cached_input: 0.05, output: 5.00,  embed: 0.02, long_context: {threshold: 272000, input_mult: 2.0, output_mult: 1.5}}
+  gpt-6-luna:    {input: 0.10, cached_input: 0.01, cache_write_input: 0.125, output: 0.50,  embed: 0.02, long_context: {threshold: 272000, input_mult: 2.0, output_mult: 1.5}}
+  gpt-6.1-terra: {input: 1.00, cached_input: 0.05, cache_write_input: 1.25, output: 5.00,  embed: 0.02, long_context: {threshold: 272000, input_mult: 2.0, output_mult: 1.5}}
   gpt-6.1-sol:   {input: 2.00, cached_input: 0.10, output: 10.00, embed: 0.02, long_context: {threshold: 272000, input_mult: 2.0, output_mult: 1.5}}
   # V1 (базовая линия, архив v1/):
   gpt-4o-mini-2024-07-18: {input: 0.15, cached_input: 0.075, output: 0.60, embed: 0.02}

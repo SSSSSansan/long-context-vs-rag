@@ -133,7 +133,7 @@ def execute(t, gold, corpus_text=None, extra=None, ctx=None) -> dict:
         evidence_recall=evidence_recall(facts, ctx), citation_correct=citation_correct(facts, a.doc_ids),
         quote_grounded=quote_grounded(a.quote, ctx.text), value_in_answer=value_in_answer(q["gold_answer"], a.answer, a.quote),
         value_in_answer_strict=value_in_answer_strict(q["gold_answer"], a.answer, a.quote),
-        prompt_tokens=r.prompt_tokens, completion_tokens=r.completion_tokens, cached_tokens=r.cached_tokens,
+        prompt_tokens=r.prompt_tokens, completion_tokens=r.completion_tokens, cached_tokens=r.cached_tokens, cache_write_tokens=getattr(r, "cache_write_tokens", 0),
         retrieval_ms=round(ctx.retrieval_ms, 2), generation_ms=round(r.latency_ms, 1),
         cost_usd=r.cost_usd, judge_cost_usd=jr.cost_usd, from_cache=r.from_local_cache,
         prompt=build_messages(ctx.text, q["question"])[0]["content"],

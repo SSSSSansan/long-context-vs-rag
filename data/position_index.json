@@ -12,28 +12,10 @@
   "size": "30k",
   "qid": "q_T1_001",
   "fact_id": "f_T1_001",
-  "target_pct": 25,
-  "actual_pct": 24.9,
-  "doc_id": "doc_003",
-  "file": "corpus/built/position/30k/f_T1_001_p25.txt"
- },
- {
-  "size": "30k",
-  "qid": "q_T1_001",
-  "fact_id": "f_T1_001",
   "target_pct": 50,
   "actual_pct": 50.0,
   "doc_id": "doc_006",
   "file": "corpus/built/position/30k/f_T1_001_p50.txt"
- },
- {
-  "size": "30k",
-  "qid": "q_T1_001",
-  "fact_id": "f_T1_001",
-  "target_pct": 75,
-  "actual_pct": 74.9,
-  "doc_id": "doc_009",
-  "file": "corpus/built/position/30k/f_T1_001_p75.txt"
  },
  {
   "size": "30k",
@@ -57,28 +39,10 @@
   "size": "30k",
   "qid": "q_T1_002",
   "fact_id": "f_T1_002",
-  "target_pct": 25,
-  "actual_pct": 24.9,
-  "doc_id": "doc_003",
-  "file": "corpus/built/position/30k/f_T1_002_p25.txt"
- },
- {
-  "size": "30k",
-  "qid": "q_T1_002",
-  "fact_id": "f_T1_002",
   "target_pct": 50,
   "actual_pct": 49.9,
   "doc_id": "doc_006",
   "file": "corpus/built/position/30k/f_T1_002_p50.txt"
- },
- {
-  "size": "30k",
-  "qid": "q_T1_002",
-  "fact_id": "f_T1_002",
-  "target_pct": 75,
-  "actual_pct": 74.9,
-  "doc_id": "doc_009",
-  "file": "corpus/built/position/30k/f_T1_002_p75.txt"
  },
  {
   "size": "30k",
@@ -102,28 +66,10 @@
   "size": "30k",
   "qid": "q_T1_003",
   "fact_id": "f_T1_003",
-  "target_pct": 25,
-  "actual_pct": 25.0,
-  "doc_id": "doc_003",
-  "file": "corpus/built/position/30k/f_T1_003_p25.txt"
- },
- {
-  "size": "30k",
-  "qid": "q_T1_003",
-  "fact_id": "f_T1_003",
   "target_pct": 50,
   "actual_pct": 50.0,
   "doc_id": "doc_006",
   "file": "corpus/built/position/30k/f_T1_003_p50.txt"
- },
- {
-  "size": "30k",
-  "qid": "q_T1_003",
-  "fact_id": "f_T1_003",
-  "target_pct": 75,
-  "actual_pct": 74.9,
-  "doc_id": "doc_009",
-  "file": "corpus/built/position/30k/f_T1_003_p75.txt"
  },
  {
   "size": "30k",
@@ -147,28 +93,10 @@
   "size": "30k",
   "qid": "q_T1_004",
   "fact_id": "f_T1_004",
-  "target_pct": 25,
-  "actual_pct": 25.0,
-  "doc_id": "doc_003",
-  "file": "corpus/built/position/30k/f_T1_004_p25.txt"
- },
- {
-  "size": "30k",
-  "qid": "q_T1_004",
-  "fact_id": "f_T1_004",
   "target_pct": 50,
   "actual_pct": 50.0,
   "doc_id": "doc_006",
   "file": "corpus/built/position/30k/f_T1_004_p50.txt"
- },
- {
-  "size": "30k",
-  "qid": "q_T1_004",
-  "fact_id": "f_T1_004",
-  "target_pct": 75,
-  "actual_pct": 74.9,
-  "doc_id": "doc_009",
-  "file": "corpus/built/position/30k/f_T1_004_p75.txt"
  },
  {
   "size": "30k",
@@ -192,15 +120,6 @@
   "size": "30k",
   "qid": "q_T1_005",
   "fact_id": "f_T1_005",
-  "target_pct": 25,
-  "actual_pct": 24.9,
-  "doc_id": "doc_003",
-  "file": "corpus/built/position/30k/f_T1_005_p25.txt"
- },
- {
-  "size": "30k",
-  "qid": "q_T1_005",
-  "fact_id": "f_T1_005",
   "target_pct": 50,
   "actual_pct": 50.0,
   "doc_id": "doc_006",
@@ -210,19 +129,226 @@
   "size": "30k",
   "qid": "q_T1_005",
   "fact_id": "f_T1_005",
-  "target_pct": 75,
-  "actual_pct": 74.9,
-  "doc_id": "doc_009",
-  "file": "corpus/built/position/30k/f_T1_005_p75.txt"
- },
- {
-  "size": "30k",
-  "qid": "q_T1_005",
-  "fact_id": "f_T1_005",
   "target_pct": 100,
   "actual_pct": 99.9,
   "doc_id": "doc_012",
   "file": "corpus/built/position/30k/f_T1_005_p100.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_006",
+  "fact_id": "f_T1_006",
+  "target_pct": 0,
+  "actual_pct": 0.3,
+  "doc_id": "doc_001",
+  "file": "corpus/built/position/30k/f_T1_006_p0.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_006",
+  "fact_id": "f_T1_006",
+  "target_pct": 50,
+  "actual_pct": 49.9,
+  "doc_id": "doc_006",
+  "file": "corpus/built/position/30k/f_T1_006_p50.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_006",
+  "fact_id": "f_T1_006",
+  "target_pct": 100,
+  "actual_pct": 99.9,
+  "doc_id": "doc_012",
+  "file": "corpus/built/position/30k/f_T1_006_p100.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_007",
+  "fact_id": "f_T1_007",
+  "target_pct": 0,
+  "actual_pct": 0.3,
+  "doc_id": "doc_001",
+  "file": "corpus/built/position/30k/f_T1_007_p0.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_007",
+  "fact_id": "f_T1_007",
+  "target_pct": 50,
+  "actual_pct": 50.0,
+  "doc_id": "doc_006",
+  "file": "corpus/built/position/30k/f_T1_007_p50.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_007",
+  "fact_id": "f_T1_007",
+  "target_pct": 100,
+  "actual_pct": 99.9,
+  "doc_id": "doc_012",
+  "file": "corpus/built/position/30k/f_T1_007_p100.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_008",
+  "fact_id": "f_T1_008",
+  "target_pct": 0,
+  "actual_pct": 0.3,
+  "doc_id": "doc_001",
+  "file": "corpus/built/position/30k/f_T1_008_p0.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_008",
+  "fact_id": "f_T1_008",
+  "target_pct": 50,
+  "actual_pct": 49.9,
+  "doc_id": "doc_006",
+  "file": "corpus/built/position/30k/f_T1_008_p50.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_008",
+  "fact_id": "f_T1_008",
+  "target_pct": 100,
+  "actual_pct": 100.0,
+  "doc_id": "doc_012",
+  "file": "corpus/built/position/30k/f_T1_008_p100.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_009",
+  "fact_id": "f_T1_009",
+  "target_pct": 0,
+  "actual_pct": 0.3,
+  "doc_id": "doc_001",
+  "file": "corpus/built/position/30k/f_T1_009_p0.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_009",
+  "fact_id": "f_T1_009",
+  "target_pct": 50,
+  "actual_pct": 50.0,
+  "doc_id": "doc_006",
+  "file": "corpus/built/position/30k/f_T1_009_p50.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_009",
+  "fact_id": "f_T1_009",
+  "target_pct": 100,
+  "actual_pct": 100.0,
+  "doc_id": "doc_012",
+  "file": "corpus/built/position/30k/f_T1_009_p100.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_010",
+  "fact_id": "f_T1_010",
+  "target_pct": 0,
+  "actual_pct": 0.3,
+  "doc_id": "doc_001",
+  "file": "corpus/built/position/30k/f_T1_010_p0.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_010",
+  "fact_id": "f_T1_010",
+  "target_pct": 50,
+  "actual_pct": 50.0,
+  "doc_id": "doc_006",
+  "file": "corpus/built/position/30k/f_T1_010_p50.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_010",
+  "fact_id": "f_T1_010",
+  "target_pct": 100,
+  "actual_pct": 99.9,
+  "doc_id": "doc_012",
+  "file": "corpus/built/position/30k/f_T1_010_p100.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_011",
+  "fact_id": "f_T1_011",
+  "target_pct": 0,
+  "actual_pct": 0.3,
+  "doc_id": "doc_001",
+  "file": "corpus/built/position/30k/f_T1_011_p0.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_011",
+  "fact_id": "f_T1_011",
+  "target_pct": 50,
+  "actual_pct": 50.0,
+  "doc_id": "doc_006",
+  "file": "corpus/built/position/30k/f_T1_011_p50.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_011",
+  "fact_id": "f_T1_011",
+  "target_pct": 100,
+  "actual_pct": 99.9,
+  "doc_id": "doc_012",
+  "file": "corpus/built/position/30k/f_T1_011_p100.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_012",
+  "fact_id": "f_T1_012",
+  "target_pct": 0,
+  "actual_pct": 0.3,
+  "doc_id": "doc_001",
+  "file": "corpus/built/position/30k/f_T1_012_p0.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_012",
+  "fact_id": "f_T1_012",
+  "target_pct": 50,
+  "actual_pct": 50.0,
+  "doc_id": "doc_006",
+  "file": "corpus/built/position/30k/f_T1_012_p50.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_012",
+  "fact_id": "f_T1_012",
+  "target_pct": 100,
+  "actual_pct": 99.9,
+  "doc_id": "doc_012",
+  "file": "corpus/built/position/30k/f_T1_012_p100.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_013",
+  "fact_id": "f_T1_013",
+  "target_pct": 0,
+  "actual_pct": 0.3,
+  "doc_id": "doc_001",
+  "file": "corpus/built/position/30k/f_T1_013_p0.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_013",
+  "fact_id": "f_T1_013",
+  "target_pct": 50,
+  "actual_pct": 49.9,
+  "doc_id": "doc_006",
+  "file": "corpus/built/position/30k/f_T1_013_p50.txt"
+ },
+ {
+  "size": "30k",
+  "qid": "q_T1_013",
+  "fact_id": "f_T1_013",
+  "target_pct": 100,
+  "actual_pct": 99.9,
+  "doc_id": "doc_012",
+  "file": "corpus/built/position/30k/f_T1_013_p100.txt"
  },
  {
   "size": "100k",
@@ -237,28 +363,10 @@
   "size": "100k",
   "qid": "q_T1_001",
   "fact_id": "f_T1_001",
-  "target_pct": 25,
-  "actual_pct": 25.0,
-  "doc_id": "doc_010",
-  "file": "corpus/built/position/100k/f_T1_001_p25.txt"
- },
- {
-  "size": "100k",
-  "qid": "q_T1_001",
-  "fact_id": "f_T1_001",
   "target_pct": 50,
   "actual_pct": 50.0,
   "doc_id": "doc_020",
   "file": "corpus/built/position/100k/f_T1_001_p50.txt"
- },
- {
-  "size": "100k",
-  "qid": "q_T1_001",
-  "fact_id": "f_T1_001",
-  "target_pct": 75,
-  "actual_pct": 75.0,
-  "doc_id": "doc_030",
-  "file": "corpus/built/position/100k/f_T1_001_p75.txt"
  },
  {
   "size": "100k",
@@ -282,28 +390,10 @@
   "size": "100k",
   "qid": "q_T1_002",
   "fact_id": "f_T1_002",
-  "target_pct": 25,
-  "actual_pct": 25.0,
-  "doc_id": "doc_010",
-  "file": "corpus/built/position/100k/f_T1_002_p25.txt"
- },
- {
-  "size": "100k",
-  "qid": "q_T1_002",
-  "fact_id": "f_T1_002",
   "target_pct": 50,
   "actual_pct": 50.0,
   "doc_id": "doc_020",
   "file": "corpus/built/position/100k/f_T1_002_p50.txt"
- },
- {
-  "size": "100k",
-  "qid": "q_T1_002",
-  "fact_id": "f_T1_002",
-  "target_pct": 75,
-  "actual_pct": 75.0,
-  "doc_id": "doc_030",
-  "file": "corpus/built/position/100k/f_T1_002_p75.txt"
  },
  {
   "size": "100k",
@@ -327,28 +417,10 @@
   "size": "100k",
   "qid": "q_T1_003",
   "fact_id": "f_T1_003",
-  "target_pct": 25,
-  "actual_pct": 25.0,
-  "doc_id": "doc_010",
-  "file": "corpus/built/position/100k/f_T1_003_p25.txt"
- },
- {
-  "size": "100k",
-  "qid": "q_T1_003",
-  "fact_id": "f_T1_003",
   "target_pct": 50,
   "actual_pct": 50.0,
   "doc_id": "doc_020",
   "file": "corpus/built/position/100k/f_T1_003_p50.txt"
- },
- {
-  "size": "100k",
-  "qid": "q_T1_003",
-  "fact_id": "f_T1_003",
-  "target_pct": 75,
-  "actual_pct": 75.0,
-  "doc_id": "doc_030",
-  "file": "corpus/built/position/100k/f_T1_003_p75.txt"
  },
  {
   "size": "100k",
@@ -372,28 +444,10 @@
   "size": "100k",
   "qid": "q_T1_004",
   "fact_id": "f_T1_004",
-  "target_pct": 25,
-  "actual_pct": 25.0,
-  "doc_id": "doc_010",
-  "file": "corpus/built/position/100k/f_T1_004_p25.txt"
- },
- {
-  "size": "100k",
-  "qid": "q_T1_004",
-  "fact_id": "f_T1_004",
   "target_pct": 50,
   "actual_pct": 50.0,
   "doc_id": "doc_020",
   "file": "corpus/built/position/100k/f_T1_004_p50.txt"
- },
- {
-  "size": "100k",
-  "qid": "q_T1_004",
-  "fact_id": "f_T1_004",
-  "target_pct": 75,
-  "actual_pct": 75.0,
-  "doc_id": "doc_030",
-  "file": "corpus/built/position/100k/f_T1_004_p75.txt"
  },
  {
   "size": "100k",
@@ -417,15 +471,6 @@
   "size": "100k",
   "qid": "q_T1_005",
   "fact_id": "f_T1_005",
-  "target_pct": 25,
-  "actual_pct": 25.0,
-  "doc_id": "doc_010",
-  "file": "corpus/built/position/100k/f_T1_005_p25.txt"
- },
- {
-  "size": "100k",
-  "qid": "q_T1_005",
-  "fact_id": "f_T1_005",
   "target_pct": 50,
   "actual_pct": 50.0,
   "doc_id": "doc_020",
@@ -435,18 +480,36 @@
   "size": "100k",
   "qid": "q_T1_005",
   "fact_id": "f_T1_005",
-  "target_pct": 75,
-  "actual_pct": 75.0,
-  "doc_id": "doc_030",
-  "file": "corpus/built/position/100k/f_T1_005_p75.txt"
- },
- {
-  "size": "100k",
-  "qid": "q_T1_005",
-  "fact_id": "f_T1_005",
   "target_pct": 100,
   "actual_pct": 100.0,
   "doc_id": "doc_041",
   "file": "corpus/built/position/100k/f_T1_005_p100.txt"
+ },
+ {
+  "size": "100k",
+  "qid": "q_T1_006",
+  "fact_id": "f_T1_006",
+  "target_pct": 0,
+  "actual_pct": 0.1,
+  "doc_id": "doc_001",
+  "file": "corpus/built/position/100k/f_T1_006_p0.txt"
+ },
+ {
+  "size": "100k",
+  "qid": "q_T1_006",
+  "fact_id": "f_T1_006",
+  "target_pct": 50,
+  "actual_pct": 50.0,
+  "doc_id": "doc_020",
+  "file": "corpus/built/position/100k/f_T1_006_p50.txt"
+ },
+ {
+  "size": "100k",
+  "qid": "q_T1_006",
+  "fact_id": "f_T1_006",
+  "target_pct": 100,
+  "actual_pct": 100.0,
+  "doc_id": "doc_041",
+  "file": "corpus/built/position/100k/f_T1_006_p100.txt"
  }
 ]

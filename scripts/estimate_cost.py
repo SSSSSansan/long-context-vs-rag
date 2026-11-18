@@ -50,10 +50,11 @@ def cost(model: str, t_in: int, t_out: int, cached_share: float = 0.0) -> float:
     """Стоимость одного вызова, $. Учитывает порог повышенного тарифа."""
     p, _ = get_prices(model)
     i, c, o = p["input"], p.get("cached_input", p["input"]), p["output"]
+    w = p.get("cache_write_input", i) if t_in >= 1024 else i      # некэшированная часть длинных промптов записывается в кэш (1.25x input)
     lc = p.get("long_context")
     if lc and t_in > lc["threshold"]:
-        i, c, o = i * lc["input_mult"], c * lc["input_mult"], o * lc["output_mult"]
-    return (t_in * (1 - cached_share) * i + t_in * cached_share * c + t_out * o) / 1e6
+        i, c, w, o = i * lc["input_mult"], c * lc["input_mult"], w * lc["input_mult"], o * lc["output_mult"]
+    return (t_in * (1 - cached_share) * w + t_in * cached_share * c + t_out * o) / 1e6
 
 
 def ladder(model: str = MODEL) -> list[dict]:

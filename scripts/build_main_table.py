@@ -169,6 +169,19 @@ def build_v2() -> None:
                 cs.append("—" if r.empty or pd.isna(r.iloc[0].usd_per_correct) else f"${r.iloc[0].usd_per_correct:.5f}")
             if any(c != "—" for c in cs):
                 parts.append(f"| {qs} | {label} | " + " | ".join(cs) + " |")
+    # citation correctness, evidence recall, latency (A + A-hard вместе; генерация = время ответа модели, поиск = retrieval)
+    om = ag.summarize(df, ["size", "method"])
+    parts += ["", "### Доказательства, ссылки и latency (A + A-hard, n = 108 вызовов на ячейку; NO-CONTEXT не включён)", "",
+              "| Метод | Размер | evidence recall | citation | quote_grounded | генерация p50 / p95, с | поиск p50, мс |", "|---|---|---|---|---|---|---|"]
+    for m, label in V2_METHODS[1:]:
+        for z in SIZES:
+            r = om[(om["size"] == z) & (om.method == m)]
+            if r.empty:
+                continue
+            r = r.iloc[0]
+            parts.append(f"| {label} | {z.upper()} | {r.evidence_recall:.2f} | {r.citation:.2f} | {r.quote_grounded:.2f} | "
+                         f"{r.lat_p50_ms/1000:.1f} / {r.lat_p95_ms/1000:.1f} | {r.retr_p50_ms:.0f} |")
+    parts += ["", "quote_grounded (дословная цитата найдена в переданном контексте) низкий у всех методов (0.1–0.3): модель пересказывает, а не цитирует дословно, либо сопоставление строки слишком строгое; метрика требует отдельной проверки (PLAN_V2 §7) и пока не используется как вывод."]
     (RES / "main_table_v2.md").write_text("\n".join(parts) + "\n", encoding="utf-8")
     main_s.assign(variant="main").pipe(lambda a: pd.concat([a, strict_s.assign(variant="strict")])).to_csv(RES / "main_table_v2.csv", index=False)
     print(f"записано: {RES / 'main_table_v2.md'}, {RES / 'main_table_v2.csv'}")

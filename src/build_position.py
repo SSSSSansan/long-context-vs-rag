@@ -47,15 +47,22 @@ def main() -> None:
     cfg = load_yaml("configs/corpus.yaml")
     gold = {f["fact_id"]: f for f in json.loads((ROOT / "data/gold.json").read_text(encoding="utf-8"))["facts"]}
     qs = json.loads((ROOT / "data/questions.json").read_text(encoding="utf-8"))["questions"]
-    t1 = sorted((q for q in qs if q["type"] == "T1" and q.get("anchor", True)), key=lambda q: q["qid"])[:cfg["facts"]["position_facts"]]
+    _SO = ["8k", "30k", "100k"]
+    pos = cfg["facts"].get("position")           # V2: свой набор фактов и позиций на размер
+    levels = pos["levels_pct"] if pos else cfg["facts"]["position_levels_pct"]
+    anchored_t1 = sorted((q for q in qs if q["type"] == "T1" and q.get("anchor", True)), key=lambda q: q["qid"])
     index = []
     for size in ("30k", "100k"):
+        if pos:       # T1 с якорем, чьи факты есть в корпусе этого размера (first_corpus <= size)
+            t1 = [q for q in anchored_t1 if _SO.index(q["first_corpus"]) <= _SO.index(size)][:pos["facts"][size]]
+        else:
+            t1 = anchored_t1[:cfg["facts"]["position_facts"]]
         corpus = (ROOT / cfg["built_dir"] / size / "corpus.txt").read_text(encoding="utf-8")
         out = ROOT / cfg["built_dir"] / "position" / size
         out.mkdir(parents=True, exist_ok=True)
         for q in t1:
             f = gold[q["fact_ids"][0]]
-            for pct in cfg["facts"]["position_levels_pct"]:
+            for pct in levels:
                 text, doc, real = move_fact(corpus, f["statement"], pct)
                 assert text.count(f["statement"]) == 1
                 name = f"{f['fact_id']}_p{pct}.txt"

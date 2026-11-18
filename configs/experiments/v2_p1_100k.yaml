@@ -1,0 +1,5 @@
+# P1, 100K: 6 T1-вопросов × позиции 0/50/100, 1 повтор.
+name: v2_p1_100k
+mode: position
+runs:
+  - {sizes: ["100k"], positions_pct: [0, 50, 100], repeats: 1}

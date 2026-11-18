@@ -261,7 +261,7 @@ def run_episode(size: str, question: str, *, salt: str = "", index: str = "bm25"
         steps += 1
         r = tr.resp
         last = r
-        tot["p"] += r.prompt_tokens; tot["c"] += r.completion_tokens; tot["cached"] += r.cached_tokens
+        tot["p"] += r.prompt_tokens; tot["c"] += r.completion_tokens; tot["cached"] += r.cached_tokens; tot["w"] = tot.get("w", 0) + r.cache_write_tokens
         tot["ms"] += r.latency_ms; tot["cost"] += r.cost_usd
         all_cached = all_cached and r.from_local_cache
         if not tr.tool_calls:
@@ -286,7 +286,7 @@ def run_episode(size: str, question: str, *, salt: str = "", index: str = "bm25"
 
     hit_cap = final is None
     agg = LLMResponse(
-        text=final.text if final else "", prompt_tokens=tot["p"], completion_tokens=tot["c"], cached_tokens=tot["cached"],
+        text=final.text if final else "", prompt_tokens=tot["p"], completion_tokens=tot["c"], cached_tokens=tot["cached"], cache_write_tokens=tot.get("w", 0),
         latency_ms=tot["ms"], cost_usd=tot["cost"], model=last.model if last else "", backend=last.backend if last else "",
         from_local_cache=all_cached, model_api=last.model_api if last else None)
     ans = answer_from_response(agg)
