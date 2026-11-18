@@ -36,6 +36,16 @@ Research-проект R04 (KBTU X-DAI, Document AI): при каких объё�
 - [x] Калибровка судьи — 40 примеров размечены вслепую от вердиктов судьи (`results/judge_calibration_for_human.csv`): с помощью Claude и проверкой автором; согласие 85% (κ=0.78, по «верно/неверно» 100%), выборка небольшая (n=40)
 - [ ] День 6–7 — финальная вычитка, видео
 
+## Демо (Streamlit, на сохранённых результатах)
+
+Показывает готовые результаты (5 экранов: один вопрос по методам, точность и размер, деньги, положение факта, выводы). Платных вызовов и пересчёта моделей нет, API-ключ не нужен. Данные лежат в `demo/data/` (≈2.7 МБ, без промптов); пересобрать: `python -m scripts.export_demo_data` (в основном окружении, бесплатно).
+
+```bash
+python -m venv .venv-demo && source .venv-demo/bin/activate
+pip install -r requirements-demo.txt      # streamlit, plotly, pandas; проверено на Python 3.14.7
+streamlit run demo/app.py
+```
+
 ## Быстрый старт
 
 ```bash
