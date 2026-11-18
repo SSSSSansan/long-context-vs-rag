@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from src.eval.value_check import gold_names, gold_numbers, value_in_answer as v
+from src.eval.value_check import gold_names, gold_numbers, value_in_answer as v, value_in_answer_strict as vs
 
 T2 = "«Нерида-91» (учреждённая в 2020 году для докторантов и курируемая подразделением «Бюро карьерного развития»): 17 недель против 20 недель у «Талис-56»"
 T2_PLAIN = "«Вельта-76»: 75 баллов против 66 баллов у «Ольвия-49»"
@@ -20,6 +20,7 @@ def test_gold_numbers_ignore_names_docs_and_descriptors():
 def test_t2_name_only_is_rejected():
     assert not v(T2, "Программа «Нерида-91» имеет меньшую продолжительность.")
     assert not v(T2_PLAIN, "Вельта-76")
+    assert not vs(T2_PLAIN, "Вельта-76")
 
 
 def test_t2_with_both_values_accepted_and_paraphrase():
@@ -29,9 +30,34 @@ def test_t2_with_both_values_accepted_and_paraphrase():
     assert v(T2_PLAIN, "у Вельта-76 75 баллов, у Ольвия-49 — 66")
 
 
-def test_only_one_of_two_numbers_is_rejected():
-    assert not v(T2, "17 недель")
-    assert not v(T3, "Да, 18 недель")
+def test_t2_winner_value_only_is_accepted_as_main_rule():
+    """Основное правило T2: значение победителя (первое число эталона) достаточно, второго числа может не быть."""
+    assert v(T2, "Меньшую продолжительность имеет программа «Нерида-91» — 17 недель.")
+    assert v(T2, "17 недель")
+    assert v(T2_PLAIN, "У «Вельта-76» 75 баллов")
+
+
+def test_t2_strict_still_requires_both_numbers():
+    """Строгое правило «оба числа» сохранено как диагностика (value_ok_strict)."""
+    assert not vs(T2, "17 недель")
+    assert vs(T2, "17 недель против 20 недель")
+
+
+def test_t2_wrong_winner_or_name_only_is_rejected():
+    assert not v(T2, "«Талис-56» — 20 недель")                                  # значение проигравшего, не победителя
+    assert not v(T2, "Более короткий срок у «Нерида-91».")                      # имя без числа: защита от угадывания 50%
+    assert not v(T2, "Меньше баллов нужно для зачисления")                      # ни имени, ни числа
+    assert not v(T2, "")
+
+
+def test_t3_and_t1_unchanged_by_winner_rule():
+    assert not v(T3, "Да, 18 недель")                                           # T3: нужны оба значения
+    assert not vs(T3, "Да, 18 недель")
+    assert v("114 МРП", "114 МРП") and vs("114 МРП", "114 МРП")
+
+
+def test_t3_word_protivorechie_is_not_confused_with_t2_marker():
+    assert not v(T3_NAMES, "Да, «Бюро лабораторных исследований»")              # нужны оба имени, как раньше
 
 
 def test_digits_inside_names_do_not_count_as_values():
@@ -69,7 +95,8 @@ def test_quote_counts_as_part_of_answer_like_the_judge_sees_it():
     assert not v(T2, "Программа «Нерида-91» короче.")
     assert v(T2, "Программа «Нерида-91» короче.", "Срок — 17 недель; … Срок — 20 недель.")
     assert v(T3_NAMES, "true", "(doc_002) подразделение «Бюро лабораторных исследований» … (doc_001) «Отдел академической репутации»")
-    assert not v(T2, "Нерида-91", "Срок — 17 недель.")                  # одного из двух чисел мало
+    assert v(T2, "Нерида-91", "Срок — 17 недель.")                      # число победителя в цитате: основное правило принимает
+    assert not vs(T2, "Нерида-91", "Срок — 17 недель.")                 # строгое («оба числа») — нет
 
 
 def test_abstention_is_not_value():

@@ -75,7 +75,7 @@ def estimate_tokens(messages: list[dict]) -> int | None:
         if _enc is None:
             import tiktoken
             _enc = tiktoken.get_encoding(backend_cfg()["tokenizer"])
-        return sum(len(_enc.encode(m["content"])) for m in messages)
+        return sum(len(_enc.encode(m.get("content") or "")) for m in messages)   # у assistant с tool_calls content может быть None
     except Exception:
         return None
 
@@ -102,6 +102,16 @@ def compute_cost(prompt_tokens: int, cached_tokens: int, completion_tokens: int,
         inp, cin, out = inp * lc["input_mult"], cin * lc["input_mult"], out * lc["output_mult"]
     fresh = prompt_tokens - cached_tokens
     return (fresh * inp + cached_tokens * cin + completion_tokens * out) / 1_000_000
+
+
+
+def _limit_kw(max_tokens, temperature):
+    """Параметры генерации под бэкенд.
+    OpenAI (gpt-6-*): только max_completion_tokens, temperature поддерживается лишь по умолчанию (1) — не передаём.
+    Локальный Ollama: max_tokens и temperature как в конфиге."""
+    if backend_name() == "local":
+        return {"max_tokens": max_tokens, "temperature": temperature}
+    return {"max_completion_tokens": max_tokens}
 
 
 def complete(
@@ -137,7 +147,7 @@ def complete(
 
     t0 = time.perf_counter()
     r = _get_client().chat.completions.create(
-        model=model, messages=messages, temperature=temperature, max_tokens=max_tokens)
+        model=model, messages=messages, **_limit_kw(max_tokens, temperature))
     latency_ms = (time.perf_counter() - t0) * 1000
 
     u = r.usage
@@ -156,6 +166,70 @@ def complete(
         model=model, backend=backend_name(), model_api=getattr(r, "model", None))
     cache.put(key, asdict(resp))
     return resp
+
+
+@dataclass
+class ToolResponse:
+    resp: LLMResponse            # text = content ответа (пустой, если модель вызвала инструменты)
+    tool_calls: list             # [{"id", "name", "arguments"}]; arguments — сырая JSON-строка от модели
+
+
+def complete_tools(
+    messages: list[dict],
+    tools: list[dict],
+    *,
+    tool_choice: str = "auto",   # "auto" | "none" (принудительно финальный ответ без инструментов)
+    max_tokens: int | None = None,
+    salt: str = "",
+) -> ToolResponse:
+    """Один шаг агентного цикла (function calling). Те же правила, что у complete(): кэш по хэшу, защита от
+    обрезки контекста, cost_guard, учёт usage. Вызывается только из src/methods/agent.py."""
+    cfg, gen = backend_cfg(), base_cfg()["generation"]
+    temperature = gen["temperature"]
+    max_tokens = gen["max_tokens"] if max_tokens is None else max_tokens
+    model = cfg["chat_model"]
+
+    key = cache.make_key({"b": backend_name(), "m": model, "msgs": messages, "tools": tools, "tc": tool_choice, "re": base_cfg().get("agent", {}).get("openai_reasoning_effort"),
+                          "t": temperature, "mt": max_tokens, "salt": salt})
+    hit = cache.get(key)
+    if hit is not None:
+        r = dict(hit["resp"])
+        r["from_local_cache"] = True
+        r["cost_usd"] = 0.0
+        return ToolResponse(LLMResponse(**r), hit["tool_calls"])
+
+    estimate = estimate_tokens(messages)
+    check_fits(estimate, cfg["context_window"])
+    if backend_name() == "openai":
+        cost_guard.check()
+
+    t0 = time.perf_counter()
+    extra = {}
+    eff = base_cfg().get("agent", {}).get("openai_reasoning_effort")
+    if backend_name() == "openai" and eff:
+        extra["reasoning_effort"] = eff
+    r = _get_client().chat.completions.create(
+        model=model, messages=messages, tools=tools, tool_choice=tool_choice,
+        **_limit_kw(max_tokens, temperature), **extra)
+    latency_ms = (time.perf_counter() - t0) * 1000
+
+    u = r.usage
+    details = getattr(u, "prompt_tokens_details", None)
+    cached = (getattr(details, "cached_tokens", 0) or 0) if details else 0
+    cost = compute_cost(u.prompt_tokens, cached, u.completion_tokens, cfg["price_per_1m_usd"])
+    if backend_name() == "openai":
+        cost_guard.add(cost)
+    check_not_truncated(u.prompt_tokens, estimate)
+
+    msg = r.choices[0].message
+    calls = [{"id": tc.id, "name": tc.function.name, "arguments": tc.function.arguments or ""}
+             for tc in (getattr(msg, "tool_calls", None) or [])]
+    resp = LLMResponse(
+        text=msg.content or "", prompt_tokens=u.prompt_tokens, completion_tokens=u.completion_tokens,
+        cached_tokens=cached, latency_ms=latency_ms, cost_usd=cost,
+        model=model, backend=backend_name(), model_api=getattr(r, "model", None))
+    cache.put(key, {"resp": asdict(resp), "tool_calls": calls})
+    return ToolResponse(resp, calls)
 
 
 _local_embedder = None

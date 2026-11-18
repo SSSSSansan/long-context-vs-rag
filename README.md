@@ -10,7 +10,14 @@ Research-проект R04 (KBTU X-DAI, Document AI): при каких объё�
 
 Подробно: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Полный план — в `R04_LONG_CONTEXT_VS_RAG_CONTEXT.md`.
 
-## Статус (промежуточный, на 10 ноября)
+## Статус V2 (18 ноября): gpt-6-luna, шаги Ш1–Ш7 по PLAN_V2 выполнены
+- [x] Наборы вопросов A (с якорем), A-hard (без якоря), B; NO-CONTEXT; HYB-RRF и HYB-rerank; AGENT (инструменты: поиск, чанк, расчёт, запись в Notion-мок)
+- [x] Прогоны Ш1–Ш7 на `gpt-6-luna` (расход $1.06 из $3.00); таблица [results/main_table_v2.md](results/main_table_v2.md), парные тесты Макнемара + Холм `results/mcnemar_v2_*.csv`, безубыточность `results/breakeven_*.csv`
+- [x] Метрика: судья И `value_in_answer` (T2: число победителя, строгая версия — диагностика); отказ не бывает correct
+- [ ] Не сделано: Ш8 (набор B), P1 на Luna, другие модели, Ragas, видео. Все числа предварительные (калибровка судьи n=40, не независимая разметка)
+- Воспроизведение V2: `LLM_BACKEND=openai python -m src.eval.run --exp configs/experiments/v2_s<N>_*.yaml --workers 2 --out runs/v2_s<N>` (под `cost_guard`), затем `python -m scripts.build_main_table --v2 && python -m scripts.mcnemar_v2`. Локально бесплатно: `LLM_BACKEND=local`, `--repeats 1 --limit 12`.
+
+## Статус V1 (промежуточный, на 10 ноября)
 - [x] День 1.1 — каркас репозитория, `llm_client`, `cost_guard`, кэш, конфиги
 - [x] День 1.2 — синтетический корпус (48 документов), вложенные 8K/30K/100K, чанкинг
 - [x] День 2 — факты, gold, вопросы, leakage-check (0/60 утечек), позиционные корпуса

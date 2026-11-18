@@ -60,6 +60,11 @@ def parse(text: str) -> tuple[dict, bool]:
 
 def answer_question(context: str, question: str, *, salt: str = "", max_tokens: int | None = None) -> Answer:
     resp = complete(build_messages(context, question), salt=salt, max_tokens=max_tokens)
+    return answer_from_response(resp)
+
+
+def answer_from_response(resp: LLMResponse) -> Answer:
+    """Разбор ответа модели в Answer. Общий для обычных методов и для AGENT (там resp — сумма по шагам цикла)."""
     d, ok = parse(resp.text)
     ans = d.get("answer", "")
     ans = ans if isinstance(ans, str) else json.dumps(ans, ensure_ascii=False)

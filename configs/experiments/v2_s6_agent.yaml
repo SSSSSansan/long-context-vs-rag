@@ -1,0 +1,7 @@
+# Ш6: AGENT (PLAN_V2 §3.4, §5.2), только набор A-hard (вопрос без имени сущности: агент должен искать по описанию).
+# Три индекса поиска: bm25 / emb / hyb (RRF). 18 вопросов x 3 индекса x 3 повтора = 162 эпизода (в смете ~10K вход. токенов на эпизод).
+# Размер 100K: стоимость агента почти не зависит от размера, а LC на 100K — главный ориентир по цене (Ш7).
+# Локальная отладка: --repeats 1 --limit 12 (qwen2.5-7b-32k поддерживает function calling в Ollama).
+name: v2_s6_agent
+runs:
+  - {question_set: A-hard, sizes: ["100k"], methods: [agent_bm25, agent_emb, agent_hyb], question_types: [T1, T2, T3], n_per_type: 6, repeats: 3}

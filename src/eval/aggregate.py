@@ -20,7 +20,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
 from ..config import ROOT, base_cfg  # noqa: E402
-from .value_check import value_in_answer  # noqa: E402
+from .value_check import value_in_answer, value_in_answer_strict  # noqa: E402
 
 RES = Path(os.environ["RESULTS_DIR"]).resolve() if os.environ.get("RESULTS_DIR") else ROOT / "results"   # RESULTS_DIR=results/local — отладка, не затирает V1-таблицы
 
@@ -72,9 +72,13 @@ def load(dirs: list[Path]) -> pd.DataFrame:
     if df.empty:
         return df
     # итоговая accuracy = судья == correct И value_in_answer (src/eval/value_check.py); «по судье» оставлена отдельно
-    df["correct_judge"] = (df.verdict == "correct").astype(float)
+    ab = df.abstained.fillna(False).astype(bool) if "abstained" in df else False
+    df["correct_judge"] = ((df.verdict == "correct") & ~ab).astype(float)   # отказ -> 0 всегда, даже если судья ошибся
     df["value_ok"] = [value_in_answer(g, a, q) for g, a, q in zip(df.gold_answer.fillna(""), df.answer.fillna(""), df.quote.fillna(""))]
     df["correct"] = df.correct_judge * df.value_ok.astype(float)
+    # диагностика: строгое правило «оба числа» для T2 (основное — winner-value-only, см. value_check.py)
+    df["value_ok_strict"] = [value_in_answer_strict(g, a, q) for g, a, q in zip(df.gold_answer.fillna(""), df.answer.fillna(""), df.quote.fillna(""))]
+    df["correct_strict"] = df.correct_judge * df.value_ok_strict.astype(float)
     for c in ("set", "anchor", "question_set"):      # у данных V1 этих полей нет
         if c not in df:
             df[c] = None
@@ -104,6 +108,10 @@ def summarize(df: pd.DataFrame, by: list[str]) -> pd.DataFrame:
         retr_p50_ms=("retrieval_ms", lambda s: s.quantile(0.5)),
         cost_usd=("cost_usd", "sum"), cost_nocache_usd=("cost_nocache_usd", "sum"), n_correct=("correct", "sum"))
     out = out.join(tot)
+    agent_cols = [c for c in ("n_tool_calls", "tool_call_accuracy", "agent_give_up", "search_recall") if c in df and df[c].notna().any()]
+    if agent_cols:       # метрики AGENT: среднее по эпизодам (пустые значения у не-агентных методов пропускаются)
+        num = df[agent_cols].apply(lambda col: col.map(lambda v: float(v) if v is not None and v == v else np.nan))
+        out = out.join(num.groupby([df[b] for b in by]).mean())
     # $/correct: стоимость ответов / число верных (стоимость judge не входит; цена из первого, не из кэш-хитов)
     out["usd_per_correct"] = out.cost_nocache_usd / out.n_correct.replace(0, np.nan)
     out["usd_per_correct_cached"] = out.cost_usd / out.n_correct.replace(0, np.nan)
@@ -251,7 +259,7 @@ def position_chart(df: pd.DataFrame):
         fig.savefig(RES / f"charts/position_curve{suffix}.png", dpi=140, bbox_inches="tight"); plt.close(fig)
 
 
-METHOD_PAIR_ORDER = ["nocontext", "lc", "bm25", "emb", "hyb_rrf", "hyb_rerank"]
+METHOD_PAIR_ORDER = ["nocontext", "lc", "bm25", "emb", "hyb_rrf", "hyb_rerank", "agent_bm25", "agent_emb", "agent_hyb"]
 MCNEMAR_QSETS = ("A", "A-hard")   # парный дизайн есть только там: один и тот же вопрос во всех условиях
 
 
@@ -350,7 +358,7 @@ def main():
     pd.set_option("display.width", 220); pd.set_option("display.max_columns", 30)
     for name, by, d in [("summary_by_type", ["model", "qset", "size", "method", "type"], main_),
                         ("summary_overall", ["model", "qset", "size", "method"], main_),
-                        ("summary_ablation_k", ["model", "qset", "size", "system", "type"], base[~base.method.isin(["lc", "nocontext"])])]:
+                        ("summary_ablation_k", ["model", "qset", "size", "system", "type"], base[~base.method.isin(["lc", "nocontext"]) & ~base.method.str.startswith("agent_")])]:
         if d.empty:
             continue
         s = summarize(d, by)

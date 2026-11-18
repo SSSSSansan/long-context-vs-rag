@@ -99,7 +99,85 @@ def build_csv() -> list[dict]:
     return out
 
 
+# ---------------------------------------------------------------------------------------------------------------
+# V2 (gpt-6-luna, runs/v2_s1..s7): два варианта итоговой метрики + судья.   python -m scripts.build_main_table --v2
+# (а) основная: судья correct И value_in_answer (T2: число победителя);  (б) строгая: T2 требует оба числа (диагностика).
+# ---------------------------------------------------------------------------------------------------------------
+V2_METHODS = [("nocontext", "NO-CONTEXT"), ("lc", "LC"), ("bm25", "BM25"), ("emb", "EMB"), ("hyb_rrf", "HYB-RRF"),
+              ("hyb_rerank", "HYB-rerank"), ("agent_bm25", "AGENT(bm25)"), ("agent_emb", "AGENT(emb)"), ("agent_hyb", "AGENT(hyb)")]
+V2_SETS = [("A", "Набор A (с лексическим якорем)"), ("A-hard", "Набор A-hard (без якоря)")]
+
+
+def build_v2() -> None:
+    import glob
+    import pandas as pd
+    from src.eval import aggregate as ag
+
+    dirs = [Path(d) for d in sorted(glob.glob(str(ROOT / "runs/v2_s[1-7]")))]
+    df = ag.load(dirs)
+    df = df[df.model.str.startswith("gpt-6-luna")].copy()
+    strict = df.copy()
+    strict["correct"] = strict["correct_strict"]
+    by = ["question_set", "size", "method"]
+    main_s, strict_s = ag.summarize(df, by), ag.summarize(strict, by)
+
+    def cell_v2(sm: pd.DataFrame, qs: str, size: str, m: str, show: str) -> str:
+        r = sm[(sm.question_set == qs) & (sm["size"] == size) & (sm.method == m)]
+        if r.empty:
+            return "—"
+        r = r.iloc[0]
+        return f"{r.accuracy:.2f} [{r.acc_ci_low:.2f}–{r.acc_ci_high:.2f}]" if show == "ci" else f"{r[show]:.2f}"
+
+    def block(qs: str, sub: str) -> list[str]:
+        out = [f"### {sub}", "", "Ячейка: основная метрика [CI Уилсона] / строгая / судья. «—» = не прогонялось. n = 18 вопросов × 3 повтора = 54 вызова.", "",
+               "| Метод | " + " | ".join(s.upper() for s in SIZES) + " |", "|---" * (len(SIZES) + 1) + "|"]
+        for m, label in V2_METHODS:
+            cells = []
+            for size in SIZES:
+                a = cell_v2(main_s, qs, size, m, "ci")
+                cells.append("—" if a == "—" else f"{a} / {cell_v2(strict_s, qs, size, m, 'accuracy')} / {cell_v2(main_s, qs, size, m, 'accuracy_judge')}")
+            out.append(f"| {label} | " + " | ".join(cells) + " |")
+        return out + [""]
+
+    parts = ["# Главная таблица V2: gpt-6-luna", "",
+             "Метрики: **основная** = судья `correct` И `value_in_answer` (T2: число победителя, правило winner-value-only, выбрано постфактум — см. REPORT.md); "
+             "**строгая** = то же, но T2 требует оба числа (диагностика); **судья** = accuracy по вердикту судьи (отказ = 0). "
+             "Числа предварительные до независимой калибровки. Без кэша и судьи в $.", ""]
+    for qs, sub in V2_SETS:
+        parts += block(qs, sub)
+    # T2 отдельно: именно здесь правило меняет цифры
+    t2 = df[df.type == "T2"]
+    t2s = t2.copy(); t2s["correct"] = t2s["correct_strict"]
+    sm_m, sm_s = ag.summarize(t2, by), ag.summarize(t2s, by)
+    parts += ["### Только T2 («что из двух»), n = 6 вопросов × 3 повтора на ячейку: основная / строгая / судья", "",
+              "| Набор | Метод | " + " | ".join(s.upper() for s in SIZES) + " |", "|---" * (len(SIZES) + 2) + "|"]
+    for qs, _ in V2_SETS:
+        for m, label in V2_METHODS:
+            cs = [f"{cell_v2(sm_m, qs, z, m, 'accuracy')} / {cell_v2(sm_s, qs, z, m, 'accuracy')} / {cell_v2(sm_m, qs, z, m, 'accuracy_judge')}"
+                  if cell_v2(sm_m, qs, z, m, "accuracy") != "—" else "—" for z in SIZES]
+            if any(c != "—" for c in cs):
+                parts.append(f"| {qs} | {label} | " + " | ".join(cs) + " |")
+    parts.append("")
+    # $/correct (основная метрика)
+    parts += ["### $/correct (основная метрика; без кэша, без судьи)", "", "| Набор | Метод | " + " | ".join(s.upper() for s in SIZES) + " |",
+              "|---" * (len(SIZES) + 2) + "|"]
+    for qs, _ in V2_SETS:
+        for m, label in V2_METHODS:
+            cs = []
+            for z in SIZES:
+                r = main_s[(main_s.question_set == qs) & (main_s["size"] == z) & (main_s.method == m)]
+                cs.append("—" if r.empty or pd.isna(r.iloc[0].usd_per_correct) else f"${r.iloc[0].usd_per_correct:.5f}")
+            if any(c != "—" for c in cs):
+                parts.append(f"| {qs} | {label} | " + " | ".join(cs) + " |")
+    (RES / "main_table_v2.md").write_text("\n".join(parts) + "\n", encoding="utf-8")
+    main_s.assign(variant="main").pipe(lambda a: pd.concat([a, strict_s.assign(variant="strict")])).to_csv(RES / "main_table_v2.csv", index=False)
+    print(f"записано: {RES / 'main_table_v2.md'}, {RES / 'main_table_v2.csv'}")
+
+
 def main() -> None:
+    import sys
+    if "--v2" in sys.argv:
+        return build_v2()
     md = build_markdown()
     (RES / "main_table.md").write_text(md, encoding="utf-8")
     rows = build_csv()

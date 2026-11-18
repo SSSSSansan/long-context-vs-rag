@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import argparse
+import openai.resources.embeddings  # noqa: F401  (предзагрузка: иначе DeadlockError при --workers>1)
 import json
 import math
 import random
@@ -22,13 +23,15 @@ import yaml
 from .. import cost_guard
 from ..answer import answer_question, build_messages
 from ..config import ROOT, backend_name, base_cfg
+from ..methods import Context
+from ..methods.agent import INDEXES as AGENT_INDEXES
 from ..methods.bm25 import chunks_of
 from ..methods.long_context import load_corpus
 from ..methods.registry import METHODS, NO_K_METHODS
 from ..tokens import count_tokens
 from .exact_metrics import citation_correct, evidence_recall, quote_grounded
 from .judge import judge
-from .value_check import value_in_answer
+from .value_check import value_in_answer, value_in_answer_strict
 
 SIZE_ORDER = ["8k", "30k", "100k"]
 # Наборы вопросов V2 (PLAN_V2 §2.1). A и A-hard — одни и те же факты (set="A"), различается лексический якорь в вопросе.
@@ -103,11 +106,20 @@ def pred_text(a) -> str:
 def execute(t, gold, corpus_text=None, extra=None, ctx=None) -> dict:
     q, size, method, k = t["q"], t["size"], t["method"], t["k"]
     facts = [gold[f] for f in q["fact_ids"]]
-    if ctx is None:
-        ctx = METHODS[method](size, q["question"], k, corpus_text) if corpus_text is not None else METHODS[method](size, q["question"], k)
     salt = f"r{t['repeat']}"
-    a = answer_question(ctx.text, q["question"], salt=salt)
+    if method in AGENT_INDEXES:          # AGENT: вместо готового {context} — цикл с инструментами (src/methods/agent.py)
+        from ..methods.agent import run_episode
+        ep = run_episode(size, q["question"], salt=salt, index=AGENT_INDEXES[method])
+        ctx, a = ep.context, ep.answer
+        extra = {**ep.extra, "search_recall": evidence_recall(facts, Context(text="", chunk_ids=ep.extra["search_chunk_ids"])),
+                 **(extra or {})}
+    else:
+        if ctx is None:
+            ctx = METHODS[method](size, q["question"], k, corpus_text) if corpus_text is not None else METHODS[method](size, q["question"], k)
+        a = answer_question(ctx.text, q["question"], salt=salt)
     verdict, why, jr = judge(q["question"], q["gold_answer"], pred_text(a), salt=salt)
+    if a.abstained and verdict in ("correct", "partial"):    # жёсткое правило: отказ никогда не «верный» (ошибка судьи)
+        why, verdict = f"[override: отказ, судья дал {verdict}] {why}", "abstain"
     r = a.resp
     row = dict(
         qid=q["qid"], type=q["type"], set=q.get("set"), anchor=q.get("anchor"), question_set=t.get("question_set"),
@@ -120,6 +132,7 @@ def execute(t, gold, corpus_text=None, extra=None, ctx=None) -> dict:
         gold_answer=q["gold_answer"], verdict=verdict, judge_rationale=why,
         evidence_recall=evidence_recall(facts, ctx), citation_correct=citation_correct(facts, a.doc_ids),
         quote_grounded=quote_grounded(a.quote, ctx.text), value_in_answer=value_in_answer(q["gold_answer"], a.answer, a.quote),
+        value_in_answer_strict=value_in_answer_strict(q["gold_answer"], a.answer, a.quote),
         prompt_tokens=r.prompt_tokens, completion_tokens=r.completion_tokens, cached_tokens=r.cached_tokens,
         retrieval_ms=round(ctx.retrieval_ms, 2), generation_ms=round(r.latency_ms, 1),
         cost_usd=r.cost_usd, judge_cost_usd=jr.cost_usd, from_cache=r.from_local_cache,

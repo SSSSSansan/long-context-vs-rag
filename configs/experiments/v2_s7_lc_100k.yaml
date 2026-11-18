@@ -1,0 +1,4 @@
+# Ш7: long context на 100K. 2 набора x 18 x 3 повтора = 108 вызовов (~$1.09 без кэша, ~$0.21 с кэшем). Самый дорогой обязательный шаг.
+name: v2_s7_lc_100k
+runs:
+  - {question_set: [A, A-hard], sizes: ["100k"], methods: [lc], question_types: [T1, T2, T3], n_per_type: 6, repeats: 3}

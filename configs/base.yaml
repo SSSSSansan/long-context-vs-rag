@@ -54,3 +54,13 @@ retrieval:
 budget:
   cache_dir: runs/cache
   budget_file: runs/budget_v2.json   # V2; старый счётчик V1 лежит в runs/v1/budget.json
+
+# AGENT (PLAN_V2 §3.4): модель сама ищет фрагменты инструментами вместо готового {context}
+agent:
+  max_tool_calls: 8          # лимит вызовов инструментов на эпизод; дальше принудительный финальный ответ
+  search_k_default: 5
+  search_k_max: 8
+  snippet_chars: 240         # search_corpus отдаёт только начало чанка; целиком — get_chunk
+  notion_dir: runs/notion_mock   # write_to_notion — мок без сети, пишет .md сюда
+  openai_reasoning_effort: none   # gpt-6-*: function tools в chat/completions работают только при reasoning_effort=none (иначе 400). Только OpenAI-бэкенд; в отчёт: отличие от LC/RAG
+  notion_instruction: false  # true — к заглушке {context} добавляется просьба сохранить ответ в Notion (для демо-видео)

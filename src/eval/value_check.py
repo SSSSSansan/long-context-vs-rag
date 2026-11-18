@@ -10,6 +10,10 @@
   2. Нет чисел, есть названия в «ёлочках» (T3 про подразделения): ВСЕ названия должны встретиться в ответе.
   3. Иначе (T1 про подразделение): весь эталон как строка должен встретиться в ответе.
 Сравнение без регистра, ё = е, кавычки и лишние пробелы не важны.
+  Правило 1 для вопросов «что из двух» (T2: в эталоне « против », структура «победитель: X против Y у ...») —
+  основное правило winner-value-only (введено 18.11, ПОСТФАКТУМ по разбору калибровки): достаточно числа ПОБЕДИТЕЛЯ
+  (первое число эталона). Строгое «оба числа» осталось как диагностика: value_in_answer_strict. Имя победителя без
+  числа по-прежнему НЕ засчитывается (защита от угадывания 50%). T1 и T3 не менялись.
 Проверяемый текст = answer + quote — ровно то, что видит судья (run.pred_text). Только `answer` дал бы формальный
 брак: на V1-данных модели кладут значения в цитату, а в T3 ответ часто просто «true» (проверено на runs/ и v1/).
 """
@@ -42,14 +46,28 @@ def gold_names(gold: str) -> list[str]:
     return [norm(m) for m in _QUOTED.findall(_PAREN.sub(" ", gold))]
 
 
-def value_in_answer(gold_answer: str, answer: str, quote: str = "") -> bool:
+_VERSUS = re.compile(r"\sпротив\s")        # «противоречие» (T3) не совпадает: после «против» нет пробела
+
+
+def is_t2_gold(gold: str) -> bool:
+    return bool(_VERSUS.search(gold)) and len(gold_numbers(gold)) >= 2
+
+
+def value_in_answer(gold_answer: str, answer: str, quote: str = "", strict: bool = False) -> bool:
+    """Основная проверка. strict=True: для T2 требуются оба числа (диагностика); иначе только число победителя."""
     answer = f"{answer or ''} {quote or ''}".strip()
     nums = gold_numbers(gold_answer)
     if nums:
         have = set(_numbers(_DOC.sub(" ", _QUOTED.sub(" ", answer))))      # цифры внутри названий («Талис-56») не считаем
+        if not strict and is_t2_gold(gold_answer):
+            return nums[0] in have                                         # победитель — первое число эталона
         return all(n in have for n in nums)
     names = gold_names(gold_answer)
     a = norm(answer)
     if names:
         return all(n in a for n in names)
     return norm(gold_answer) in a
+
+
+def value_in_answer_strict(gold_answer: str, answer: str, quote: str = "") -> bool:
+    return value_in_answer(gold_answer, answer, quote, strict=True)
