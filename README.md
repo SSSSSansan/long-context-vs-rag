@@ -142,6 +142,20 @@ pip install -r requirements-demo.txt
 streamlit run demo/app.py
 ```
 
+## Ragas faithfulness (вторичная проверка)
+
+Основные retrieval-метрики (evidence recall, citation correctness) считаются точно, без Ragas —
+Ragas используется только как вторичная проверка faithfulness на наборе B. Требует отдельного
+окружения: `ragas>=0.2` конфликтует с актуальной версией `langchain-community` в основном
+`.venv` (`import ragas` падает). Ставить и запускать отдельно:
+
+```bash
+python -m venv .venv-ragas && source .venv-ragas/bin/activate
+pip install -r requirements-ragas.txt
+PYTHONPATH=. python -m scripts.ragas_faithfulness --dry          # смета, бесплатно
+PYTHONPATH=. python -m scripts.ragas_faithfulness --live --n 20  # платно, под cost_guard
+```
+
 ## Ограничения
 
 Подробно и без смягчений — в разделе «Ограничения» [REPORT.md](REPORT.md): судья откалиброван

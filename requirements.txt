@@ -8,5 +8,7 @@ sentence-transformers>=3.0   # bge-m3 локально
 pandas>=2.2
 matplotlib>=3.8
 tqdm>=4.66
-ragas>=0.2                   # только faithfulness, вторичная проверка
 pytest>=8.0
+# Ragas (scripts/ragas_faithfulness.py) сюда НЕ входит: ragas>=0.2 конфликтует с актуальным
+# langchain-community в этом окружении (import ragas падает). Отдельное окружение и точные
+# версии — requirements-ragas.txt.

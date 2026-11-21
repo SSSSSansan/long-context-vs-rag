@@ -1,0 +1,6 @@
+# Точечная проверка (постфактум, после наблюдения EMB 0.44 на k=8 на A-hard/100K):
+# не артефакт ли слабость EMB от top_k=8 — тот же срез, k=16. ОТДЕЛЬНЫЙ ablation,
+# в главную таблицу (results/main_table_v2.md) не входит. См. REPORT.md.
+name: v2_emb_k16_check
+runs:
+  - {question_set: [A-hard], sizes: ["100k"], methods: [emb], question_types: [T1, T2, T3], n_per_type: 6, repeats: 3, ks: [16]}

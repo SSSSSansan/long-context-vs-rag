@@ -1,0 +1,26 @@
+# Отдельное окружение для scripts/ragas_faithfulness.py — ТОЛЬКО для него.
+#
+# Почему отдельно: ragas==0.4.3 жёстко импортирует langchain_community.chat_models.vertexai
+# (без try/except), а этого модуля в langchain-community>=0.4 уже нет (провайдерские интеграции
+# вынесены в отдельные пакеты) — поэтому "ragas>=0.2" в основном requirements.txt НЕ работает
+# в актуальном окружении: `import ragas` падает с ModuleNotFoundError. Решение — не чинить
+# в основном .venv (тянет несовместимые версии langchain-core за собой), а поставить рядом
+# второе окружение с этим конкретным, проверенным набором версий.
+#
+# Проверено (18 ноября 2026): импорт ragas, Faithfulness и запуск
+# `scripts.ragas_faithfulness --dry` проходят без API-вызовов и дают те же числа, что в
+# runs/ragas_dry.json (40 вызовов, 73099 входных токенов на n=20).
+#
+# Установка:
+#   python -m venv .venv-ragas && source .venv-ragas/bin/activate
+#   pip install -r requirements-ragas.txt
+#   PYTHONPATH=. .venv-ragas/bin/python -m scripts.ragas_faithfulness --dry       # смета, бесплатно
+#   PYTHONPATH=. .venv-ragas/bin/python -m scripts.ragas_faithfulness --live --n 20   # платно, под cost_guard
+
+python-dotenv==1.2.4
+tiktoken==0.14.0
+openai==2.54.0
+ragas==0.4.3
+langchain==0.3.30
+langchain-community==0.3.27
+langchain-openai==0.3.35

@@ -5,16 +5,17 @@ __pycache__/
 .ipynb_checkpoints/
 .DS_Store
 
-# тяжёлые артефакты прогонов (кэш и сырые логи не коммитим)
+# тяжёлые артефакты прогонов (кэш, сырые логи, счётчики бюджета, сметы — не коммитим)
 runs/cache/
 runs/*/
-runs/budget.json
+runs/*.json
 !runs/.gitkeep
 
 # собранные корпуса пересобираются из seed — не коммитим
 corpus/built/*/*
 !corpus/built/*/.gitkeep
 *.patch
-runs/budget_interim.json
-runs/budget_v2.json
 runs/v1/
+
+# черновик демо-видео (аудио/скриншоты/mp4) — не коммитим, большие бинарные файлы
+out/video/
