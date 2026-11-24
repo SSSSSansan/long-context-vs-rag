@@ -9,6 +9,7 @@ import re
 from pathlib import Path
 
 from src.config import ROOT
+from src.eval.exact_metrics import context_text_of_row, quote_grounded as qg_new
 from src.eval.value_check import value_in_answer, value_in_answer_strict
 from src.methods.bm25 import chunks_of
 
@@ -41,9 +42,10 @@ def row_out(r: dict, src: str) -> dict:
     return dict(
         qid=r["qid"], qset=qset_of(q), size=r["size"], method=r["method"], type=r["type"], repeat=r["repeat"],
         answer=ans, quote=quote, verdict=r["verdict"], abstained=ab, judge_ok=int(judge_ok), main_ok=int(bool(main)), strict_ok=int(bool(strict)),
-        evidence_recall=r.get("evidence_recall"), citation=r.get("citation_correct"), quote_grounded=r.get("quote_grounded"),
+        evidence_recall=r.get("evidence_recall"), citation=r.get("citation_correct"),
+        quote_grounded=bool(qg_new(quote, context_text_of_row(r))),   # пересчитано текущим правилом по сохранённому контексту (23.11)
         gen_ms=r.get("generation_ms"), retr_ms=r.get("retrieval_ms"), prompt_tokens=r["prompt_tokens"], context_tokens=r.get("context_tokens"),
-        cost_measured=(r.get("cost_usd") or 0.0) + (r.get("judge_cost_usd") or 0.0), cost_cold=cold(r), from_cache=bool(r.get("from_cache")),
+        cost_measured=(r.get("cost_usd") or 0.0) + (r.get("judge_cost_usd") or 0.0), cost_cold=cold(r), cost_nojudge=cold(r) - (r.get("judge_cost_usd") or 0.0), from_cache=bool(r.get("from_cache")),
         chunk_ids=chunk_ids if r["method"] != "lc" else [], fact_pos=(r.get("fact_positions_pct") or [None])[0],
         n_steps=r.get("n_steps"), n_tool_calls=r.get("n_tool_calls"), source=src)
 
@@ -72,6 +74,7 @@ by_fact = {f["fact_id"]: f for f in gold}
 qout = {}
 for qid, q in questions.items():
     qout[qid] = dict(question=q["question"], gold_answer=q["gold_answer"], type=q["type"], qset=qset_of(q), first_corpus=q["first_corpus"],
+                     parent_qid=q.get("parent_qid"),
                      facts=[by_fact[i]["statement"] for i in q["fact_ids"]], gold_chunk_ids=sorted({c for i in q["fact_ids"] for c in by_fact[i]["chunk_ids"]}))
 (OUT / "questions.json").write_text(json.dumps(qout, ensure_ascii=False), encoding="utf-8")
 need = {}
@@ -88,11 +91,57 @@ for size in ("8k", "30k", "100k"):
 (OUT / "chunks.json").write_text(json.dumps(chunks, ensure_ascii=False), encoding="utf-8")
 
 # готовые таблицы из результатов репозитория
-for name in ("mcnemar_v2_main", "mcnemar_v2_strict", "mcnemar_b_main", "mcnemar_b_strict", "breakeven_gpt-6-luna", "breakeven_gpt-6.1-terra"):
+for name in ("mcnemar_v2_main", "mcnemar_v2_strict", "mcnemar_b_main", "mcnemar_b_strict", "breakeven_gpt-6-luna", "breakeven_gpt-6.1-terra",
+             "mcnemar_v2_anchor_main", "mcnemar_v2_anchor_strict", "routing_sim", "bonus_bge", "bonus_bge_pairs", "bonus_oprag", "bonus_oprag_pairs",
+             "bonus_terra", "bonus_terra_pairs"):
     src = ROOT / "results" / f"{name}.csv"
     if src.exists():
-        (OUT / f"{name}.csv").write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
-meta = dict(spent_usd=json.loads((ROOT / "runs/budget_v2.json").read_text())["spent_usd"], model="gpt-6-luna", rows=len(rows), p1=len(p1), p2=len(p2))
+        (OUT / f"{name}.csv").write_bytes(src.read_bytes())
+# стиль (общий с графиками), агент-трассы, цены и токены для калькулятора
+import yaml
+from src.config import base_cfg
+style = yaml.safe_load((ROOT / "configs/style.yaml").read_text(encoding="utf-8"))
+(OUT / "style.json").write_text(json.dumps(style, ensure_ascii=False), encoding="utf-8")
+
+traces = []
+for line in open(ROOT / "runs/v2_s6/raw.jsonl", encoding="utf-8"):
+    r = json.loads(line)
+    if r["repeat"] != 1 or r["method"] not in ("agent_bm25", "agent_emb", "agent_hyb"):
+        continue
+    steps = []
+    names = {}
+    for m in r["agent_trace"]:
+        if m["role"] == "assistant":
+            for tc in m.get("tool_calls") or []:
+                names[tc["id"]] = tc["function"]["name"]
+                steps.append(dict(kind="call", name=tc["function"]["name"], args=tc["function"]["arguments"]))
+        elif m["role"] == "tool":
+            steps.append(dict(kind="result", name=names.get(m.get("tool_call_id"), "?"), content=(m.get("content") or "")[:900]))
+    x = row_out(r, "v2_s6")
+    traces.append(dict(qid=r["qid"], method=r["method"], type=r["type"], question=questions[r["qid"]]["question"], gold=r["gold_answer"], steps=steps, answer=x["answer"], quote=x["quote"],
+                       doc_ids=r.get("doc_ids") or [], verdict=r["verdict"], main_ok=x["main_ok"], n_steps=r.get("n_steps"), n_tool_calls=r.get("n_tool_calls"),
+                       tool_call_accuracy=r.get("tool_call_accuracy"), give_up=r.get("agent_give_up"), search_recall=r.get("search_recall"), evidence_recall=r.get("evidence_recall"),
+                       cost_cold=x["cost_cold"], gen_ms=r.get("generation_ms"), notion_url=r.get("notion_url")))
+(OUT / "agent_traces.json").write_text(json.dumps(traces, ensure_ascii=False), encoding="utf-8")
+
+import pandas as pd
+rdf = pd.DataFrame(rows)
+rdf = rdf[rdf.qset.isin(["A", "A-hard"])]
+tok = {}
+for z in ("8k", "30k", "100k"):
+    tok[f"lc_{z}"] = float(rdf[(rdf.method == "lc") & (rdf["size"] == z)].prompt_tokens.mean())
+tok["rag"] = float(rdf[rdf.method.isin(["bm25", "emb", "hyb_rrf", "hyb_rerank"])].prompt_tokens.mean())
+ag_ = rdf[rdf.method == "agent_bm25"]
+tok["agent_prompt"] = float(ag_.prompt_tokens.mean())
+raw_ag = [json.loads(l) for l in open(ROOT / "runs/v2_s6/raw.jsonl", encoding="utf-8")]
+tok["agent_completion"] = float(pd.Series([r["completion_tokens"] for r in raw_ag if r["method"] == "agent_bm25"]).mean())
+tok["rag_completion"] = float(pd.Series([r["completion_tokens"] for r in json.loads("[" + ",".join(open(ROOT / "runs/v2_s5/raw.jsonl", encoding="utf-8").read().splitlines()) + "]") if r["method"] == "bm25"]).mean())
+tok["lc_completion"] = tok["rag_completion"]
+sim = pd.read_csv(ROOT / "results/routing_sim.csv")
+fb = sim[(sim.strategy == "self_route") & sim.rag_method.eq("bm25")].fallback_share.mean()
+mp = base_cfg()["model_prices"]
+meta = dict(spent_usd=json.loads((ROOT / "runs/budget_v2.json").read_text())["spent_usd"], model="gpt-6-luna", rows=len(rows), p1=len(p1), p2=len(p2),
+            prices={m: mp[m] for m in ("gpt-6-luna", "gpt-6.1-terra")}, tokens=tok, fallback_bm25=float(fb), traces=len(traces))
 (OUT / "meta.json").write_text(json.dumps(meta, ensure_ascii=False), encoding="utf-8")
 print(meta)
 for f in sorted(OUT.iterdir()):
