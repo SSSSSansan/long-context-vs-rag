@@ -1,7 +1,7 @@
 PY ?= python
 EXP ?= level1
 
-.PHONY: position leakage setup raw facts corpus run report check-sets estimate smoke test all clean
+.PHONY: charts position leakage setup raw facts corpus run report check-sets estimate smoke test all clean
 
 setup:
 	$(PY) -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt && pip freeze > requirements.lock.txt
@@ -43,3 +43,6 @@ all: raw facts corpus run report
 
 clean:
 	rm -rf runs/cache runs/budget_v2.json results/*.csv results/charts/*
+
+charts:              ## графики V2 из runs/*/raw.jsonl (бесплатно)
+	$(PY) -m scripts.make_charts_v2

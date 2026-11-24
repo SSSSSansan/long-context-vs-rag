@@ -1,0 +1,15 @@
+# Единый стиль графиков и демо: один цвет, маркер и штриховка на метод (цвет не единственный носитель смысла).
+# Палитра Окабе—Ито (безопасна при дальтонизме). Используют scripts/make_charts_v2.py и demo/app.py.
+methods:
+  lc:         {label: "LC",           color: "#0072B2", marker: "o", hatch: ""}
+  bm25:       {label: "BM25",         color: "#E69F00", marker: "s", hatch: "//"}
+  emb:        {label: "EMB",          color: "#009E73", marker: "^", hatch: "\\\\"}
+  hyb_rrf:    {label: "HYB-RRF",      color: "#CC79A7", marker: "D", hatch: "xx"}
+  hyb_rerank: {label: "HYB-rerank",   color: "#D55E00", marker: "v", hatch: ".."}
+  agent_bm25: {label: "AGENT(bm25)",  color: "#56B4E9", marker: "P", hatch: "++"}
+  agent_emb:  {label: "AGENT(emb)",   color: "#999999", marker: "X", hatch: "--"}
+  agent_hyb:  {label: "AGENT(hyb)",   color: "#8C6D31", marker: "*", hatch: "||"}
+  nocontext:  {label: "NO-CONTEXT",   color: "#000000", marker: "x", hatch: ""}
+anchor:        # вариант вопроса: с якорем / без якоря
+  A:      {label: "A (с якорем)",   marker: "o", filled: true}
+  A-hard: {label: "A-hard (без якоря)", marker: "D", filled: false}

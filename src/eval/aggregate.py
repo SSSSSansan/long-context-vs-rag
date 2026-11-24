@@ -20,6 +20,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
 from ..config import ROOT, base_cfg  # noqa: E402
+from .exact_metrics import context_text_of_row, quote_grounded as _quote_grounded  # noqa: E402
 from .value_check import value_in_answer, value_in_answer_strict  # noqa: E402
 
 RES = Path(os.environ["RESULTS_DIR"]).resolve() if os.environ.get("RESULTS_DIR") else ROOT / "results"   # RESULTS_DIR=results/local — отладка, не затирает V1-таблицы
@@ -71,6 +72,12 @@ def load(dirs: list[Path]) -> pd.DataFrame:
     df = pd.DataFrame(rows)
     if df.empty:
         return df
+    # quote_grounded пересчитывается ТЕКУЩИМ правилом (нормализация кавычек/ссылок на пункт, см. exact_metrics.py) по сохранённому контексту:
+    # новых вызовов API не нужно; значение, записанное при прогоне, остаётся в колонке quote_grounded_logged
+    if "prompt" in df:
+        df["quote_grounded_logged"] = df.get("quote_grounded")
+        df["quote_grounded"] = [float(_quote_grounded(q or "", context_text_of_row(r)))
+                                for q, (_, r) in zip(df.quote.fillna(""), df.iterrows())]
     # итоговая accuracy = судья == correct И value_in_answer (src/eval/value_check.py); «по судье» оставлена отдельно
     ab = df.abstained.fillna(False).astype(bool) if "abstained" in df else False
     df["correct_judge"] = ((df.verdict == "correct") & ~ab).astype(float)   # отказ -> 0 всегда, даже если судья ошибся
@@ -345,6 +352,50 @@ def mcnemar_tables(df: pd.DataFrame, qsets: tuple[str, ...] = MCNEMAR_QSETS) -> 
     for _, idx in res.groupby(["family", "model", "qset", "context"]).groups.items():
         res.loc[idx, "p_holm"] = holm_adjust(res.loc[idx, "p_value"].tolist())
     return res
+
+
+def default_pair_key() -> dict[str, str]:
+    """qid -> ключ пары «вопрос с якорем / тот же вопрос без якоря»: множество fact_ids (у A и A-hard оно совпадает)."""
+    qs = json.loads((ROOT / "data/questions.json").read_text(encoding="utf-8"))["questions"]
+    return {q["qid"]: "|".join(sorted(q["fact_ids"])) for q in qs}
+
+
+def anchor_tables(df: pd.DataFrame, pair_key: dict[str, str] | None = None,
+                  methods_skip: tuple[str, ...] = ("nocontext",)) -> pd.DataFrame:
+    """Семейство «anchor»: парный McNemar exact A (с якорем) против A-hard (без якоря) для каждого метода и размера.
+
+    Пара = один и тот же факт (совпадающие fact_ids) в двух формулировках вопроса. a = вариант A, b = вариант A-hard:
+    only_a — верно только с якорем, only_b — верно только без якоря. Холм — по всей семье модель × (метод × размер),
+    то есть строже, чем отдельно на каждый размер. NO-CONTEXT исключён (там 0 и в A, и в A-hard: проверять нечего).
+    Методы без пары (агенты есть только в A-hard) пропускаются."""
+    d = df[df.qset.isin(["A", "A-hard"]) & ~df.method.isin(methods_skip)]
+    if d.empty:
+        return pd.DataFrame()
+    key = pair_key if pair_key is not None else default_pair_key()
+    out = question_outcomes(d).rename("ok").reset_index()
+    out["pair"] = out.qid.map(lambda q: key.get(q, q.rstrip("h") if q.endswith("h") else q))
+    rows: list[dict] = []
+    for (model, size, method), g in out.groupby(["model", "size", "method"]):
+        wide = g.pivot(index="pair", columns="qset", values="ok")
+        if not {"A", "A-hard"} <= set(wide.columns):
+            continue
+        pair = wide[["A", "A-hard"]].dropna().astype(bool)
+        if pair.empty:
+            continue
+        xa, xh = pair["A"], pair["A-hard"]
+        oa, ob = int((xa & ~xh).sum()), int((~xa & xh).sum())
+        rows.append({"family": "anchor", "model": model, "size": size, "method": method, "n_pairs": len(pair),
+                     "both_correct": int((xa & xh).sum()), "only_a": oa, "only_b": ob, "both_wrong": int((~xa & ~xh).sum()),
+                     "acc_a": float(xa.mean()), "acc_b": float(xh.mean()), "p_value": mcnemar_exact(oa, ob)})
+    res = pd.DataFrame(rows)
+    if res.empty:
+        return res
+    res["p_holm"] = np.nan
+    for _, idx in res.groupby("model").groups.items():
+        res.loc[idx, "p_holm"] = holm_adjust(res.loc[idx, "p_value"].tolist())
+    res["size"] = pd.Categorical(res["size"], SIZE_ORDER, ordered=True)
+    res["method"] = pd.Categorical(res["method"], METHOD_PAIR_ORDER, ordered=True)
+    return res.sort_values(["model", "method", "size"]).reset_index(drop=True).astype({"size": str, "method": str})
 
 
 def main():

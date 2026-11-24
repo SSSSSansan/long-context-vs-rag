@@ -77,3 +77,23 @@ def test_set_b_and_v1_are_ignored_and_models_do_not_mix():
 def test_empty_when_no_paired_sets():
     df = pd.DataFrame(_rows("m", "B", "100k", "lc", [1, 0]))
     assert mcnemar_tables(df).empty
+
+
+def test_anchor_family_pairs_by_fact_and_known_p():
+    # метод X: с якорем верно на всех 18, без якоря — на 12 (шесть несогласных, все в пользу A): p = 2/2^6
+    # метод Y: одинаково (по 18 верно в обоих) — p = 1.0; метод Z — только A-hard (нет пары), пропускается
+    from src.eval.aggregate import anchor_tables
+    key = {f"q{i:02d}": f"f{i:02d}" for i in range(18)} | {f"q{i:02d}h": f"f{i:02d}" for i in range(18)}
+    def rows_h(method, outcomes):
+        return [{**r, "qid": r["qid"] + "h"} for r in _rows("m", "A-hard", "30k", method, outcomes)]
+    rows = (_rows("m", "A", "30k", "bm25", [1] * 18) + rows_h("bm25", [1] * 12 + [0] * 6)
+            + _rows("m", "A", "30k", "lc", [1] * 18) + rows_h("lc", [1] * 18)
+            + rows_h("agent_bm25", [1] * 18))
+    res = anchor_tables(pd.DataFrame(rows), pair_key=key).set_index("method")
+    assert set(res.index) == {"bm25", "lc"}                 # агент без пары пропущен
+    b = res.loc["bm25"]
+    assert (b.n_pairs, b.only_a, b.only_b, b.both_correct, b.both_wrong) == (18, 6, 0, 12, 0)
+    assert (b.acc_a, b.acc_b) == (1.0, pytest.approx(12 / 18))
+    assert b.p_value == pytest.approx(2 / 64)
+    assert b.p_holm == pytest.approx(2 / 64 * 2)            # Холм: 2 теста в семье, наименьшее p умножается на 2
+    assert res.loc["lc"].p_value == 1.0

@@ -22,5 +22,9 @@ for variant, col in (("main", "correct"), ("strict", "correct_strict")):
     print(keep[["qset", "context", "a", "b", "n_pairs", "only_a", "only_b", "acc_a", "acc_b", "p_value", "p_holm"]].round(3).to_string(index=False))
     s = t[(t.family == "size") & (t.p_value < 0.2)]
     print("размеры (p<0.2):\n", s[["qset", "context", "a", "b", "only_a", "only_b", "p_value", "p_holm"]].round(3).to_string(index=False) if len(s) else "  нет")
+    an = ag.anchor_tables(d)
+    an.to_csv(ROOT / f"results/mcnemar_v2_anchor_{variant}.csv", index=False)
+    print(f"ось якоря (A против A-hard): тестов {len(an)}; p<0.05 без поправки: {int((an.p_value < 0.05).sum())}; p_holm<0.05: {int((an.p_holm < 0.05).sum())}")
+    print(an[an.p_value < 0.1][["method", "size", "only_a", "only_b", "acc_a", "acc_b", "p_value", "p_holm"]].round(3).to_string(index=False))
     nc = m[m.a.eq("nocontext") | m.b.eq("nocontext")]
     print("NO-CONTEXT против остальных: max p_holm =", round(nc.p_holm.max(), 4), "в", len(nc), "парах")
