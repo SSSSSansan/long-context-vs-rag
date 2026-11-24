@@ -10,7 +10,7 @@ from rank_bm25 import BM25Okapi
 
 from ..chunking import Chunk, chunk_corpus
 from ..config import base_cfg
-from . import Context, format_chunks
+from . import Context, format_chunks, reorder
 from .long_context import load_corpus
 
 STEM = 6
@@ -43,9 +43,9 @@ def rank(size: str, question: str, n: int) -> list[int]:
     return sorted(range(len(scores)), key=lambda i: (-scores[i], i))[:n]
 
 
-def build_context(size: str, question: str, k: int | None = None, corpus_text: str | None = None) -> Context:
+def build_context(size: str, question: str, k: int | None = None, corpus_text: str | None = None, order: str = "relevance") -> Context:
     k = k or base_cfg()["retrieval"]["top_k"]
     t0 = time.perf_counter()
-    got = retrieve(size, question, k)
+    got = reorder(retrieve(size, question, k), chunks_of(size), order)
     return Context(text=format_chunks(got), chunk_ids=[c.chunk_id for c in got],
                    retrieval_ms=(time.perf_counter() - t0) * 1000)

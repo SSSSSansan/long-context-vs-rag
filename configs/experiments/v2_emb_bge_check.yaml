@@ -1,0 +1,7 @@
+# Точечная проверка (постфактум, 23 ноября 2026): EMB на bge-m3 вместо text-embedding-3-small.
+# Зачем: корпус русский, text-embedding-3-small англоцентричная; у EMB evidence recall 0.58 (A-hard, 100K) против 1.00 у BM25-вариантов.
+# Хотим понять, это свойство «эмбеддингов вообще» или выбора модели. Эмбеддинги считаются локально (sentence-transformers, бесплатно),
+# генерация и судья — gpt-6-luna. Те же 18 вопросов A-hard, k=8, 3 повтора. В главную таблицу НЕ входит.
+name: v2_emb_bge_check
+runs:
+  - {question_set: [A-hard], sizes: ["100k", "30k", "8k"], methods: [emb_bge], question_types: [T1, T2, T3], n_per_type: 6, repeats: 3, ks: [8]}

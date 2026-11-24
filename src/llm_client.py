@@ -247,10 +247,12 @@ def complete_tools(
 _local_embedder = None
 
 
-def embed(texts: list[str]) -> list[list[float]]:
+def embed(texts: list[str], backend: str | None = None) -> list[list[float]]:
     """EMBED_BACKEND=openai|local переопределяет backend только для эмбеддингов
-    (удобно: генерация локально, эмбеддинги text-embedding-3-small за копейки)."""
-    which = os.getenv("EMBED_BACKEND", backend_name()).lower()
+    (удобно: генерация локально, эмбеддинги text-embedding-3-small за копейки).
+    Аргумент backend имеет приоритет над переменной: так метод emb_bge считает эмбеддинги bge-m3 локально (бесплатно)
+    при платной генерации на OpenAI."""
+    which = (backend or os.getenv("EMBED_BACKEND", backend_name())).lower()
     cfg = base_cfg()["backends"][which]
     if which == "openai":
         cost_guard.check()

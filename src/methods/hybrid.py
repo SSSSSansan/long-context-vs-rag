@@ -16,7 +16,7 @@ from functools import lru_cache
 from typing import Callable
 
 from ..config import base_cfg
-from . import Context, format_chunks
+from . import Context, format_chunks, reorder
 from . import bm25, embedding_rag
 
 Scorer = Callable[[str, list[str]], list[float]]
@@ -65,11 +65,11 @@ def retrieve(size: str, question: str, k: int, rerank: bool) -> list:
     return [chunks[pool[j]] for j in order]
 
 
-def _build(rerank: bool):
+def _build(rerank: bool, order: str = "relevance"):
     def build_context(size: str, question: str, k: int | None = None, corpus_text: str | None = None) -> Context:
         k = k or base_cfg()["retrieval"]["top_k"]
         t0 = time.perf_counter()
-        got = retrieve(size, question, k, rerank)
+        got = reorder(retrieve(size, question, k, rerank), bm25.chunks_of(size), order)
         return Context(text=format_chunks(got), chunk_ids=[c.chunk_id for c in got],
                        retrieval_ms=(time.perf_counter() - t0) * 1000)
     return build_context
@@ -77,3 +77,4 @@ def _build(rerank: bool):
 
 build_rrf = _build(False)
 build_rerank = _build(True)
+build_rerank_doc = _build(True, order="document")   # OP-RAG: те же чанки, порядок как в документе

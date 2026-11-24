@@ -1,0 +1,7 @@
+# Точечная проверка (постфактум, 23 ноября 2026): более сильная модель-читатель на тех же найденных контекстах.
+# Запуск: CHAT_MODEL=gpt-6.1-terra LLM_BACKEND=openai (судья остаётся gpt-6-luna, чтобы судья не менялся).
+# Поиск тот же (BM25 и EMB на text-embedding-3-small, k=8), читатель другой. A-hard, 100K, 18 вопросов, 1 повтор.
+# Это тонкий срез «читателя», НЕ полная ось моделей. В главную таблицу НЕ входит.
+name: v2_terra_reader
+runs:
+  - {question_set: [A-hard], sizes: ["100k"], methods: [bm25, emb], question_types: [T1, T2, T3], n_per_type: 6, repeats: 1, ks: [8]}

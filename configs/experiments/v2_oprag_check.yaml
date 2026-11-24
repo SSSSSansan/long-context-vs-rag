@@ -1,0 +1,9 @@
+# Точечная проверка (постфактум, 23 ноября 2026): OP-RAG — чанки в порядке документа вместо порядка релевантности (arXiv 2409.01666).
+# Состав чанков тот же, меняется только порядок. A-hard, 100K, 18 вопросов, 3 повтора.
+# Блок 1: порядок «как в документе» (bm25_doc, hyb_rerank_doc) при k=8 и k=16.
+# Блок 2: контроль k=16 в обычном порядке (bm25, hyb_rerank), потому что k=16 в главной таблице нет; k=8 в обычном порядке берётся из Ш5.
+# В главную таблицу НЕ входит.
+name: v2_oprag_check
+runs:
+  - {question_set: [A-hard], sizes: ["100k"], methods: [bm25_doc, hyb_rerank_doc], question_types: [T1, T2, T3], n_per_type: 6, repeats: 3, ks: [8, 16]}
+  - {question_set: [A-hard], sizes: ["100k"], methods: [bm25, hyb_rerank], question_types: [T1, T2, T3], n_per_type: 6, repeats: 3, ks: [16]}
