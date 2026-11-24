@@ -1,5 +1,6 @@
 {
  "n": 40,
+ "judge_model": "gpt-6-luna",
  "agreement": 0.85,
  "cohen_kappa": 0.752,
  "agreement_binary_correct": 0.95,
